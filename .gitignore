@@ -1,0 +1,4 @@
+# used by Eclipse
+bin/
+.project
+.classpath
