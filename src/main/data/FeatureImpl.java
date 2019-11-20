@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 /**
  * {@link Feature} implementation that includes unique identification from 
- * {@link AbstractUniqueDataItem}. Features are described by a unique combination of their
+ * {@link ChangeTracker}. Features are described by a unique combination of their
  * title, rating, runtime, 3D, closed captions, open captions, and descriptive audio fields.
  * <p>
  * Create an instance of this class using 
@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
  * 
  * @author Steven Hudson
  */
-public class UniqueFeature extends AbstractUniqueDataItem implements Feature {
+public class FeatureImpl implements Feature, Hashable {
     protected static final byte CC = 0x01;
     protected static final byte OC = 0x02;
     protected static final byte DA = 0x04;
@@ -35,11 +35,11 @@ public class UniqueFeature extends AbstractUniqueDataItem implements Feature {
      * @param hasCC {@code true} if the feature has Closed Captions
      * @param hasOC {@code true} if the feature has Open Captions
      * @param hasDA {@code true} if the feature has Descriptive Audio
-     * @return a new {@code UniqueFeature} instance
+     * @return a new {@link FeatureImpl} instance
      */
-    public static UniqueFeature getInstance(String title, Rating rating, int runtime, boolean is3D,
+    public static FeatureImpl getInstance(String title, Rating rating, int runtime, boolean is3D,
             boolean hasCC, boolean hasOC, boolean hasDA) {
-        return new UniqueFeature(title, rating, runtime, is3D, hasCC, hasOC, hasDA);
+        return new FeatureImpl(title, rating, runtime, is3D, hasCC, hasOC, hasDA);
     }
     /**
      * {@inheritDoc}
@@ -90,9 +90,26 @@ public class UniqueFeature extends AbstractUniqueDataItem implements Feature {
     public boolean hasDescriptiveAudio() {
         return hasDA;
     }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ByteBuffer toByteBuffer() {
+        byte[] _t = title.getBytes();
+        byte[] _r = rating.toString().getBytes();
+        ByteBuffer buf = ByteBuffer.allocate(_t.length + _r.length + Integer.BYTES + 2 * Byte.BYTES);
+        buf.put(_t);
+        buf.put(_r);
+        buf.putInt(runtime);
+        buf.put((byte)(is3D ? 1 : 0));
+        // create byte for amenities
+        byte am = (byte)((hasCC ? CC : 0) + (hasOC ? OC : 0) + (hasDA ? DA : 0));
+        buf.put(am);
+        return buf;
+    }
     
-    private UniqueFeature(String t, Rating r, int m, boolean _3D, boolean cc, boolean oc, boolean da) {
-        super(byteBuf(t, r, m, _3D, cc, oc, da));
+    private FeatureImpl(String t, Rating r, int m, boolean _3D, boolean cc, boolean oc, boolean da) {
+        checkArgs(t, r, m);
         title = t;
         rating = r;
         runtime = m;
@@ -100,21 +117,6 @@ public class UniqueFeature extends AbstractUniqueDataItem implements Feature {
         hasCC = cc;
         hasOC = oc;
         hasDA = da;
-    }
-    
-    private static ByteBuffer byteBuf(String t, Rating r, int m, boolean d, boolean c, boolean o, boolean a) {
-        checkArgs(t, r, m);
-        byte[] _t = t.getBytes();
-        byte[] _r = r.toString().getBytes();
-        ByteBuffer buf = ByteBuffer.allocate(_t.length + _r.length + Integer.BYTES + 2 * Byte.BYTES);
-        buf.put(_t);
-        buf.put(_r);
-        buf.putInt(m);
-        buf.put((byte)(d ? 1 : 0));
-        // create byte for amenities
-        byte am = (byte)((c ? CC : 0) + (o ? OC : 0) + (a ? DA : 0));
-        buf.put(am);
-        return buf;
     }
     
     private static void checkArgs(String t, Rating r, int m) {
