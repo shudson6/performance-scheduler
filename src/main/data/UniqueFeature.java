@@ -31,7 +31,11 @@ public class UniqueFeature extends AbstractUniqueDataItem implements Feature {
      * @param title the name of the movie; not {@code null}
      * @param rating the movie's rating
      * @param runtime the runtime in minutes
-     * @return a new {@code FeatureImpl} instance
+     * @param is3D {@code true} if the feature is in 3D
+     * @param hasCC {@code true} if the feature has Closed Captions
+     * @param hasOC {@code true} if the feature has Open Captions
+     * @param hasDA {@code true} if the feature has Descriptive Audio
+     * @return a new {@code UniqueFeature} instance
      */
     public static UniqueFeature getInstance(String title, Rating rating, int runtime, boolean is3D,
             boolean hasCC, boolean hasOC, boolean hasDA) {
