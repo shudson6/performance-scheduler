@@ -64,7 +64,7 @@ public class FeatureImpl implements Feature {
      * {@inheritDoc}
      */
     @Override
-    public boolean is3D() {
+    public boolean is3d() {
         return is3D;
     }
     /**
@@ -87,6 +87,14 @@ public class FeatureImpl implements Feature {
     @Override
     public boolean hasDescriptiveAudio() {
         return hasDA;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("%s%s %dmin %s %s%s%s", getTitle(), 
+                is3d() && !title.endsWith("3D") ? " 3D" : "", getRuntime(), getRating().toString(),
+                hasClosedCaptions() ? "CC " : "", hasOpenCaptions() ? "OC " : "",
+                hasDescriptiveAudio() ? "DA" : "");
     }
     
     private FeatureImpl(String t, Rating r, int m, boolean _3D, boolean cc, boolean oc, boolean da) {

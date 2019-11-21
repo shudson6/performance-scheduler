@@ -65,13 +65,15 @@ public class FeatureImplTest {
             boolean oc = (i & 0x02) != 0;
             boolean da = (i & 0x01) != 0;
             Feature f = FeatureImpl.getInstance("Foo", Rating.G, i + 90, _3d, cc, oc, da);
-            assertEquals(_3d, f.is3D());
+            assertEquals(_3d, f.is3d());
             assertEquals(cc, f.hasClosedCaptions());
             assertEquals(oc, f.hasOpenCaptions());
             assertEquals(da, f.hasDescriptiveAudio());
             assertEquals("Foo", f.getTitle());
             assertEquals(Rating.G, f.getRating());
             assertEquals(i + 90, f.getRuntime());
+            // print it (cover toString() as well)
+            System.out.println(f.toString());
         }
     }
 }

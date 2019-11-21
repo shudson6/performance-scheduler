@@ -21,7 +21,7 @@ public interface Feature {
     /**
      * @return {@code true} if this feature is 3D
      */
-    public boolean is3D();
+    public boolean is3d();
     /**
      * @return {@code true} if this feature has Closed Caption data
      */
