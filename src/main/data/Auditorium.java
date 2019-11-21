@@ -12,7 +12,9 @@ public class Auditorium implements Location {
     private final int seats;
     
     /**
-     * Get a new instance.
+     * Get a new instance. If the {@code String name} is {@code null} or empty,
+     * "Auditorium #" will be used, where '#' is the {@code number} parameter.
+     * 
      * @param number this auditorium's identifying number
      * @param name this auditorium's name
      * @param is3d {@code true} if this auditorium can play 3D content

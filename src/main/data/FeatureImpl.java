@@ -1,12 +1,8 @@
 package main.data;
 
 /**
- * {@link Feature} implementation that includes unique identification from 
- * {@link ChangeTracker}. Features are described by a unique combination of their
- * title, rating, runtime, 3D, closed captions, open captions, and descriptive audio fields.
- * <p>
- * Create an instance of this class using 
- * {@link #getInstance(String, Rating, int, boolean, boolean, boolean, boolean)}
+ * Basic {@link Feature} implementation. Create an instance using
+ * {@link #getInstance(String, Rating, int, boolean, boolean, boolean, boolean)}.
  * 
  * @author Steven Hudson
  */
@@ -35,7 +31,7 @@ public class FeatureImpl implements Feature {
      * @param hasDA {@code true} if the feature has Descriptive Audio
      * @return a new {@link FeatureImpl} instance
      */
-    public static FeatureImpl getInstance(String title, Rating rating, int runtime, boolean is3D,
+    public static Feature getInstance(String title, Rating rating, int runtime, boolean is3D,
             boolean hasCC, boolean hasOC, boolean hasDA) {
         return new FeatureImpl(title, rating, runtime, is3D, hasCC, hasOC, hasDA);
     }
