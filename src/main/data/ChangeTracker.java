@@ -1,10 +1,11 @@
 package main.data;
 
+import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class ChangeTracker<T extends Hashable> {
+public class ChangeTracker<T> {
     private static MessageDigest sha256;
     static {
         try {
@@ -23,13 +24,13 @@ public class ChangeTracker<T extends Hashable> {
     private State current;
     private int count = 0;
     
-    protected ChangeTracker(T item) {
+    public ChangeTracker(T item) {
         if (item == null) {
             throw new IllegalArgumentException("ChangeTracker: item cannot be null.");
         }
         tail = new State(item, null);
         current = tail;
-        hash = sha256.digest(item.toByteBuffer().array());
+        hash = sha256.digest(bytesFor(item));
         hexString = byteArrayToHexString(hash);
     }
     
@@ -63,7 +64,7 @@ public class ChangeTracker<T extends Hashable> {
     }
     
     public boolean hasChanged() {
-        return count == 0;
+        return count != 0;
     }
     
     public static final String byteArrayToHexString(byte[] hash) {
@@ -74,6 +75,13 @@ public class ChangeTracker<T extends Hashable> {
             buf.put(hexChars.charAt(hash[i] & 0x0f));
         }
         return new String(buf.array());
+    }
+    
+    private byte[] bytesFor(T item) {
+        ByteBuffer buf = ByteBuffer.allocate(Integer.BYTES + Long.BYTES);
+        buf.putInt(item.hashCode());
+        buf.putLong(System.nanoTime());
+        return buf.array();
     }
     
     private class State {

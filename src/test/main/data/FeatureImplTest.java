@@ -57,67 +57,21 @@ public class FeatureImplTest {
         FeatureImpl.getInstance("Foo", Rating.R, 0, false, false, false, false);
     }
     
-    /**
-     * This test runs through all 16 possible combinations of cc, oc, da, and 3d,
-     * to cover all paths in the toByteBuffer()
-     * method. It also covers all getters.
-     */
     @Test
-    public void all16hashCodesMustDiffer_toByteBufferTest() {
-        FeatureImpl ftr[] = new FeatureImpl[16];
-        ftr[ 0] = FeatureImpl.getInstance("Test", Rating.G, 90, false, false, false, false);
-        ftr[ 1] = FeatureImpl.getInstance("Test", Rating.G, 90, false, false, false,  true);
-        ftr[ 2] = FeatureImpl.getInstance("Test", Rating.G, 90, false, false,  true, false);
-        ftr[ 3] = FeatureImpl.getInstance("Test", Rating.G, 90, false, false,  true,  true);
-        ftr[ 4] = FeatureImpl.getInstance("Test", Rating.G, 90, false,  true, false, false);
-        ftr[ 5] = FeatureImpl.getInstance("Test", Rating.G, 90, false,  true, false,  true);
-        ftr[ 6] = FeatureImpl.getInstance("Test", Rating.G, 90, false,  true,  true, false);
-        ftr[ 7] = FeatureImpl.getInstance("Test", Rating.G, 90, false,  true,  true,  true);
-        ftr[ 8] = FeatureImpl.getInstance("Test", Rating.G, 90,  true, false, false, false);
-        ftr[ 9] = FeatureImpl.getInstance("Test", Rating.G, 90,  true, false, false,  true);
-        ftr[10] = FeatureImpl.getInstance("Test", Rating.G, 90,  true, false,  true, false);
-        ftr[11] = FeatureImpl.getInstance("Test", Rating.G, 90,  true, false,  true,  true);
-        ftr[12] = FeatureImpl.getInstance("Test", Rating.G, 90,  true,  true, false, false);
-        ftr[13] = FeatureImpl.getInstance("Test", Rating.G, 90,  true,  true, false,  true);
-        ftr[14] = FeatureImpl.getInstance("Test", Rating.G, 90,  true,  true,  true, false);
-        ftr[15] = FeatureImpl.getInstance("Test", Rating.G, 90,  true,  true,  true,  true);
-        // generate all byte arrays
-        // ftrBytes: from FeatureImpl.toByteBuffer()
-        // tstBytes: from byteArray()
-        byte ftrBytes[][] = new byte[ftr.length][];
-        byte tstBytes[][] = new byte[ftr.length][];
-        for (int i = 0; i < ftr.length; i++) {
-            ftrBytes[i] = ftr[i].toByteBuffer().array();
-            tstBytes[i] = byteArray(ftr[i]);
+    public void checkAll16combinationsOfAmenitiesViaGetters() {
+        for (int i = 0; i < 16; i++) {
+            boolean _3d = (i & 0x08) != 0;
+            boolean cc = (i & 0x04) != 0;
+            boolean oc = (i & 0x02) != 0;
+            boolean da = (i & 0x01) != 0;
+            Feature f = FeatureImpl.getInstance("Foo", Rating.G, i + 90, _3d, cc, oc, da);
+            assertEquals(_3d, f.is3D());
+            assertEquals(cc, f.hasClosedCaptions());
+            assertEquals(oc, f.hasOpenCaptions());
+            assertEquals(da, f.hasDescriptiveAudio());
+            assertEquals("Foo", f.getTitle());
+            assertEquals(Rating.G, f.getRating());
+            assertEquals(i + 90, f.getRuntime());
         }
-        // compare all byte arrays in ftrBytes against all others
-        // compare each in ftrBytes with its sister in tstBytes
-        for (int i = 0; i < ftr.length; i ++) {
-            assertArrayEquals(tstBytes[i], ftrBytes[i]);
-            for (int j = i + 1; j < ftr.length; j++) {
-                assertFalse(Arrays.equals(ftrBytes[i], ftrBytes[j]));
-            }
-        }
-        // try to print them all
-        for (byte[] b : ftrBytes) {
-            for (byte i : b) {
-                System.out.format("%x", i);
-            }
-            System.out.println();
-        }
-    }
-    
-    private byte[] byteArray(Feature f) {
-        byte[] _t = f.getTitle().getBytes();
-        byte[] _r = f.getRating().toString().getBytes();
-        ByteBuffer buf = ByteBuffer.allocate(_t.length + _r.length + Integer.BYTES + 2 * Byte.BYTES);
-        buf.put(_t);
-        buf.put(_r);
-        buf.putInt(f.getRuntime());
-        buf.put((byte)(f.is3D() ? 1 : 0));
-        // create byte for amenities
-        byte am = (byte)((f.hasClosedCaptions() ? 1 : 0) + (f.hasOpenCaptions() ? 2 : 0) + (f.hasDescriptiveAudio() ? 4 : 0));
-        buf.put(am);
-        return buf.array();
     }
 }

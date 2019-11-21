@@ -1,7 +1,5 @@
 package main.data;
 
-import java.nio.ByteBuffer;
-
 /**
  * {@link Feature} implementation that includes unique identification from 
  * {@link ChangeTracker}. Features are described by a unique combination of their
@@ -12,7 +10,7 @@ import java.nio.ByteBuffer;
  * 
  * @author Steven Hudson
  */
-public class FeatureImpl implements Feature, Hashable {
+public class FeatureImpl implements Feature {
     protected static final byte CC = 0x01;
     protected static final byte OC = 0x02;
     protected static final byte DA = 0x04;
@@ -89,23 +87,6 @@ public class FeatureImpl implements Feature, Hashable {
     @Override
     public boolean hasDescriptiveAudio() {
         return hasDA;
-    }
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ByteBuffer toByteBuffer() {
-        byte[] _t = title.getBytes();
-        byte[] _r = rating.toString().getBytes();
-        ByteBuffer buf = ByteBuffer.allocate(_t.length + _r.length + Integer.BYTES + 2 * Byte.BYTES);
-        buf.put(_t);
-        buf.put(_r);
-        buf.putInt(runtime);
-        buf.put((byte)(is3D ? 1 : 0));
-        // create byte for amenities
-        byte am = (byte)((hasCC ? CC : 0) + (hasOC ? OC : 0) + (hasDA ? DA : 0));
-        buf.put(am);
-        return buf;
     }
     
     private FeatureImpl(String t, Rating r, int m, boolean _3D, boolean cc, boolean oc, boolean da) {
