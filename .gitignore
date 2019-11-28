@@ -5,3 +5,10 @@ bin/
 
 # notes, backlog, etc
 backlog/
+
+# gradle stuff
+.gradle/
+build.gradle
+gradle/
+gradlew*
+build/
