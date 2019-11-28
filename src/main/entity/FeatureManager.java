@@ -1,5 +1,7 @@
 package main.entity;
 
-public class FeatureManager {
-    
+import main.data.Feature;
+
+public class FeatureManager extends DataManager<Feature> {
+
 }

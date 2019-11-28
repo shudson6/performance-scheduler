@@ -16,8 +16,10 @@ import java.util.UUID;
 public class UUIDGenerator {
     public static final Instant base = LocalDateTime.of(1582, 10, 15, 0, 0).toInstant(ZoneOffset.UTC);
     public static final Random RANDOM = initRandom();
+    
     private static Instant last = null;
     private static short sequence = (short)RANDOM.nextInt();
+    private static long nodeAddress = getNodeAddress();
     
     public UUID generateUUID() {
         long hi = 0;
@@ -35,7 +37,7 @@ public class UUIDGenerator {
         /* next, get the node address and put it into the low-order long
          * along with the variant (10) and clock sequence
          */
-        lo = getNodeAddress();
+        lo = nodeAddress;
         lo |= (long) sequence << 48;
         // put the variant
         lo &= 0x3fffffffffffffffl;
@@ -44,7 +46,7 @@ public class UUIDGenerator {
         return new UUID(hi, lo);
     }
     
-    private long getTimestamp() {
+    private static long getTimestamp() {
         Instant now = Instant.now();
         long _100nanos = Duration.between(now, base).dividedBy(100l).toNanos();
         if (now.equals(last)) {
@@ -55,7 +57,7 @@ public class UUIDGenerator {
         return _100nanos;
     }
 
-    private long getNodeAddress() {
+    private static long getNodeAddress() {
         ByteBuffer naBuf = ByteBuffer.allocate(8);
         naBuf.put(new byte[] { 0x00, 0x00 });
         byte node[] = null;
