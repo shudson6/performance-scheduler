@@ -87,9 +87,12 @@ public class DataManager<T> {
      * @return {@code true} if the data structure changed as a result of the operation
      */
     public boolean updateItems(Map<T, T> updateMap) {
-        if (updateMap == null || updateMap.isEmpty()) {
+        if (updateMap == null) {
             return false;
         }
+        // first, find items to be updated and map them to their uuids
+        // this intermediate step protects against errors that occur when one item updates
+        // to a state that matches the current state of another item
         Map<Object, Object> updates = new TreeMap<>();
         updateMap.entrySet().forEach(entry -> {
             if (_update(entry.getKey(), entry.getValue())) {
@@ -106,14 +109,20 @@ public class DataManager<T> {
     /**
      * Check if an item matches one being managed by this class. This method uses
      * {@link Object#equals(Object)} and only considers the current state of managed objects.
+     * <p>
+     * Note that {@code null} is not a valid state and is used as an indicator that an item
+     * will be removed from or marked inactive in storage. Thus, this method will return 
+     * {@code false} if {@code item == null}.
      * 
      * @param item the item being searched for
      * @return {@code true} if {@code item} matches the current state of a managed object
      */
     public boolean contains(T item) {
-        for (Item i : data.values()) {
-            if (i.current.equals(item)) {
-                return true;
+        if (item != null) {
+            for (Item i : data.values()) {
+                if (i.current.equals(item)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -249,13 +258,14 @@ public class DataManager<T> {
                 return i;
             }
         }
+        // unreachable as of 11.29.2019; only called from _update() which calls contains()
+        // first, so it will not ask for nonexistent objects
         return null;
     }
     
     private boolean _update(T old, T cur) {
-        Item i = _get(old);
-        if (i != null) {
-            i.current = cur;
+        if (contains(old) && !contains(cur)) {
+            _get(old).current = cur;
             return true;
         }
         return false;
@@ -270,10 +280,12 @@ public class DataManager<T> {
         
         Item(T item) {
             if (item == null) {
-                throw new NullPointerException("DataManager: original item cannot be null.");
+                // unreachable as of 11.29.2019; calling methods perform null-check before
+                // creating the item
+                throw new IllegalArgumentException("DataManager: original item cannot be null.");
             }
             original = item;
-            current = current;
+            current = item;
         }
     }
 }

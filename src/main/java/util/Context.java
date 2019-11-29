@@ -1,4 +1,4 @@
-package main.java.incomplete;
+package main.java.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,9 +15,9 @@ public class Context {
                 System.getProperty("file.separator"), PERFSCHED_DIR, System.getProperty("file.separator"), CONFIG_FILE);
         System.out.println("[DEBUG] finding properties file: " + filename);
         presentContext = new Properties();
-        try {
-            presentContext.load(Context.class.getResourceAsStream("perfsched_default.conf"));
-            System.out.println("[DEBUG] loaded properties. Db user: " + presentContext.getProperty("DATABASE_USER"));
+        try (FileInputStream fis = new FileInputStream(filename)) {
+            presentContext.load(fis);
+            System.out.println("[DEBUG] found. properties loaded to context.");
         } catch (IOException ex) {
             System.exit(1);
         }

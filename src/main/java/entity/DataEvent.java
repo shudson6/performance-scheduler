@@ -63,7 +63,7 @@ public class DataEvent {
     }
     
     public Map<Object, Object> getUpdateMap() {
-        return updates;
+        return new TreeMap<>(updates);
     }
     
     private DataEvent(DataManager<?> _src, int _op, Map<Object, Object> _updates) {

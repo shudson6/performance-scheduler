@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import main.java.incomplete.Context;
+import main.java.util.Context;
 
 public class DbConnection {
     private final Connection connection;
