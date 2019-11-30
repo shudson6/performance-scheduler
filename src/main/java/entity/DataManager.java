@@ -57,6 +57,29 @@ public class DataManager<T> {
     }
     
     /**
+     * Add objects to this instance. UUIDs are already assigned and specified by the input map.
+     * <p>
+     * This method is intended for use when initializing a {@code DataManager} with data loaded 
+     * from storage.
+     * 
+     * @param map the uuid-state mapping
+     */
+    public boolean addMapped(Map<UUID, T> map) {
+        if (map != null) {
+            ArrayList<T> added = new ArrayList<>();
+            map.forEach((uuid, t) -> {
+                data.put(uuid, new Item(t));
+                added.add(t);
+            });
+            if (!added.isEmpty()) {
+                fireDataChanged(DataEvent.createAddEvent(this, added.toArray()));
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Update the state of an item. {@code oldItem} must refer
      * to the current state of an item managed by this instance. {@code newItem} will be set
      * as the current state of that item. {@code newItem} may be {@code null}, signifying that
@@ -129,6 +152,15 @@ public class DataManager<T> {
     }
     
     /**
+     * Find out if this instance is managing any objects.
+     * 
+     * @return {@code true} if the internal data structure is empty
+     */
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+    
+    /**
      * Get the {@code UUID} of {@code item}.
      * <p>
      * Note that this method only looks at the current state of items. In most cases, the current
@@ -173,6 +205,35 @@ public class DataManager<T> {
             all.add(v.current);
         });
         return all;
+    }
+    
+    /**
+     * Get a mapping of uuids to the current states of their objects.
+     * 
+     * @return new {@code Map} containing uuids and current states of all objects
+     */
+    public Map<UUID, T> getAllMapped() {
+        Map<UUID, T> map = new HashMap<>();
+        data.forEach((uuid, item) -> map.put(uuid, item.current));
+        return map;
+    }
+    
+    /**
+     * Get a mapping of uuids to the current states of those objects that have had their
+     * states updated.
+     * 
+     * @return new {@code Map} containing uuids and current states of updated objects
+     */
+    public Map<UUID, T> getUpdatedMapped() {
+        Map<UUID, T> map = new HashMap<>();
+        data.forEach((uuid, item) -> {
+            // using != here because if the item has not been updated then the two will point
+            // to the same instance.
+            if (item.original != item.current) {
+                map.put(uuid, item.current);
+            }
+        });
+        return map;
     }
     
     /**

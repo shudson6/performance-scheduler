@@ -5,7 +5,7 @@ package main.java.data;
  * 
  * @author Steven Hudson
  */
-public interface Feature {
+public interface Feature extends Comparable<Feature> {
     /**
      * @return the title of this feature
      */

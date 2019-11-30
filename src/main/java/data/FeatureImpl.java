@@ -84,6 +84,51 @@ public class FeatureImpl implements Feature {
     public boolean hasDescriptiveAudio() {
         return hasDA;
     }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof Feature) {
+            Feature ftr = (Feature) o;
+            return this.getTitle().equalsIgnoreCase(ftr.getTitle()) && this.is3d() == ftr.is3d()
+                    && this.hasClosedCaptions() == ftr.hasClosedCaptions()
+                    && this.hasOpenCaptions() == ftr.hasOpenCaptions()
+                    && this.hasDescriptiveAudio() == ftr.hasDescriptiveAudio()
+                    && this.getRating().equals(ftr.getRating())
+                    && this.getRuntime() == ftr.getRuntime();
+        }
+        return false;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Feature ftr) {
+        if (ftr == null) {
+            throw new NullPointerException("FeatureImpl.compareTo: received null parameter.");
+        }
+        int result = this.getTitle().compareToIgnoreCase(ftr.getTitle());
+        if (result == 0) {
+            result = Boolean.compare(this.is3d(), ftr.is3d());
+        }
+        if (result == 0) {
+            result = Boolean.compare(this.hasClosedCaptions(), ftr.hasClosedCaptions());
+        }
+        if (result == 0) {
+            result = Boolean.compare(this.hasOpenCaptions(), ftr.hasOpenCaptions());
+        }
+        if (result == 0) {
+            result = Boolean.compare(this.hasDescriptiveAudio(), ftr.hasDescriptiveAudio());
+        }
+        if (result == 0) {
+            result = this.getRating().compareTo(ftr.getRating());
+        }
+        if (result == 0) {
+            result = Integer.compare(this.getRuntime(), ftr.getRuntime());
+        }
+        return result;
+    }
     
     @Override
     public String toString() {

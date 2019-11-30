@@ -9,7 +9,7 @@ import java.time.LocalTime;
  * 
  * @author Steven Hudson
  */
-public interface Performance {
+public interface Performance extends Comparable<Performance> {
     /**
      * @return the date of the performance
      */
@@ -25,7 +25,7 @@ public interface Performance {
     /**
      * @return the location of the performance
      */
-    public Location getLocation();
+    public Auditorium getAuditorium();
     /**
      * @return the feature being presented
      */

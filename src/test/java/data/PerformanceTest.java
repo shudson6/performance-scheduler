@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -16,14 +15,13 @@ import org.junit.rules.ExpectedException;
 import main.java.data.Auditorium;
 import main.java.data.Feature;
 import main.java.data.FeatureImpl;
-import main.java.data.Location;
 import main.java.data.Performance;
 import main.java.data.PerformanceImpl;
 import main.java.data.Rating;
 
 public class PerformanceTest {
     Feature feature;
-    Location location;
+    Auditorium location;
     LocalDateTime dateTime;
     Matcher<String> matchPI;
     
@@ -64,7 +62,7 @@ public class PerformanceTest {
         Performance p = PerformanceImpl.getInstance(feature, dateTime, location);
         assertEquals(feature, p.getFeature());
         assertEquals(dateTime, p.getDateTime());
-        assertEquals(location, p.getLocation());
+        assertEquals(location, p.getAuditorium());
         assertEquals(dateTime.toLocalDate(), p.getDate());
         assertEquals(dateTime.toLocalTime(), p.getTime());
         String str = String.format("%s | %s, %s | %s", feature.getTitle(), dateTime.toLocalDate().toString(),

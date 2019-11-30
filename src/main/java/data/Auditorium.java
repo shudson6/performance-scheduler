@@ -5,7 +5,7 @@ package main.java.data;
  * 
  * @author Steven Hudson
  */
-public class Auditorium implements Location {
+public class Auditorium {
     private final int number;
     private final String name;
     private final boolean is3d;
@@ -32,22 +32,18 @@ public class Auditorium implements Location {
         return number;
     }
     
-    @Override
     public String getName() {
         return name;
     }
     
-    @Override
     public boolean is3dCapable() {
         return is3d;
     }
     
-    @Override
     public int getSeatCount() {
         return seats;
     }
     
-    @Override
     public String toString() {
         return getName();
     }
