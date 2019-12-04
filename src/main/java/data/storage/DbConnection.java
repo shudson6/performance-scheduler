@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import java.util.UUID;
 
 import main.java.data.Feature;
-import main.java.data.FeatureImpl;
+import main.java.data.FeatureFactory;
 import main.java.data.Performance;
 import main.java.data.Rating;
 import main.java.entity.DataManager;
@@ -130,6 +129,7 @@ public class DbConnection {
     
     private Map<UUID, Feature> loadFeatureData() {
         if (connection != null) {
+            FeatureFactory factory = new FeatureFactory();
             try (Statement stmt = connection.createStatement()) {
                 Map<UUID, Feature> ftrMap = new HashMap<>();
                 String sql = "select * from featuredata;";
@@ -143,7 +143,7 @@ public class DbConnection {
                     boolean cc = rs.getBoolean("cc");
                     boolean oc = rs.getBoolean("oc");
                     boolean da = rs.getBoolean("da");
-                    Feature ftr = FeatureImpl.getInstance(title, r, run, is3d, cc, oc, da);
+                    Feature ftr = factory.createFeature(title, r, run, is3d, cc, oc, da);
                     ftrMap.put(uuid, ftr);
                 }
                 System.out.println("[DEBUG] loaded " + ftrMap.size() + " feature objects from database");
