@@ -122,7 +122,7 @@ class FeatureImpl implements Feature {
         return String.format("%s%s %dmin %s %s%s%s", getTitle(), 
                 is3d() && !title.endsWith("3D") ? " 3D" : "", getRuntime(), getRating().toString(),
                 hasClosedCaptions() ? "CC " : "", hasOpenCaptions() ? "OC " : "",
-                hasDescriptiveAudio() ? "DA" : "");
+                hasDescriptiveAudio() ? "DA" : "").trim();
     }
     
     private static void checkArgs(String t, Rating r, int m) {

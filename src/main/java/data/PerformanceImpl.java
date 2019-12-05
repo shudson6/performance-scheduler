@@ -5,18 +5,32 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * Basic {@link Performance} implementation. Create an instance using
- * {@link #getInstance(Feature, LocalDateTime, Location)}.
+ * Basic {@link Performance} implementation.
  * 
  * @author Steven Hudson
  */
-public class PerformanceImpl implements Performance {
+class PerformanceImpl implements Performance {
     private final LocalDateTime dateTime;
     private final Feature feature;
     private final Auditorium auditorium;
     
-    public static Performance getInstance(Feature feature, LocalDateTime dateTime, Auditorium location) {
-        return new PerformanceImpl(feature, dateTime, location);
+    /**
+     * Create a new instance.
+     * @param f Feature
+     * @param d date and time
+     * @param l auditorium
+     */
+    public PerformanceImpl(Feature f, LocalDateTime d, Auditorium l) {
+        if (f == null) {
+            throw new IllegalArgumentException("PerformanceImpl: feature must not be null.");
+        } else if (d == null) {
+            throw new IllegalArgumentException("PerformanceImpl: date/time must not be null.");
+        } else if (l == null) {
+            throw new IllegalArgumentException("PerformanceImpl: location must not be null.");
+        }
+        feature = f;
+        dateTime = d;
+        auditorium = l;
     }
 
     @Override
@@ -75,18 +89,5 @@ public class PerformanceImpl implements Performance {
             result = this.getDateTime().compareTo(p.getDateTime());
         }
         return result;
-    }
-    
-    private PerformanceImpl(Feature f, LocalDateTime d, Auditorium l) {
-        if (f == null) {
-            throw new IllegalArgumentException("PerformanceImpl: feature must not be null.");
-        } else if (d == null) {
-            throw new IllegalArgumentException("PerformanceImpl: date/time must not be null.");
-        } else if (l == null) {
-            throw new IllegalArgumentException("PerformanceImpl: location must not be null.");
-        }
-        feature = f;
-        dateTime = d;
-        auditorium = l;
     }
 }

@@ -1,5 +1,10 @@
 package main.java.data;
 
+/**
+ * Class used to instantiate Features.
+ * 
+ * @author Steven Hudson
+ */
 public class FeatureFactory {
     /**
      * Get a new instance. Must have a valid (ie non-null) title and rating as well as a 

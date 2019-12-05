@@ -9,26 +9,30 @@ import org.junit.Test;
 
 import main.java.data.Auditorium;
 import main.java.data.Feature;
-import main.java.data.FeatureImpl;
-import main.java.data.PerformanceImpl;
+import main.java.data.FeatureFactory;
+import main.java.data.PerformanceFactory;
 import main.java.data.Rating;
 import main.java.data.storage.DbConnection;
 import main.java.entity.FeatureManager;
 import main.java.entity.PerformanceManager;
 
 public class DbConnectionTest {
-    static DbConnection db;
+    private static FeatureFactory ftrFactory;
+    private static PerformanceFactory perfFactory;
+    private static DbConnection db;
     
     @BeforeClass
     public static void setUpBeforeClass() {
         db = DbConnection.getDatabase();
+        ftrFactory = new FeatureFactory();
+        perfFactory = new PerformanceFactory();
     }
 
     @Test
     public void saveFeaturesTest() {
         FeatureManager mgr = new FeatureManager();
-        mgr.addItem(FeatureImpl.getInstance("Hello", Rating.G, 90, false, false, false, false));
-        mgr.addItem(FeatureImpl.getInstance("Nognog", Rating.NR, 105, false, true, false, true));
+        mgr.addItem(ftrFactory.createFeature("Hello", Rating.G, 90, false, false, false, false));
+        mgr.addItem(ftrFactory.createFeature("Nognog", Rating.NR, 105, false, true, false, true));
         assertTrue(db.saveFeatureData(mgr));
     }
     
@@ -49,7 +53,7 @@ public class DbConnectionTest {
         PerformanceManager perfMgr = new PerformanceManager();
         Feature [] ftrs = ftrMgr.getAll().toArray(new Feature[ftrMgr.getAll().size()]);
         Auditorium aud = Auditorium.getInstance(2, null, false, 78);
-        perfMgr.addItem(PerformanceImpl.getInstance(ftrs[0], LocalDateTime.now(), aud));
+        perfMgr.addItem(perfFactory.createPerformance(ftrs[0], LocalDateTime.now(), aud));
         assertTrue(db.savePerformanceData(perfMgr, ftrMgr));
     }
 }
