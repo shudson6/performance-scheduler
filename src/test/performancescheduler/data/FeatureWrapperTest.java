@@ -42,7 +42,7 @@ public class FeatureWrapperTest {
         FeatureWrapper fw = new FeatureWrapper(ftr1);
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("may not wrap itself");
-        fw.setWrappedFeature(fw);
+        fw.setWrapped(fw);
     }
     
     @Test
@@ -56,13 +56,13 @@ public class FeatureWrapperTest {
         // changing the bottom to wrap the top should get thrown
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("may not wrap itself");
-        fw.setWrappedFeature(top);
+        fw.setWrapped(top);
     }
     
     @Test
     public void wrappingNullShouldCauseNPE() {
         exception.expect(NullPointerException.class);
-        exception.expectMessage("feature must not");
+        exception.expectMessage("wrapped object must be non-null");
         new FeatureWrapper(null);
     }
     

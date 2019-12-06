@@ -148,6 +148,20 @@ public class FeatureTest {
         assertEquals("Foo 3D 77min PG CC", ftr.toString());
     }
     
+    @Test
+    public void testHashCode() {
+        features.forEach(ftr -> assertEquals(hash(ftr), ftr.hashCode()));
+    }
+    
+    private int hash(Feature ftr) {
+        int rslt = 37 * ftr.getTitle().hashCode();
+        rslt = 37 * rslt + ftr.getRating().hashCode();
+        rslt = 37 * rslt + (ftr.getRuntime() << 4);
+        rslt += (ftr.is3d() ? 0x08 : 0) & (ftr.hasClosedCaptions() ? 0x04 : 0);
+        rslt += (ftr.hasOpenCaptions() ? 0x02 : 0) & (ftr.hasDescriptiveAudio() ? 0x01 : 0);
+        return rslt;
+    }
+    
 /*    0       4       8      12
  *  0000    0100    1000    1100
  *  0001    0101    1001    1101

@@ -8,6 +8,11 @@ import java.time.LocalDateTime;
  * @author Steven Hudson
  */
 public class PerformanceFactory {
+    
+    public static PerformanceFactory newFactory() {
+        return new PerformanceFactory();
+    }
+    
     /**
      * Create a new {@link Performance} instance.
      * @param feature the Feature to be shown
@@ -18,4 +23,6 @@ public class PerformanceFactory {
     public Performance createPerformance(Feature feature, LocalDateTime dateTime, Auditorium auditorium) {
         return new PerformanceImpl(feature, dateTime, auditorium);
     }
+    
+    private PerformanceFactory() {}
 }

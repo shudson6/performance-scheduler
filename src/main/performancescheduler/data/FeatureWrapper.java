@@ -1,83 +1,53 @@
 package performancescheduler.data;
 
-public class FeatureWrapper implements Feature {
-    private Feature feature;
+public class FeatureWrapper extends Wrapper<Feature> implements Feature {
     
-    protected FeatureWrapper(Feature ftr) {
-        setWrappedFeature(ftr);
-    }
-    
-    public final void setWrappedFeature(Feature ftr) {
-        if (ftr == null) {
-            throw new NullPointerException("FeatureWrapper: feature must not be null.");
-        }
-        // do not allow wrapping this; infinite recursion would ensue!
-        preventRecursiveWrap(ftr);
-        feature = ftr;
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        return feature.equals(o);
+    protected FeatureWrapper(Feature toWrap) {
+        super(toWrap);
     }
 
     @Override
     public int compareTo(Feature o) {
-        return feature.compareTo(o);
+        return wrapped.compareTo(o);
     }
 
     @Override
     public String getTitle() {
-        return feature.getTitle();
+        return wrapped.getTitle();
     }
 
     @Override
     public Rating getRating() {
-        return feature.getRating();
+        return wrapped.getRating();
     }
 
     @Override
     public int getRuntime() {
-        return feature.getRuntime();
+        return wrapped.getRuntime();
     }
 
     @Override
     public boolean is3d() {
-        return feature.is3d();
+        return wrapped.is3d();
     }
 
     @Override
     public boolean hasClosedCaptions() {
-        return feature.hasClosedCaptions();
+        return wrapped.hasClosedCaptions();
     }
 
     @Override
     public boolean hasOpenCaptions() {
-        return feature.hasOpenCaptions();
+        return wrapped.hasOpenCaptions();
     }
 
     @Override
     public boolean hasDescriptiveAudio() {
-        return feature.hasDescriptiveAudio();
+        return wrapped.hasDescriptiveAudio();
     }
     
     @Override
     public String toString() {
-        return feature.toString();
-    }
-    
-    @Override
-    public int hashCode() {
-        return feature.hashCode();
-    }
-
-    private void preventRecursiveWrap(Feature ftr) {
-        if (ftr instanceof FeatureWrapper) {
-            if (ftr == this) {
-                throw new IllegalArgumentException("FeatureWrapper may not wrap itself.");
-            } else {
-                preventRecursiveWrap(((FeatureWrapper) ftr).feature);
-            }
-        }
+        return wrapped.toString();
     }
 }

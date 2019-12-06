@@ -25,7 +25,7 @@ public class DbConnectionTest {
     public static void setUpBeforeClass() {
         db = DbConnection.getDatabase();
         ftrFactory = FeatureFactory.newFactory();
-        perfFactory = new PerformanceFactory();
+        perfFactory = PerformanceFactory.newFactory();
     }
 
     @Test

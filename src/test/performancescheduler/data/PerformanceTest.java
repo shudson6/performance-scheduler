@@ -26,7 +26,7 @@ public class PerformanceTest {
     @BeforeClass
     public static void setUpBeforeClass() {
         ftrFactory = FeatureFactory.newFactory();
-        perfFactory = new PerformanceFactory();
+        perfFactory = PerformanceFactory.newFactory();
         matchPI = CoreMatchers.containsString("PerformanceImpl");
     }
     
