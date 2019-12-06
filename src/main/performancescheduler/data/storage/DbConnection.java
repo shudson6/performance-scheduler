@@ -130,10 +130,11 @@ public class DbConnection {
     private Map<UUID, Feature> loadFeatureData() {
         if (connection != null) {
             FeatureFactory factory = FeatureFactory.newFactory();
+            ResultSet rs = null;
             try (Statement stmt = connection.createStatement()) {
                 Map<UUID, Feature> ftrMap = new HashMap<>();
                 String sql = "select * from featuredata;";
-                ResultSet rs = stmt.executeQuery(sql);
+                rs = stmt.executeQuery(sql);
                 while (rs.next()) {
                     UUID uuid = UUID.fromString(rs.getString("uuid"));
                     String title = rs.getString("title");
@@ -151,6 +152,15 @@ public class DbConnection {
             } catch (Exception ex) {
                 System.err.println("DbConnection: failed to load feature data: ");
                 System.out.println(ex.getMessage());
+            } finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+                } catch (SQLException ex) {
+                    // nothing to do here; the rs will be closed by the Statement above when it auto-closes;
+                    // this finally block is likely unreachable
+                }
             }
         }
         return null;
