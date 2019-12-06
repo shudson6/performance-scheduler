@@ -136,4 +136,18 @@ public class PerformanceTest {
         exception.expectMessage(matchPI);
         perf[0].compareTo(null);
     }
+    
+    @Test
+    public void testHashCode() {
+        for (Performance p : perf) {
+            assertEquals(hash(p), p.hashCode());
+        }
+    }
+    
+    private int hash(Performance p) {
+        int rslt = 23 * p.getFeature().hashCode();
+        rslt = 23 * rslt + p.getDateTime().hashCode();
+        rslt = 23 * rslt + p.getAuditorium().hashCode();
+        return rslt;
+    }
 }

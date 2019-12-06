@@ -65,18 +65,6 @@ class PerformanceImpl implements Performance {
     }
     
     @Override
-    public boolean equals(Object o) {
-        if (o != null && o instanceof Performance) {
-            Performance p = (Performance) o;
-            // using == because this does require they point to the same instance
-            return this.getFeature() == p.getFeature() 
-                    && this.getAuditorium().getNumber() == p.getAuditorium().getNumber()
-                    && this.getDateTime().equals(p.getDateTime());
-        }
-        return false;
-    }
-    
-    @Override
     public int compareTo(Performance p) {
         if (p == null) {
             throw new NullPointerException("PerformanceImpl.compareTo: received null parameter");
@@ -89,5 +77,25 @@ class PerformanceImpl implements Performance {
             result = this.getDateTime().compareTo(p.getDateTime());
         }
         return result;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof Performance) {
+            Performance p = (Performance) o;
+            // using == because this does require they point to the same instance
+            return this.getFeature() == p.getFeature() 
+                    && this.getAuditorium().getNumber() == p.getAuditorium().getNumber()
+                    && this.getDateTime().equals(p.getDateTime());
+        }
+        return false;
+    }
+    
+    @Override
+    public int hashCode() {
+        int rslt = 23 * feature.hashCode();
+        rslt = 23 * rslt + dateTime.hashCode();
+        rslt = 23 * rslt + auditorium.hashCode();
+        return rslt;
     }
 }

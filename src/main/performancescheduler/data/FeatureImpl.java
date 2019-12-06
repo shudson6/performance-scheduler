@@ -89,7 +89,7 @@ class FeatureImpl implements Feature {
     public boolean equals(Object o) {
         if (o instanceof Feature) {
             Feature ftr = (Feature) o;
-            return this.getTitle().equalsIgnoreCase(ftr.getTitle()) && this.is3d() == ftr.is3d()
+            return this.getTitle().equals(ftr.getTitle()) && this.is3d() == ftr.is3d()
                     && this.hasClosedCaptions() == ftr.hasClosedCaptions()
                     && this.hasOpenCaptions() == ftr.hasOpenCaptions()
                     && this.hasDescriptiveAudio() == ftr.hasDescriptiveAudio()

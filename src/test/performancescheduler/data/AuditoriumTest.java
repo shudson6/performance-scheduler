@@ -37,4 +37,41 @@ public class AuditoriumTest {
         a = Auditorium.getInstance(3, "", false, 150);
         assertEquals("Auditorium 3", a.getName());
     }
+    
+    @SuppressWarnings("unlikely-arg-type")
+    @Test
+    public void testEquals() {
+        Auditorium a = Auditorium.getInstance(1, "Foo", true, 100);
+        Auditorium b = Auditorium.getInstance(1, "Foo", true, 100);
+        assertTrue(a.equals(b));
+        assertTrue(b.equals(a));
+        b = Auditorium.getInstance(2, null, true, 100);
+        assertFalse(a.equals(b));
+        assertFalse(b.equals(a));
+        b = Auditorium.getInstance(1, "Foo", false, 99);
+        assertFalse(a.equals(b));
+        assertFalse(b.equals(a));
+        b = Auditorium.getInstance(1, "Foo", true, 99);
+        assertFalse(a.equals(b));
+        assertFalse(b.equals(a));
+        
+        assertFalse(a.equals("not an auditorium!"));
+    }
+    
+    @Test
+    public void testHashCode() {
+        Auditorium a;
+        a = Auditorium.getInstance(1, "BigD", false, 545);
+        assertEquals(hash(a), a.hashCode());
+        a = Auditorium.getInstance(2, null, true, 78);
+        assertEquals(hash(a), a.hashCode());
+    }
+    
+    private int hash(Auditorium a) {
+        int rslt = 23 * a.getName().hashCode();
+        rslt = 23 * rslt + a.getNumber();
+        rslt = 23 * rslt + a.getSeatCount();
+        rslt += a.is3dCapable() ? 1 : 0;
+        return rslt;
+    }
 }

@@ -48,6 +48,34 @@ public class Auditorium {
         return getName();
     }
     
+    @Override
+    public int hashCode() {
+        int rslt = 23 * name.hashCode();
+        rslt = 23 * rslt + number;
+        rslt = 23 * rslt + seats;
+        rslt += is3d ? 1 : 0;
+        return rslt;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Auditorium) {
+            Auditorium a = (Auditorium) o;
+            boolean rslt = (number == a.number);
+            if (rslt) {
+                rslt = name.equals(a.name);
+            }
+            if (rslt) {
+                rslt = (is3d == a.is3d);
+            }
+            if (rslt) {
+                rslt = (seats == a.seats);
+            }
+            return rslt;
+        }
+        return false;
+    }
+    
     private Auditorium(int nr, String nm, boolean _3d, int s) {
         if (s < 1) {
             throw new IllegalArgumentException("Auditorium: seat count must be a positive number.");
