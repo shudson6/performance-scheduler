@@ -43,8 +43,10 @@ class MetaFeature extends FeatureWrapper {
     @Override
     public boolean equals(Object o) {
         if (o instanceof MetaFeature) {
-            return super.equals(o) && uuid.equals(((MetaFeature) o).uuid)
-                    && created.equals((MetaFeature) o).created && changed.equals((MetaFeature) o).changed;
+            return super.equals(o) 
+                    && uuid.equals(((MetaFeature) o).uuid)
+                    && created.equals(((MetaFeature) o).created) 
+                    && changed.equals(((MetaFeature) o).changed);
         } else {
             return super.equals(o);
         }
