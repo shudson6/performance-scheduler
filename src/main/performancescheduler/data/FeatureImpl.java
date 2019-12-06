@@ -13,7 +13,7 @@ class FeatureImpl implements Feature {
     private final String title;
     private final Rating rating;
     private final int runtime;
-    private final boolean is3D;
+    private final boolean is3d;
     private final boolean hasCC;
     private final boolean hasOC;
     private final boolean hasDA;
@@ -35,7 +35,7 @@ class FeatureImpl implements Feature {
         title = t;
         rating = r;
         runtime = m;
-        is3D = _3D;
+        is3d = _3D;
         hasCC = cc;
         hasOC = oc;
         hasDA = da;
@@ -58,7 +58,7 @@ class FeatureImpl implements Feature {
 
     @Override
     public boolean is3d() {
-        return is3D;
+        return is3d;
     }
 
     @Override
@@ -75,10 +75,19 @@ class FeatureImpl implements Feature {
     public boolean hasDescriptiveAudio() {
         return hasDA;
     }
+    
+    @Override
+    public int hashCode() {
+        int hash = 37 * title.hashCode();
+        hash = 37 * hash + rating.hashCode();
+        hash = 37 * hash + (runtime << 4);
+        hash += (is3d ? 8 : 0) & (hasCC ? 4 : 0) & (hasOC ? 2 : 0) & (hasDA ? 1 : 0); 
+        return hash;
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (o != null && o instanceof Feature) {
+        if (o instanceof Feature) {
             Feature ftr = (Feature) o;
             return this.getTitle().equalsIgnoreCase(ftr.getTitle()) && this.is3d() == ftr.is3d()
                     && this.hasClosedCaptions() == ftr.hasClosedCaptions()

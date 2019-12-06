@@ -1,22 +1,19 @@
 package performancescheduler.data;
 
-public abstract class FeatureWrapper implements Feature {
-    protected Feature feature;
+public class FeatureWrapper implements Feature {
+    private Feature feature;
     
     protected FeatureWrapper(Feature ftr) {
-        if (ftr == null) {
-            throw new NullPointerException("FeatureWrapper: null Feature passed to constructor.");
-        }
         setWrappedFeature(ftr);
     }
     
     public final void setWrappedFeature(Feature ftr) {
-        if (ftr != null) {
-            // do not allow wrapping this; infinite recursion would ensue!
-            preventRecursiveWrap(ftr);
-        } else {
-            throw new NullPointerException("illegal null Feature passed to FeatureWrapper.setWrappedFeature");
+        if (ftr == null) {
+            throw new NullPointerException("FeatureWrapper: feature must not be null.");
         }
+        // do not allow wrapping this; infinite recursion would ensue!
+        preventRecursiveWrap(ftr);
+        feature = ftr;
     }
     
     @Override
@@ -68,13 +65,18 @@ public abstract class FeatureWrapper implements Feature {
     public String toString() {
         return feature.toString();
     }
+    
+    @Override
+    public int hashCode() {
+        return feature.hashCode();
+    }
 
     private void preventRecursiveWrap(Feature ftr) {
-        if (ftr != null && ftr instanceof FeatureWrapper) {
+        if (ftr instanceof FeatureWrapper) {
             if (ftr == this) {
                 throw new IllegalArgumentException("FeatureWrapper may not wrap itself.");
             } else {
-                ((FeatureWrapper) ftr).preventRecursiveWrap(ftr);
+                preventRecursiveWrap(((FeatureWrapper) ftr).feature);
             }
         }
     }
