@@ -25,10 +25,6 @@ public class DbConnection {
         return new DbConnection();
     }
     
-    public void loadFeatureData(DataManager<Feature> mgr) {
-        mgr.addMapped(loadFeatureData());
-    }
-    
     public boolean saveFeatureData(DataManager<Feature> mgr) {
         if (connection != null) {
             try (Statement stmt = connection.createStatement()) {
@@ -186,16 +182,5 @@ public class DbConnection {
             System.err.println(ex.getMessage());
         }
         return conn;
-    }
-    
-    protected void finalize() {
-        // let's not forget to close the connection!
-        try {
-            if (connection != null) {
-                connection.close();
-            }
-        } catch (SQLException ex) {
-            System.err.println("DbConnection: Caught SQLException while closing database connection. Ignoring.");
-        }
     }
 }
