@@ -10,12 +10,12 @@ import org.junit.rules.ExpectedException;
 
 import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;
-import performancescheduler.data.FeatureWrapper;
 import performancescheduler.data.Rating;
+import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.util.UUIDGenerator;
 
 public class FeatureWrapperTest {
-    static class FW extends FeatureWrapper {
+    static class FW extends MetaFeature {
         FW(Feature ftr) {
             super(ftr);
         }
@@ -39,7 +39,7 @@ public class FeatureWrapperTest {
 
     @Test
     public void selfWrapShouldCauseIAE() {
-        FeatureWrapper fw = new FeatureWrapper(ftr1);
+        MetaFeature fw = new MetaFeature(ftr1);
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("may not wrap itself");
         fw.setWrapped(fw);
@@ -48,11 +48,11 @@ public class FeatureWrapperTest {
     @Test
     public void recursiveWrapGrowingUpShouldCauseIAE() {
         // wrap a feature
-        FeatureWrapper fw = new FeatureWrapper(ftr1);
-        // wrap that FeatureWrapper
-        FeatureWrapper top = new FeatureWrapper(fw);
-        // wrap _that_ FeatureWrapper (we're 4 features deep--3 meta!)
-        top = new FeatureWrapper(top);
+        MetaFeature fw = new MetaFeature(ftr1);
+        // wrap that MetaFeature
+        MetaFeature top = new MetaFeature(fw);
+        // wrap _that_ MetaFeature (we're 4 features deep--3 meta!)
+        top = new MetaFeature(top);
         // changing the bottom to wrap the top should get thrown
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("may not wrap itself");
@@ -63,12 +63,12 @@ public class FeatureWrapperTest {
     public void wrappingNullShouldCauseNPE() {
         exception.expect(NullPointerException.class);
         exception.expectMessage("wrapped object must be non-null");
-        new FeatureWrapper(null);
+        new MetaFeature(null);
     }
     
     @Test
     public void verifyAllGetters() {
-        FeatureWrapper fw = new FeatureWrapper(ftr1);
+        MetaFeature fw = new MetaFeature(ftr1);
         assertEquals(ftr1.getTitle(), fw.getTitle());
         assertEquals(ftr1.getRating(), fw.getRating());
         assertEquals(ftr1.getRuntime(), fw.getRuntime());

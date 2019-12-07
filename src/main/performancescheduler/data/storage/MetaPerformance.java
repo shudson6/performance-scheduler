@@ -1,13 +1,18 @@
-package performancescheduler.data;
+package performancescheduler.data.storage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
-public class PerformanceWrapper extends Wrapper<Performance> implements Performance {
+import performancescheduler.data.Auditorium;
+import performancescheduler.data.Feature;
+import performancescheduler.data.Performance;
 
-    protected PerformanceWrapper(Performance toWrap) {
-        super(toWrap);
+public class MetaPerformance extends MetaWrapper<Performance> implements Performance {
+
+    protected MetaPerformance(Performance toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
+        super(toWrap, id, createTime, changeTime);
     }
 
     @Override
@@ -39,5 +44,4 @@ public class PerformanceWrapper extends Wrapper<Performance> implements Performa
     public Feature getFeature() {
         return wrapped.getFeature();
     }
-
 }

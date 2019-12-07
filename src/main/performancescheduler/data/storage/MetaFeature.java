@@ -4,56 +4,51 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import performancescheduler.data.Feature;
-import performancescheduler.data.FeatureWrapper;
 import performancescheduler.data.Rating;
 
-class MetaFeature extends FeatureWrapper {
-    private final UUID uuid;
-    private final LocalDateTime created;
-    private final LocalDateTime changed;
+public class MetaFeature extends MetaWrapper<Feature> implements Feature {
     
-    MetaFeature(Feature feature, UUID id, LocalDateTime created, LocalDateTime changed) {
-        super(feature);
-        if (id == null) {
-            throw new NullPointerException("MetaFeature: null UUID passed to constructor.");
-        }
-        if (created == null) {
-            throw new NullPointerException("MetaFeature: creation timestamp must be non-null.");
-        }
-        if (changed == null) {
-            changed = created;
-        }
-        uuid = id;
-        this.created = created;
-        this.changed = changed;
+    protected MetaFeature(Feature toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
+        super(toWrap, id, createTime, changeTime);
     }
-    
-    UUID getUuid() {
-        return uuid;
-    }
-    
-    LocalDateTime getCreatedTimestamp() {
-        return created;
-    }
-    
-    LocalDateTime getChangedTimestamp() {
-        return changed;
-    }
-    
+
     @Override
-    public boolean equals(Object o) {
-        if (o instanceof MetaFeature) {
-            return super.equals(o) 
-                    && uuid.equals(((MetaFeature) o).uuid)
-                    && created.equals(((MetaFeature) o).created) 
-                    && changed.equals(((MetaFeature) o).changed);
-        } else {
-            return super.equals(o);
-        }
+    public int compareTo(Feature o) {
+        return wrapped.compareTo(o);
     }
-    
+
     @Override
-    public int hashCode() {
-        return uuid.hashCode();
+    public String getTitle() {
+        return wrapped.getTitle();
+    }
+
+    @Override
+    public Rating getRating() {
+        return wrapped.getRating();
+    }
+
+    @Override
+    public int getRuntime() {
+        return wrapped.getRuntime();
+    }
+
+    @Override
+    public boolean is3d() {
+        return wrapped.is3d();
+    }
+
+    @Override
+    public boolean hasClosedCaptions() {
+        return wrapped.hasClosedCaptions();
+    }
+
+    @Override
+    public boolean hasOpenCaptions() {
+        return wrapped.hasOpenCaptions();
+    }
+
+    @Override
+    public boolean hasDescriptiveAudio() {
+        return wrapped.hasDescriptiveAudio();
     }
 }

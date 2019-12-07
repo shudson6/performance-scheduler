@@ -7,8 +7,10 @@ import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 
+import performancescheduler.data.storage.MetaPerformance;
+
 public class PerformanceWrapperTest {
-    static class PW extends PerformanceWrapper {
+    static class PW extends MetaPerformance {
         PW(Performance p) {
             super(p);
         }
