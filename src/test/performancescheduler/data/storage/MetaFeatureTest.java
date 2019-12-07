@@ -18,6 +18,7 @@ import performancescheduler.util.UUIDGenerator;
 public class MetaFeatureTest {
     UUIDGenerator idGenerator;
     FeatureFactory ftrFactory;
+    MetaDataFactory metaFactory;
     Feature ftr1;
     Feature ftr2;
     LocalDateTime dateTime;
@@ -26,6 +27,7 @@ public class MetaFeatureTest {
     public void setUp() {
         idGenerator = new UUIDGenerator();
         ftrFactory = FeatureFactory.newFactory();
+        metaFactory = MetaDataFactory.newFactory();
         ftr1 = ftrFactory.createFeature("Foo", Rating.R, 90, false, false, false, false);
         ftr2 = ftrFactory.createFeature("Bar", Rating.R, 90, false, false, false, false);
         dateTime = LocalDateTime.now();
@@ -37,7 +39,7 @@ public class MetaFeatureTest {
     @Test
     public void nullIdShouldCauseNPE() {
         exception.expect(NullPointerException.class);
-        exception.expectMessage("null UUID");
+        exception.expectMessage("id");
         new MetaFeature(ftr1, null, null, null);
     }
     
@@ -62,6 +64,11 @@ public class MetaFeatureTest {
         assertEquals(id, mf.getUuid());
         assertEquals(dateTime, mf.getCreatedTimestamp());
         assertEquals(dateTime.plusHours(2), mf.getChangedTimestamp());
+    }
+    
+    @Test
+    public void checkToString() {
+        assertEquals(ftr1.toString(), metaFactory.newMetaFeature(ftr1).toString());
     }
     
     @Test
@@ -90,5 +97,19 @@ public class MetaFeatureTest {
             }
         }
         assertFalse(mfControl.equals("foo"));
+    }
+    
+    @Test
+    public void verifyCompareTo() {
+        MetaFeature mf1 = metaFactory.newMetaFeature(ftr1);
+        MetaFeature mf2 = metaFactory.newMetaFeature(ftr2);
+        assertTrue(mf1.compareTo(mf2) > 0);
+        assertTrue(mf1.compareTo(ftr2) > 0);
+        assertTrue(mf2.compareTo(mf1) < 0);
+        assertTrue(mf2.compareTo(ftr1) < 0);
+        
+        mf1 = metaFactory.newMetaFeature(ftr2);
+        assertTrue(mf1.compareTo(mf2) == 0);
+        assertTrue(mf1.compareTo(ftr2) == 0);
     }
 }

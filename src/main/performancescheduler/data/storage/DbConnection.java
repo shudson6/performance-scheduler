@@ -16,7 +16,6 @@ import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Performance;
 import performancescheduler.data.Rating;
-import performancescheduler.entity.DataManager;
 import performancescheduler.util.Context;
 
 public class DbConnection {
