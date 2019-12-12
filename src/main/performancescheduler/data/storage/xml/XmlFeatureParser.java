@@ -106,6 +106,7 @@ class XmlFeatureParser {
 
     private void extractFeatureID(XMLEvent event) throws XMLStreamException {
         try {
+            // TODO: what to do if this is null
             id = Integer.parseInt(event.asStartElement().getAttributeByName(FEATURE_ID).getValue());
         } catch (NumberFormatException ex) {
             throw new XMLStreamException("Bad featureId attribute: see cause", ex);
@@ -121,6 +122,7 @@ class XmlFeatureParser {
     }
     
     private void _clear() {
+        ftr = null;
         id = 0;
         title = null;
         rating = Rating.NR;
