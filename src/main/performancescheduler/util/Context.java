@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import performancescheduler.data.Auditorium;
+
 public class Context {
     public static final String CONFIG_FILE = "perfsched.conf";
     public static final String PERFSCHED_DIR = ".perfsched";
@@ -22,7 +24,11 @@ public class Context {
         }
     }
     
-    public static Properties getPresentContext() {
-        return presentContext;
+    public static String getProperty(String propertyName) {
+        return presentContext.getProperty(propertyName);
+    }
+    
+    public static Auditorium getAuditorium(int number) {
+        return Auditorium.getInstance(number, null, false, 1);
     }
 }
