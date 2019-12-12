@@ -64,7 +64,7 @@ class XmlLoader {
     private void parseXml() {
         while (xmler.hasNext()) {
             try {
-                processEvent(xmler.nextEvent());
+                processEvent(xmler.peek());
             } catch (XMLStreamException e) {
                 // print the message but keep reading events
                 System.err.println(e.getMessage());

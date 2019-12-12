@@ -1,5 +1,6 @@
 package performancescheduler.data.storage.xml;
 
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
@@ -8,7 +9,9 @@ import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 
-public class XmlFeatureParser {
+class XmlFeatureParser {
+    private static final QName FEATURE_ID = new QName(XML.FEATURE_ID);
+    
     private FeatureFactory ftrFactory;
     private Feature ftr;    
     private int id;
@@ -43,9 +46,70 @@ public class XmlFeatureParser {
             if (event.isEndElement()
                     && event.asEndElement().getName().getLocalPart().equalsIgnoreCase(XML.FEATURE)) {
                 return createFeature();
+            } else if (event.isStartElement()) {
+                if (event.asStartElement().getName().getLocalPart().equalsIgnoreCase(XML.FEATURE)) {
+                    extractFeatureID(event);
+                } else if (xmler.peek().isCharacters()) {
+                    parseChildEvent(event, xmler.nextEvent().asCharacters().getData());
+                }
             }
         }
         return false;
+    }
+
+    private void parseChildEvent(XMLEvent event, String data) {
+        switch (event.asStartElement().getName().getLocalPart()) {
+            case XML.TITLE:
+                title = data;
+                break;
+            case XML.RATING:
+                setRating(data);
+                break;
+            case XML.RUNTIME:
+                setRuntime(data);
+                break;
+            case XML.IS_3D:
+                is3d = Boolean.parseBoolean(data);
+                break;
+            case XML.CCAP:
+                cc = Boolean.parseBoolean(data);
+                break;
+            case XML.OCAP:
+                oc = Boolean.parseBoolean(data);
+                break;
+            case XML.DESCRIPTIVE_AUDIO:
+                da = Boolean.parseBoolean(data);
+                break;
+            default:
+                System.err.println("Unknown event within Feature data. Ignoring.");
+                // every relevant case is covered.
+        }
+    }
+    
+    private void setRuntime(String data) {
+        try {
+            runtime = Integer.parseInt(data);
+        } catch (NumberFormatException ex) {
+            System.err.println("Failed to parse Runtime value. Treating as 1.");
+            runtime = 1;
+        }
+    }
+    
+    private void setRating(String data) {
+        try {
+            rating = Rating.valueOf(data);
+        } catch (IllegalArgumentException ex) {
+            System.err.println("Failed to parse Rating value. Treating as Rating.NR");
+            rating = Rating.NR;
+        }
+    }
+
+    private void extractFeatureID(XMLEvent event) throws XMLStreamException {
+        try {
+            id = Integer.parseInt(event.asStartElement().getAttributeByName(FEATURE_ID).getValue());
+        } catch (NumberFormatException ex) {
+            throw new XMLStreamException("Bad featureId attribute: see cause", ex);
+        }
     }
     
     private boolean createFeature() {
