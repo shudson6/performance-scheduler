@@ -1,0 +1,15 @@
+<performanceSchedule>
+	<feature featureId="5678">
+		<title>Pew Pew</title>
+		<rating/>
+		<runtime/>
+	</feature>
+	<feature featureId="3767">
+		<title>Bad Input</title>
+		<rating>Schmoopie</rating>
+		<runtime>KG</runtime>
+		<whodat/>
+	</feature>
+	<feature featureId="7777">
+	</feature>
+</performanceSchedule>
