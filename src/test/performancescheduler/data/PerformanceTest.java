@@ -52,22 +52,20 @@ public class PerformanceTest {
     public ExpectedException exception = ExpectedException.none();
     
     @Test
-    public void shouldThrowIllegalArgumentExceptionNullFeature() {
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage(both(matchPI).and(containsString("feature")));
-        perfFactory.createPerformance(null, ldt1, aud1);
+    public void shouldAllowNullFeature() {
+        assertEquals(new PerformanceImpl(null, ldt1, aud1), perfFactory.createPerformance(null, ldt1, aud1));
     }
     
     @Test
-    public void shouldThrowIllegalArgumentExceptionNullDateTime() {
-        exception.expect(IllegalArgumentException.class);
+    public void shouldThrowNullPointerExceptionNullDateTime() {
+        exception.expect(NullPointerException.class);
         exception.expectMessage(both(matchPI).and(containsString("date")));
         perfFactory.createPerformance(ftr1, null, aud1);
     }
     
     @Test
-    public void shouldThrowIllegalArgumentExceptionNoLocation() {
-        exception.expect(IllegalArgumentException.class);
+    public void shouldThrowNullPointerExceptionNoLocation() {
+        exception.expect(NullPointerException.class);
         exception.expectMessage(both(matchPI).and(containsString("location")));
         perfFactory.createPerformance(ftr1, ldt1, null);
     }
@@ -83,6 +81,13 @@ public class PerformanceTest {
         String str = String.format("%s | %s, %s | %s", ftr1.getTitle(), ldt1.toLocalDate().toString(),
                 ldt1.toLocalTime().toString(), aud1.getName());
         assertEquals(str, p.toString());
+    }
+    
+    @Test
+    public void testToStringNullFeature() {
+        assertEquals(String.format("[null feature] | %s, %s | %s", ldt1.toLocalDate().toString(),
+                ldt1.toLocalTime().toString(), aud1.toString()), 
+                new PerformanceImpl(null, ldt1, aud1).toString());
     }
     
     @SuppressWarnings("unlikely-arg-type")
@@ -107,6 +112,16 @@ public class PerformanceTest {
     }
     
     @Test
+    public void testEqualsWithNullFeature() {
+        Performance p1 = perfFactory.createPerformance(null, ldt1, aud1);
+        assertFalse(p1.equals(perf[0]));
+        assertFalse(perf[0].equals(p1));
+        Performance p2 = perfFactory.createPerformance(null, ldt1, aud1);
+        assertTrue(p1.equals(p2));
+        assertTrue(p2.equals(p1));
+    }
+    
+    @Test
     public void testCompareToNotEqual() {
         // ftr1 > ftr2 so perf[0] > perf[1]
         assertTrue(perf[0].compareTo(perf[1]) > 0);
@@ -117,6 +132,16 @@ public class PerformanceTest {
         // ldt2 > ldt1 so perf[4] > perf[3]
         assertTrue(perf[4].compareTo(perf[3]) > 0);
         assertTrue(perf[3].compareTo(perf[4]) < 0);
+    }
+    
+    @Test
+    public void testCompareToWithNullFeatures() {
+        Performance p1 = perfFactory.createPerformance(null, ldt1, aud1);
+        assertTrue(perf[0].compareTo(p1) > 0);
+        assertTrue(p1.compareTo(perf[0]) < 0);
+        Performance p2 = perfFactory.createPerformance(null, ldt2, aud1);
+        assertTrue(p2.compareTo(p1) > 0);
+        assertTrue(p1.compareTo(p2) < 0);
     }
     
     @Test
@@ -144,8 +169,17 @@ public class PerformanceTest {
         }
     }
     
+    @Test
+    public void testHashCodeWhenFeatureIsNull() {
+        Performance p = perfFactory.createPerformance(null, ldt1, aud1);
+        assertEquals(hash(p), p.hashCode());
+    }
+    
     private int hash(Performance p) {
-        int rslt = 23 * p.getFeature().hashCode();
+        int rslt = 23;
+        if (p.getFeature() != null) {
+            rslt *= p.getFeature().hashCode();
+        }
         rslt = 23 * rslt + p.getDateTime().hashCode();
         rslt = 23 * rslt + p.getAuditorium().hashCode();
         return rslt;

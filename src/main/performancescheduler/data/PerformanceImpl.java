@@ -24,7 +24,7 @@ class PerformanceImpl implements Performance {
      * @param l auditorium not {@code null}
      * @throws NullPointerException if the time or auditorium are {@code null}
      */
-    public PerformanceImpl(Feature f, LocalDateTime d, Auditorium l) {
+    PerformanceImpl(Feature f, LocalDateTime d, Auditorium l) {
         Objects.requireNonNull(d, "PerformanceImpl: date/time must not be null.");
         Objects.requireNonNull(l, "PerformanceImpl: location must not be null.");
         
@@ -73,7 +73,7 @@ class PerformanceImpl implements Performance {
         if (feature == null) {
             result = p.getFeature() == null ? 0 : -1;
         } else {
-            result = feature.compareTo(p.getFeature());
+            result = p.getFeature() == null ? 1 : feature.compareTo(p.getFeature());
         }
         if (result == 0) {
             result = Integer.compare(this.auditorium.getNumber(), p.getAuditorium().getNumber());
@@ -86,11 +86,10 @@ class PerformanceImpl implements Performance {
     
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Performance && feature != null) {
+        if (o instanceof Performance) {
             Performance p = (Performance) o;
-            // using == because this does require they point to the same instance
-            return this.getFeature() == p.getFeature() 
-                    && this.getAuditorium().getNumber() == p.getAuditorium().getNumber()
+            boolean result = (feature == null) ? p.getFeature() == null : feature.equals(p.getFeature());
+            return result && this.getAuditorium().getNumber() == p.getAuditorium().getNumber()
                     && this.getDateTime().equals(p.getDateTime());
         }
         return false;
