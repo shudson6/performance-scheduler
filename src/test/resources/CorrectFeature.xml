@@ -1,0 +1,9 @@
+<feature featureId="1234">
+	<title>Foobar</title>
+	<rating>PG13</rating>
+	<runtime>119</runtime>
+	<is3d>false</is3d>
+	<ccap>true</ccap>
+	<ocap>false</ocap>
+	<descriptiveAudio>true</descriptiveAudio>
+</feature>
