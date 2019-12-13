@@ -40,18 +40,20 @@ class XmlFeatureParser {
         return id;
     }
     
-    public boolean parse(XMLEventReader xmler) throws XMLStreamException {
+    public boolean parse(XMLEventReader xmler, XMLEvent event) throws XMLStreamException {
+        if (event != null) {
+            if (event.isStartElement() && event.asStartElement().getName().getLocalPart()
+                    .equalsIgnoreCase(XML.FEATURE)) {
+                extractFeatureID(event);
+            }
+        }
         while (xmler.hasNext()) {
-            XMLEvent event = xmler.nextEvent();
+            event = xmler.nextEvent();
             if (event.isEndElement()
                     && event.asEndElement().getName().getLocalPart().equalsIgnoreCase(XML.FEATURE)) {
                 return createFeature();
-            } else if (event.isStartElement()) {
-                if (event.asStartElement().getName().getLocalPart().equalsIgnoreCase(XML.FEATURE)) {
-                    extractFeatureID(event);
-                } else if (xmler.peek().isCharacters()) {
-                    parseChildEvent(event, xmler.nextEvent().asCharacters().getData());
-                }
+            } else if (event.isStartElement() && xmler.peek().isCharacters()) {
+                parseChildEvent(event, xmler.nextEvent().asCharacters().getData());
             }
         }
         return false;
@@ -81,6 +83,7 @@ class XmlFeatureParser {
                 da = Boolean.parseBoolean(data);
                 break;
             case XML.PERFORMANCE_SCHEDULE:
+            case XML.FEATURE:
                 break;
             default:
                 System.err.println("Unknown event " + event.asStartElement().getName().getLocalPart()

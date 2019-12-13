@@ -17,6 +17,7 @@ import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 
 public class XmlFeatureParserTest {
+    static final String TEST_DIR = "/xml/";
     static FeatureFactory ftrFactory;
     
     XmlFeatureParser parser;
@@ -33,9 +34,8 @@ public class XmlFeatureParserTest {
 
     @Test
     public void readCorrectFeature() throws XMLStreamException, FactoryConfigurationError {
-        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
-                XmlFeatureParserTest.class.getResourceAsStream("/xml/CorrectFeature.xml"));
-        assertTrue(parser.parse(xmler));
+        XMLEventReader xmler = createTestReader("CorrectFeature.xml");
+        assertTrue(parser.parse(xmler, xmler.nextEvent()));
         assertEquals(1234, parser.getFeatureID());
         assertEquals(ftrFactory.createFeature("Foobar", Rating.PG13, 119, false, true, false, true),
                 parser.getFeature());
@@ -50,24 +50,22 @@ public class XmlFeatureParserTest {
     
     @Test
     public void testRecoverableExceptionsInFile() throws XMLStreamException, FactoryConfigurationError {
-        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
-                XmlFeatureParserTest.class.getResourceAsStream("/xml/RecoverableFeatures.xml"));
-        assertTrue(parser.parse(xmler));
+        XMLEventReader xmler = createTestReader("RecoverableFeatures.xml");
+        assertTrue(parser.parse(xmler, xmler.nextEvent()));
         assertEquals("Pew Pew", parser.getFeature().getTitle());
-        assertTrue(parser.parse(xmler));
+        assertTrue(parser.parse(xmler, xmler.nextEvent()));
         assertEquals("Bad Input", parser.getFeature().getTitle());
         assertEquals(1, parser.getFeature().getRuntime());
         assertEquals(Rating.NR, parser.getFeature().getRating());
         // next to be read is the one with no title
         parser.clear();
-        assertFalse(parser.parse(xmler));
+        assertFalse(parser.parse(xmler, xmler.nextEvent()));
     }
     
     @Test
     public void testNoTitleToCreate() throws XMLStreamException, FactoryConfigurationError {
-        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
-                XmlFeatureParserTest.class.getResourceAsStream("/xml/empty.xml"));
-        assertFalse(parser.parse(xmler));
+        XMLEventReader xmler = createTestReader("empty.xml");
+        assertFalse(parser.parse(xmler, xmler.nextEvent()));
     }
     
     @Rule
@@ -75,17 +73,28 @@ public class XmlFeatureParserTest {
 
     @Test
     public void extractBadFeatureId() throws XMLStreamException, FactoryConfigurationError {
-        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
-                XmlFeatureParserTest.class.getResourceAsStream("/xml/badFeatureId.xml"));
+        XMLEventReader xmler = createTestReader("badFeatureId.xml");
         exception.expect(XMLStreamException.class);
-        parser.parse(xmler);
+        parser.parse(xmler, xmler.nextEvent());
     }
     
     @Test
     public void extractNoFeatureId() throws XMLStreamException, FactoryConfigurationError {
-        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
-                XmlFeatureParserTest.class.getResourceAsStream("/xml/noFeatureId.xml"));
+        XMLEventReader xmler = createTestReader("noFeatureId.xml");
         exception.expect(XMLStreamException.class);
-        parser.parse(xmler);
+        parser.parse(xmler, xmler.nextEvent());
+    }
+    
+    private XMLEventReader createTestReader(String filename) throws XMLStreamException, FactoryConfigurationError {
+        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
+                XmlFeatureParserTest.class.getResourceAsStream(TEST_DIR + filename));
+        while (xmler.hasNext()) {
+            if (xmler.peek().isStartElement()) {
+                return xmler;
+            } else {
+                xmler.nextEvent();
+            }
+        }
+        return null;
     }
 }

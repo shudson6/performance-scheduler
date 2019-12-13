@@ -26,6 +26,7 @@ class XmlLoader {
     Map<Performance, Integer> performanceMap;
     
     XmlFeatureParser ftrParser;
+    XmlPerformanceParser prfParser;
     PerformanceFactory pFactory;
     
     public XmlLoader(File file) throws FileNotFoundException, XMLStreamException, FactoryConfigurationError {
@@ -34,6 +35,7 @@ class XmlLoader {
         performanceMap = new HashMap<>();
         pFactory = PerformanceFactory.newFactory();
         ftrParser = new XmlFeatureParser();
+        prfParser = new XmlPerformanceParser();
     }
     
     public void load(Collection<Feature> features, Collection<Performance> performances) {
@@ -63,7 +65,11 @@ class XmlLoader {
     private void parseXml() {
         while (xmler.hasNext()) {
             try {
-                processEvent(xmler.peek());
+                XMLEvent current = xmler.peek();
+                processEvent(current);
+                if (xmler.hasNext() && xmler.peek().equals(current)) {
+                    xmler.nextEvent();
+                }
             } catch (XMLStreamException e) {
                 // print the message but keep reading events
                 System.err.println(e.getMessage());
@@ -74,20 +80,22 @@ class XmlLoader {
     private void processEvent(XMLEvent event) throws XMLStreamException {
         if (event.isStartElement()) {
             if (event.asStartElement().getName().getLocalPart().equalsIgnoreCase(XML.FEATURE)) {
-                parseXmlFeature();
+                parseXmlFeature(event);
             } else if (event.asStartElement().getName().getLocalPart().equalsIgnoreCase(XML.PERFORMANCE)) {
                 parseXmlPerformance();
             }
         }
     }
     
-    private void parseXmlFeature() throws XMLStreamException {
-        if (ftrParser.parse(xmler)) {
+    private void parseXmlFeature(XMLEvent event) throws XMLStreamException {
+        if (ftrParser.parse(xmler, event)) {
             featureMap.put(ftrParser.getFeatureID(), ftrParser.getFeature());
         }
     }
     
     private void parseXmlPerformance() throws XMLStreamException {
-        
+        if (prfParser.parse(xmler)) {
+            performanceMap.put(prfParser.getPerformance(), prfParser.getFeatureId());
+        }
     }
 }
