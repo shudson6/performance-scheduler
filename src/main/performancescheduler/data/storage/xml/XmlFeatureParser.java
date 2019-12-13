@@ -80,8 +80,11 @@ class XmlFeatureParser {
             case XML.DESCRIPTIVE_AUDIO:
                 da = Boolean.parseBoolean(data);
                 break;
+            case XML.PERFORMANCE_SCHEDULE:
+                break;
             default:
-                System.err.println("Unknown event within Feature data. Ignoring.");
+                System.err.println("Unknown event " + event.asStartElement().getName().getLocalPart()
+                        + " within Feature data. Ignoring.");
                 // every relevant case is covered.
         }
     }
@@ -106,10 +109,11 @@ class XmlFeatureParser {
 
     private void extractFeatureID(XMLEvent event) throws XMLStreamException {
         try {
-            // TODO: what to do if this is null
             id = Integer.parseInt(event.asStartElement().getAttributeByName(FEATURE_ID).getValue());
         } catch (NumberFormatException ex) {
             throw new XMLStreamException("Bad featureId attribute: see cause", ex);
+        } catch (NullPointerException ex) {
+            throw new XMLStreamException("No featureId attribute: see cause", ex);
         }
     }
     

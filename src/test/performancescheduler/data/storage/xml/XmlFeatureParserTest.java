@@ -81,10 +81,11 @@ public class XmlFeatureParserTest {
         parser.parse(xmler);
     }
     
-//    @Test
-//    public void extractNoFeatureId() throws XMLStreamException, FactoryConfigurationError {
-//        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
-//                XmlFeatureParserTest.class.getResourceAsStream("/xml/noFeatureId.xml"));
-//        parser.parse(xmler);
-//    }
+    @Test
+    public void extractNoFeatureId() throws XMLStreamException, FactoryConfigurationError {
+        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
+                XmlFeatureParserTest.class.getResourceAsStream("/xml/noFeatureId.xml"));
+        exception.expect(XMLStreamException.class);
+        parser.parse(xmler);
+    }
 }

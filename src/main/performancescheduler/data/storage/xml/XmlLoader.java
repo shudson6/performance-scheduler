@@ -15,7 +15,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
 import performancescheduler.data.Feature;
-import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 

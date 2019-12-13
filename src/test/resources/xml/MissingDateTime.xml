@@ -1,0 +1,11 @@
+<performanceSchedule>
+	<performance>
+		<date>2020-01-01</date>
+	</performance>
+	<performance>
+		<time>21:30</time>
+	</performance>
+	<performance>
+		<splat>hi!</splat>
+	</performance>
+</performanceSchedule>

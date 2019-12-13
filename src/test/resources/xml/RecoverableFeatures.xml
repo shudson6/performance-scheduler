@@ -8,7 +8,7 @@
 		<title>Bad Input</title>
 		<rating>Schmoopie</rating>
 		<runtime>KG</runtime>
-		<whodat/>
+		<whodat>whodat</whodat>
 	</feature>
 	<feature featureId="7777">
 	</feature>
