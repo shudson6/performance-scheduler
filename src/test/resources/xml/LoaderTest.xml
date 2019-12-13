@@ -1,0 +1,24 @@
+<performanceSchedule>
+	<feature featureId="1234">
+		<title>Foobar</title>
+		<rating>PG13</rating>
+		<runtime>95</runtime>
+	</feature>
+	<feature featureId="5G78">
+		<title>Bad FeatureID</title>
+		<rating>NR</rating>
+		<runtime>01</runtime>
+	</feature>
+	<performance>
+		<featureId>1234</featureId>
+		<aud>5</aud>
+		<date>2019-12-12</date>
+		<time>08:30</time>
+	</performance>
+	<performance>
+		<featureId>9999</featureId>
+		<aud>5</aud>
+		<date>2019-12-13</date>
+		<time>09:00</time>
+	</performance>
+</performanceSchedule>

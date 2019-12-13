@@ -12,6 +12,7 @@ import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
 
 import performancescheduler.data.Feature;
@@ -47,6 +48,7 @@ class XmlLoader {
         parseXml();
         fixFeatures(features);
         fixPerformances(performances);
+        xmler.close();
     }
     
     private void fixFeatures(Collection<Feature> features) {
@@ -65,17 +67,17 @@ class XmlLoader {
         });
     }
     
-    private void parseXml() {
+    private void parseXml() throws XMLStreamException {
         while (xmler.hasNext()) {
             try {
-                XMLEvent current = xmler.peek();
-                processEvent(current);
-                if (xmler.hasNext() && xmler.peek().equals(current)) {
-                    xmler.nextEvent();
-                }
+                processEvent(xmler.nextEvent());
             } catch (XMLStreamException e) {
-                // print the message but keep reading events
                 System.err.println(e.getMessage());
+                // if this is one of our exceptions thrown my Xml...Parser
+                // we want to recover and continue. otherwise, bail
+                if (!(e.getCause() instanceof NumberFormatException)) {
+                	throw e;
+                }
             }
         }
     }
