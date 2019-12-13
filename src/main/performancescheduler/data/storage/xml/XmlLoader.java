@@ -24,13 +24,14 @@ class XmlLoader {
     XMLEventReader xmler = null;
     Map<Integer, Feature> featureMap;
     Map<Performance, Integer> performanceMap;
-    
+    File file;
     XmlFeatureParser ftrParser;
     XmlPerformanceParser prfParser;
     PerformanceFactory pFactory;
     
-    public XmlLoader(File file) throws FileNotFoundException, XMLStreamException, FactoryConfigurationError {
-        xmler = XMLInputFactory.newFactory().createXMLEventReader(new FileInputStream(file));
+    public XmlLoader(File toLoad) {
+    	Objects.requireNonNull(toLoad);
+    	file = toLoad;
         featureMap = new HashMap<>();
         performanceMap = new HashMap<>();
         pFactory = PerformanceFactory.newFactory();
@@ -38,9 +39,11 @@ class XmlLoader {
         prfParser = new XmlPerformanceParser();
     }
     
-    public void load(Collection<Feature> features, Collection<Performance> performances) {
+    public void load(Collection<Feature> features, Collection<Performance> performances)
+    		throws FileNotFoundException, XMLStreamException, FactoryConfigurationError {
         Objects.requireNonNull(features, NULL_MSG);
         Objects.requireNonNull(performances, NULL_MSG);
+        xmler = XMLInputFactory.newFactory().createXMLEventReader(new FileInputStream(file));
         parseXml();
         fixFeatures(features);
         fixPerformances(performances);
