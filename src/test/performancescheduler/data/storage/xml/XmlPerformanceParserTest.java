@@ -11,7 +11,9 @@ import javax.xml.stream.XMLStreamException;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import performancescheduler.data.PerformanceFactory;
 import performancescheduler.util.Context;
@@ -49,6 +51,40 @@ public class XmlPerformanceParserTest {
         parser.clear();
         assertFalse(parser.parse(xmler));
         parser.clear();
+        assertFalse(parser.parse(xmler));
+    }
+    
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+    
+    @Test
+    public void testReadBadIntegerInput() throws XMLStreamException, FactoryConfigurationError {
+        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
+                XmlPerformanceParserTest.class.getResourceAsStream("/xml/BadIntPerformance.xml"));
+        exception.expect(XMLStreamException.class);
+        parser.parse(xmler);
+    }
+    
+    @Test
+    public void testReadBadDateInput() throws XMLStreamException, FactoryConfigurationError {
+        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
+                XmlPerformanceParserTest.class.getResourceAsStream("/xml/BadDate.xml"));
+        exception.expect(XMLStreamException.class);
+        parser.parse(xmler);
+    }
+    
+    @Test
+    public void testReadBadTimeInput() throws XMLStreamException, FactoryConfigurationError {
+        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
+                XmlPerformanceParserTest.class.getResourceAsStream("/xml/BadTime.xml"));
+        exception.expect(XMLStreamException.class);
+        parser.parse(xmler);
+    }
+    
+    @Test
+    public void testRunOutOfEvents() throws XMLStreamException, FactoryConfigurationError {
+        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
+                XmlPerformanceParserTest.class.getResourceAsStream("/xml/empty.xml"));
         assertFalse(parser.parse(xmler));
     }
 }

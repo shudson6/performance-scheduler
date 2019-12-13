@@ -3,6 +3,7 @@ package performancescheduler.data.storage.xml;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
@@ -86,12 +87,20 @@ class XmlPerformanceParser {
         }
     }
     
-    private LocalDate parseDateData(String data) {
-        return LocalDate.parse(data);
+    private LocalDate parseDateData(String data) throws XMLStreamException {
+        try {
+            return LocalDate.parse(data);
+        } catch (DateTimeParseException ex) {
+            throw new XMLStreamException("Could not parse date input in Performance data; see cause.", ex);
+        }
     }
     
-    private LocalTime parseTimeData(String data) {
-        return LocalTime.parse(data);
+    private LocalTime parseTimeData(String data) throws XMLStreamException {
+        try {
+            return LocalTime.parse(data);
+        } catch (DateTimeParseException ex) {
+            throw new XMLStreamException("Could not parse time input in Performance data; see cause.", ex);
+        }
     }
     
     private int parseIntData(String data, String name) throws XMLStreamException {
