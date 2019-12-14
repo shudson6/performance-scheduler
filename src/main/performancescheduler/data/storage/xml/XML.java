@@ -21,4 +21,6 @@ class XML {
     public static final String TRAILERS = "trailers";
     public static final String CLEANUP = "cleanup";
     public static final String SEATING = "seating";
+    
+    public static final int RADIX = 36;
 }

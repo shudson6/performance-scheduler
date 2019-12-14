@@ -36,7 +36,7 @@ public class XmlFeatureParserTest {
     public void readCorrectFeature() throws XMLStreamException, FactoryConfigurationError {
         XMLEventReader xmler = createTestReader("CorrectFeature.xml");
         assertTrue(parser.parse(xmler, xmler.nextEvent()));
-        assertEquals(1234, parser.getFeatureID());
+        assertEquals(Integer.parseInt("1234", XML.RADIX), parser.getFeatureID());
         assertEquals(ftrFactory.createFeature("Foobar", Rating.PG13, 119, false, true, false, true),
                 parser.getFeature());
         xmler.close();

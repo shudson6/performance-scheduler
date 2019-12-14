@@ -105,7 +105,7 @@ class XmlPerformanceParser {
     
     private int parseIntData(String data, String name) throws XMLStreamException {
         try {
-            return Integer.parseInt(data);
+            return Integer.parseInt(data, name.equalsIgnoreCase(XML.FEATURE_ID) ? XML.RADIX : 10);
         } catch (NumberFormatException ex) {
             throw new XMLStreamException("Failed to parse integer value in performance." + name + "; see cause", ex);
         }
