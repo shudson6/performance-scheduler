@@ -79,7 +79,7 @@ class FeatureImpl implements Feature {
     @Override
     public int hashCode() {
         int hash = 37 * title.hashCode();
-        hash = 37 * hash + rating.hashCode();
+        hash = 37 * hash + rating.toString().hashCode();
         hash = 37 * hash + (runtime << 4);
         hash += (is3d ? 8 : 0) & (hasCC ? 4 : 0) & (hasOC ? 2 : 0) & (hasDA ? 1 : 0); 
         return hash;
