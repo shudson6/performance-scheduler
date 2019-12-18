@@ -15,18 +15,18 @@ public interface Storage {
      * @return a new {@code Collection} of {@code Feature}s
      * @throws IOException in event of failure
      */
-    public Collection<Feature> loadFeatureData() throws IOException;
+    public Collection<Feature> restoreFeatureData() throws IOException;
     /**
      * Load in the Performances.
      * @return a new {@code Collection} of {@code Performance}s
      * @throws IOException in event of failure
      */
-    public Collection<Performance> loadPerformanceData() throws IOException;
+    public Collection<Performance> restorePerformanceData() throws IOException;
     /**
      * Save what you've been working on. Whether or not either parameter may be null is up to the implementation. 
      * @param featureData the features to save
      * @param performanceData the performances to save
      * @throws IOException in event of failure
      */
-    public void save(Collection<Feature> featureData, Collection<Performance> performanceData) throws IOException;
+    public void store(Collection<Feature> featureData, Collection<Performance> performanceData) throws IOException;
 }

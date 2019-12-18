@@ -23,17 +23,19 @@ public class XmlStorage implements Storage {
         if (features == null) {
             load();
         }
+        return features;
     }
 
     @Override
-    public Collection<Performance> loadPerformanceData() {
-        // TODO Auto-generated method stub
-        return null;
+    public Collection<Performance> restorePerformanceData() throws IOException {
+        if (performances == null) {
+            load();
+        }
+        return performances;
     }
 
     @Override
-    public void save(Collection<Feature> featureData, Collection<Performance> performanceData) {
-        // TODO Auto-generated method stub
+    public void store(Collection<Feature> featureData, Collection<Performance> performanceData) {
         
     }
 
