@@ -43,11 +43,16 @@ class XmlLoader {
     		throws FileNotFoundException, XMLStreamException, FactoryConfigurationError {
         Objects.requireNonNull(features, NULL_MSG);
         Objects.requireNonNull(performances, NULL_MSG);
-        xmler = XMLInputFactory.newFactory().createXMLEventReader(new FileInputStream(file));
-        parseXml();
-        fixFeatures(features);
-        fixPerformances(performances);
-        xmler.close();
+        try {
+            xmler = XMLInputFactory.newFactory().createXMLEventReader(new FileInputStream(file));
+            parseXml();
+            fixFeatures(features);
+            fixPerformances(performances);
+        } finally {
+            if (xmler != null) {
+                xmler.close();
+            }
+        }
     }
     
     private void fixFeatures(Collection<Feature> features) {
@@ -60,7 +65,8 @@ class XmlLoader {
                 performances.add(pFactory.createPerformance(featureMap.get(e.getValue()), e.getKey().getDateTime(), 
                         e.getKey().getAuditorium()));
             } else {
-                System.err.println("XmlLoader found no match for specified feature; adding empty performance.");
+                System.err.println("XmlLoader found no match for featureId=" + e.getValue() 
+                        + " ; adding empty performance.");
                 performances.add(e.getKey());
             }
         });
@@ -72,7 +78,7 @@ class XmlLoader {
                 processEvent(xmler.nextEvent());
             } catch (XMLStreamException e) {
                 System.err.println(e.getMessage());
-                // if this is one of our exceptions thrown my Xml...Parser
+                // if this is one of our exceptions thrown by Xml?*Parser
                 // we want to recover and continue. otherwise, bail
                 if (!(e.getCause() instanceof NumberFormatException)) {
                 	throw e;
@@ -98,6 +104,7 @@ class XmlLoader {
     }
     
     private void parseXmlPerformance() throws XMLStreamException {
+        prfParser.clear();
         if (prfParser.parse(xmler)) {
             performanceMap.put(prfParser.getPerformance(), prfParser.getFeatureId());
         }

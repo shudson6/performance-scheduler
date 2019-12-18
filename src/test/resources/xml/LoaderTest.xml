@@ -1,14 +1,19 @@
 <performanceSchedule>
+	<feature featureId="foo">
+	</feature>
 	<feature featureId="1234">
 		<title>Foobar</title>
 		<rating>PG13</rating>
 		<runtime>95</runtime>
 	</feature>
-	<feature featureId="5G78">
+	<feature featureId="5;78">
 		<title>Bad FeatureID</title>
 		<rating>NR</rating>
 		<runtime>01</runtime>
 	</feature>
+	<performance>
+		<time>03:30</time>
+	</performance>
 	<performance>
 		<featureId>1234</featureId>
 		<aud>5</aud>

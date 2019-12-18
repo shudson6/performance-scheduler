@@ -1,7 +1,7 @@
 package performancescheduler.data.storage.xml;
 
 class XML {
-    public static final String NAMESPACE = "hudy:scheduler:v2019.12";
+    public static final String NAMESPACE = "hudy:q:5000:scheduler:2019.12";
     public static final String PERFORMANCE_SCHEDULE = "performanceSchedule";
     
     public static final String FEATURE = "feature";
