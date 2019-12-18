@@ -19,7 +19,7 @@ public class XmlStorage implements Storage {
     private Collection<Performance> performances = null;
 
     @Override
-    public Collection<Feature> loadFeatureData() throws IOException {
+    public Collection<Feature> restoreFeatureData() throws IOException {
         if (features == null) {
             load();
         }
