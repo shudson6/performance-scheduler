@@ -60,7 +60,7 @@ class XmlSaver {
 	        return;
 	    }
         for (Performance p : performances) {
-            if (featureMap.containsKey(p.getFeature())) {
+            if (p != null && featureMap.containsKey(p.getFeature())) {
                 writePerformance(p, featureMap.get(p.getFeature()));
             } else {
                 writePerformance(p, featureMap.get(null));
@@ -69,7 +69,7 @@ class XmlSaver {
     }
 
     private void writePerformance(Performance p, Integer i) throws XMLStreamException {
-        if (p != null && i != null) {
+        if (p != null) {
             xmlw.writeStartElement(XML.PERFORMANCE);
             writeSimpleElement(XML.FEATURE_ID, Integer.toString(i, XML.RADIX));
             writeSimpleElement(XML.AUDITORIUM, Integer.toString(p.getAuditorium().getNumber()));
@@ -86,7 +86,7 @@ class XmlSaver {
     }
 
     private void writeFeature(Feature f, Integer i) throws XMLStreamException {
-        if (f != null && i != null) {
+        if (f != null) {
             xmlw.writeStartElement(XML.FEATURE);
             xmlw.writeAttribute(XML.FEATURE_ID, Integer.toString(i, XML.RADIX));
             writeSimpleElement(XML.TITLE, f.getTitle());
@@ -113,12 +113,12 @@ class XmlSaver {
 	    // always put a "no feature" option first
 	    featureMap.put(null, 0);
 	    for (Feature f : features) {
-	        // in the event of a hash collision, we need to guarantee the uniqueness of the featureId in the output
-	        // so, we store the hash code here and will adjust it if it is already in the map
-	        int code = f.hashCode();
 	        if (featureMap.containsKey(f)) {
 	            continue;
 	        }
+	        // in the event of a hash collision, we need to guarantee the uniqueness of the featureId in the output
+	        // so, we store the hash code here and will adjust it if it is already in the map
+	        int code = f.hashCode();
 	        while (featureMap.containsValue(code)) {
 	            code++;
 	        }
