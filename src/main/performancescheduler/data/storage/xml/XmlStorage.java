@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
@@ -17,6 +18,16 @@ public class XmlStorage implements Storage {
     private XmlLoader loader;
     private Collection<Feature> features = null;
     private Collection<Performance> performances = null;
+    
+    public static XmlStorage getInstance(File file) {
+        Objects.requireNonNull(file);
+        return new XmlStorage(file);
+    }
+    
+    public static XmlStorage getInstance(String filename) {
+        Objects.requireNonNull(filename);
+        return getInstance(new File(filename));
+    }
 
     @Override
     public Collection<Feature> restoreFeatureData() throws IOException {
@@ -61,5 +72,10 @@ public class XmlStorage implements Storage {
     
     private void rethrow(Throwable cause, String message) throws IOException {
         throw new IOException(message, cause);
+    }
+    
+    private XmlStorage(File f) {
+        file = f;
+        loader = new XmlLoader(file);
     }
 }
