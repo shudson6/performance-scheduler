@@ -29,6 +29,7 @@ public class XmlStorageTest {
     
     List<Feature> features;
     List<Performance> performances;
+    File file;
     
     @Rule
     public TemporaryFolder temp = new TemporaryFolder();
@@ -40,8 +41,27 @@ public class XmlStorageTest {
     }
     
     @Test
+    public void testLoadFeaturesAndPerformances() throws IOException {
+        String fname = XmlStorageTest.class.getResource("/xml/Normal.xml").getFile();
+        // verify checksum of the file so we know it hasn't changed
+        assertTrue(ChecksumVerifier.getInstance().verifyFile(new File(fname)));
+        XmlStorage xml = XmlStorage.getInstance(fname);
+        assertTrue(features.containsAll(xml.restoreFeatureData()));
+        assertTrue(xml.restoreFeatureData().containsAll(features));
+        assertTrue(performances.containsAll(xml.restorePerformanceData()));
+        assertTrue(xml.restorePerformanceData().containsAll(performances));
+    }
+    
+    @Test
+    public void shouldSaveFeaturesAndPerformances() throws IOException {
+        file = temp.newFile("expectedCaseSave.xml");
+        XmlStorage.getInstance(file).store(features, performances);
+        assertTrue(ChecksumVerifier.getInstance().verifyFile(file));
+    }
+    
+    @Test
     public void shouldSaveFeaturesWhenPerformancesNull() throws IOException {
-        File file = temp.newFile("nullPerformances.xml");
+        file = temp.newFile("nullPerformances.xml");
         XmlStorage.getInstance(file).store(features, null);
         assertTrue(ChecksumVerifier.getInstance().verifyFile(file));
     }

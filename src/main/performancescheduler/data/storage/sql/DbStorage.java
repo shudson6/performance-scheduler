@@ -9,7 +9,7 @@ import performancescheduler.data.storage.Storage;
 public class DbStorage implements Storage {
 
     @Override
-    public Collection<Feature> loadFeatureData() {
+    public Collection<Feature> restoreFeatureData() {
         // TODO Auto-generated method stub
         return null;
     }

@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<performanceSchedule>
+	<feature featureId="1l7j6ku">
+		<title>Bar</title>
+		<rating>NC17</rating>
+		<runtime>110</runtime>
+		<is3d>false</is3d>
+		<ccap>true</ccap>
+		<ocap>false</ocap>
+		<descriptiveAudio>false</descriptiveAudio>
+	</feature>
+	<feature featureId="1nbtdxk">
+		<title>Foo</title>
+		<rating>R</rating>
+		<runtime>90</runtime>
+		<is3d>false</is3d>
+		<ccap>true</ccap>
+		<ocap>false</ocap>
+		<descriptiveAudio>false</descriptiveAudio>
+	</feature>
+	<performance>
+		<featureId>1nbtdxk</featureId>
+		<aud>1</aud>
+		<date>2020-02-13</date>
+		<time>13:37</time>
+	</performance>
+	<performance>
+		<featureId>1nbtdxk</featureId>
+		<aud>1</aud>
+		<date>2020-02-13</date>
+		<time>17:54</time>
+	</performance>
+	<performance>
+		<featureId>1l7j6ku</featureId>
+		<aud>2</aud>
+		<date>2020-02-13</date>
+		<time>15:45</time>
+	</performance>
+</performanceSchedule>

@@ -3,6 +3,7 @@ package performancescheduler.data.storage.xml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -62,6 +63,12 @@ public class XmlStorage implements Storage {
     }
 
     private void load() throws IOException {
+        if (features == null) {
+            features = new ArrayList<>();
+        }
+        if (performances == null) {
+            performances = new ArrayList<>();
+        }
         try {
             loader.load(features, performances);
         } catch (FileNotFoundException e) {

@@ -57,10 +57,10 @@ class XmlPerformanceParser {
     private void parseChildEvent(XMLEvent event, String data) throws XMLStreamException {
         switch (event.asStartElement().getName().getLocalPart()) {
             case XML.FEATURE_ID:
-                featureId = parseIntData(data, XML.FEATURE_ID);
+                featureId = parseFeatureID(data);
                 break;
             case XML.AUDITORIUM:
-                aud = parseIntData(data, XML.AUDITORIUM);
+                aud = parseIntData(data);
                 break;
             case XML.DATE:
                 date = parseDateData(data);
@@ -69,13 +69,13 @@ class XmlPerformanceParser {
                 time = parseTimeData(data);
                 break;
             case XML.TRAILERS:
-                trailer = parseIntData(data, XML.TRAILERS);
+                trailer = parseIntData(data);
                 break;
             case XML.CLEANUP:
-                cleanup = parseIntData(data, XML.CLEANUP);
+                cleanup = parseIntData(data);
                 break;
             case XML.SEATING:
-                seating = parseIntData(data, XML.SEATING);
+                seating = parseIntData(data);
                 break;
             case XML.PERFORMANCE_SCHEDULE:
             case XML.PERFORMANCE:
@@ -103,11 +103,20 @@ class XmlPerformanceParser {
         }
     }
     
-    private int parseIntData(String data, String name) throws XMLStreamException {
+    private int parseFeatureID(String data) throws XMLStreamException {
         try {
-            return Integer.parseInt(data, name.equalsIgnoreCase(XML.FEATURE_ID) ? XML.RADIX : 10);
+            return Integer.parseUnsignedInt(data, XML.RADIX);
         } catch (NumberFormatException ex) {
-            throw new XMLStreamException("Failed to parse integer value in performance." + name + "; see cause", ex);
+            throw new XMLStreamException("NumberFormatException caught while parsing featureId: " + data, ex);
+        }
+    }
+    
+    private int parseIntData(String data) throws XMLStreamException {
+        try {
+            return Integer.parseInt(data);
+        } catch (NumberFormatException ex) {
+            throw new XMLStreamException("Failed to parse integer value from '" + data 
+                    + "' within performance; see cause", ex);
         }
     }
     

@@ -115,7 +115,7 @@ class XmlFeatureParser {
 
     private void extractFeatureID(XMLEvent event) throws XMLStreamException {
         try {
-            id = Integer.parseInt(event.asStartElement().getAttributeByName(FEATURE_ID).getValue(), XML.RADIX);
+            id = Integer.parseUnsignedInt(event.asStartElement().getAttributeByName(FEATURE_ID).getValue(), XML.RADIX);
         } catch (NumberFormatException ex) {
             throw new XMLStreamException("Bad featureId attribute: see cause", ex);
         } catch (NullPointerException ex) {

@@ -23,6 +23,9 @@ public class XmlPerformanceParserTest {
     
     XmlPerformanceParser parser;
     
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+    
     @BeforeClass
     public static void setUpBefore() {
         pFactory = PerformanceFactory.newFactory();
@@ -31,6 +34,14 @@ public class XmlPerformanceParserTest {
     @Before
     public void setUp() {
         parser = new XmlPerformanceParser();
+    }
+    
+    @Test
+    public void badFeatureIdShouldThrowNumberFormatException() throws XMLStreamException, FactoryConfigurationError {
+        XMLEventReader xmler = XMLInputFactory.newFactory().createXMLEventReader(
+                XmlPerformanceParserTest.class.getResourceAsStream("/xml/BadPerformanceId.xml"));
+        exception.expect(XMLStreamException.class);
+        parser.parse(xmler);
     }
 
     @Test
@@ -53,9 +64,6 @@ public class XmlPerformanceParserTest {
         parser.clear();
         assertFalse(parser.parse(xmler));
     }
-    
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
     
     @Test
     public void testReadBadIntegerInput() throws XMLStreamException, FactoryConfigurationError {
