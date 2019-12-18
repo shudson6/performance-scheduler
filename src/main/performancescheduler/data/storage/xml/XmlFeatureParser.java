@@ -1,5 +1,7 @@
 package performancescheduler.data.storage.xml;
 
+import java.util.Objects;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
@@ -41,11 +43,12 @@ class XmlFeatureParser {
     }
     
     public boolean parse(XMLEventReader xmler, XMLEvent event) throws XMLStreamException {
-        if (event != null) {
-            if (event.isStartElement() && event.asStartElement().getName().getLocalPart()
-                    .equalsIgnoreCase(XML.FEATURE)) {
-                extractFeatureID(event);
-            }
+        Objects.requireNonNull(xmler);
+        Objects.requireNonNull(event);
+        
+        if (event.isStartElement() && event.asStartElement().getName().getLocalPart()
+                .equalsIgnoreCase(XML.FEATURE)) {
+            extractFeatureID(event);
         }
         while (xmler.hasNext()) {
             event = xmler.nextEvent();

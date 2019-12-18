@@ -58,4 +58,11 @@ public class XmlLoaderTest {
 		new XmlLoader(new File(XmlLoaderTest.class.getResource("/xml/BadAttribute.xml").getFile()))
 				.load(features, performances);
 	}
+	
+	@Test
+	public void shouldThrowFileNotFoundException()
+	        throws FileNotFoundException, XMLStreamException, FactoryConfigurationError {
+	    exception.expect(FileNotFoundException.class);
+	    new XmlLoader(new File(System.getProperty("user.dir"))).load(features, performances);
+	}
 }
