@@ -35,8 +35,18 @@ public class XmlStorage implements Storage {
     }
 
     @Override
-    public void store(Collection<Feature> featureData, Collection<Performance> performanceData) {
+    public void store(Collection<Feature> featureData, Collection<Performance> performanceData) throws IOException {
+        // clear these; they are no longer valid but it's also not certain that the input data is valid
+        features = null;
+        performances = null;
         
+        try {
+            new XmlSaver(file).save(featureData, performanceData);
+        } catch (FileNotFoundException e) {
+            rethrow(e, "Specified file " + file.getAbsolutePath() + " could not be written to.");
+        } catch (XMLStreamException | FactoryConfigurationError e) {
+            rethrow(e, "Error while storing " + file.getAbsolutePath());
+        } 
     }
 
     private void load() throws IOException {
@@ -44,11 +54,9 @@ public class XmlStorage implements Storage {
             loader.load(features, performances);
         } catch (FileNotFoundException e) {
             rethrow(e, "Could not find the file " + file.getAbsolutePath());
-        } catch (XMLStreamException e) {
+        } catch (XMLStreamException | FactoryConfigurationError e) {
             rethrow(e, "Error while parsing " + file.getAbsolutePath());
-        } catch (FactoryConfigurationError e) {
-            rethrow(e, "FactoryConfigurationError thrown by XmlLoader");
-        }
+        } 
     }
     
     private void rethrow(Throwable cause, String message) throws IOException {
