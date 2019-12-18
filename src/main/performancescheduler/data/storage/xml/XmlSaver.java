@@ -60,23 +60,23 @@ class XmlSaver {
 	        return;
 	    }
         for (Performance p : performances) {
-            if (p != null && featureMap.containsKey(p.getFeature())) {
-                writePerformance(p, featureMap.get(p.getFeature()));
-            } else {
-                writePerformance(p, featureMap.get(null));
+            if (p != null) {
+                if (featureMap.containsKey(p.getFeature())) {
+                    writePerformance(p, featureMap.get(p.getFeature()));
+                } else {
+                    writePerformance(p, featureMap.get(null));
+                }
             }
         }
     }
 
     private void writePerformance(Performance p, Integer i) throws XMLStreamException {
-        if (p != null) {
-            xmlw.writeStartElement(XML.PERFORMANCE);
-            writeSimpleElement(XML.FEATURE_ID, Integer.toString(i, XML.RADIX));
-            writeSimpleElement(XML.AUDITORIUM, Integer.toString(p.getAuditorium().getNumber()));
-            writeSimpleElement(XML.DATE, p.getDate().toString());
-            writeSimpleElement(XML.TIME, p.getTime().toString());
-            xmlw.writeEndElement();
-        }
+        xmlw.writeStartElement(XML.PERFORMANCE);
+        writeSimpleElement(XML.FEATURE_ID, Integer.toString(i, XML.RADIX));
+        writeSimpleElement(XML.AUDITORIUM, Integer.toString(p.getAuditorium().getNumber()));
+        writeSimpleElement(XML.DATE, p.getDate().toString());
+        writeSimpleElement(XML.TIME, p.getTime().toString());
+        xmlw.writeEndElement();
     }
 
     private void writeFeatures(Map<Feature, Integer> featureMap) throws XMLStreamException {

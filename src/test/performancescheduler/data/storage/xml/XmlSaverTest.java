@@ -24,14 +24,20 @@ import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 import performancescheduler.data.Rating;
+import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.util.ChecksumVerifier;
+import performancescheduler.util.UUIDGenerator;
 
 public class XmlSaverTest {
     public static final String FTR_FILE = "singleFeature.xml";
     public static final String SIMPLE_FILE = "simpleSchedule.xml";
+    public static final String TWINS_FILE = "noTwinFeature.xml";
+    public static final String COLLISION_FILE = "hashCollisions.xml";
+    public static final String NULPERF_FILE = "nullPerformance.xml";
+    public static final String UNMAP_FILE = "unmappedFeature.xml";
     
-    FeatureFactory ftrFac = FeatureFactory.newFactory();
-    PerformanceFactory pFac = PerformanceFactory.newFactory();
+    static FeatureFactory ftrFac = FeatureFactory.newFactory();
+    static PerformanceFactory pFac = PerformanceFactory.newFactory();
     
     Collection<Feature> features;
     Collection<Performance> performances;
@@ -46,6 +52,33 @@ public class XmlSaverTest {
     public void setUp() {
         features = new ArrayList<>();
         performances = new ArrayList<>();
+    }
+    
+    @Test
+    public void writeEmptyPerformanceWhenFeatureNotMapped()
+            throws IOException, XMLStreamException, FactoryConfigurationError {
+        performances.add(pFac.createPerformance(new SpecialFeature("Foo", Rating.R, 137),
+                LocalDateTime.of(2020, 1, 27, 19, 35), Auditorium.getInstance(1, null, false, 100)));
+        File toSave = temp.newFile(UNMAP_FILE);
+        new XmlSaver(toSave).save(features, performances);
+        assertTrue(ChecksumVerifier.getInstance().verifyFile(toSave));
+    }
+    
+    @Test
+    public void dontWriteNullPerformance() throws IOException, XMLStreamException, FactoryConfigurationError {
+        performances.add(null);
+        File toSave = temp.newFile(NULPERF_FILE);
+        new XmlSaver(toSave).save(features, performances);
+        assertTrue(ChecksumVerifier.getInstance().verifyFile(toSave));
+    }
+    
+    @Test
+    public void dontWriteTwinFeatures() throws XMLStreamException, FactoryConfigurationError, IOException {
+        features.add(ftrFac.createFeature("Twin", Rating.G, 90, false, false, false, false));
+        features.add(ftrFac.createFeature("Twin", Rating.G, 90, false, false, false, false));
+        File toSave = temp.newFile(TWINS_FILE);
+        new XmlSaver(toSave).save(features, null);
+        assertTrue(ChecksumVerifier.getInstance().verifyFile(toSave));
     }
     
     @Test
@@ -72,5 +105,29 @@ public class XmlSaverTest {
     public void shouldThrowFileNotFound() throws FileNotFoundException, XMLStreamException, FactoryConfigurationError {
         exception.expect(FileNotFoundException.class);
         new XmlSaver(new File(System.getProperty("user.dir"))).save(features, null);
+    }
+    
+    @Test
+    public void shouldMapConsecutiveFeatureIDs() throws IOException, XMLStreamException, FactoryConfigurationError {
+        features.add(new SpecialFeature("Foo", Rating.PG13, 111));
+        features.add(new SpecialFeature("Bar", Rating.PG, 94));
+        features.add(new SpecialFeature("Mel", Rating.NR, 131));
+        File toSave = temp.newFile(COLLISION_FILE);
+        new XmlSaver(toSave).save(features, null);
+        assertTrue(ChecksumVerifier.getInstance().verifyFile(toSave));
+    }
+    
+    // this class is here to test the mapFeatures method (private in XmlSaver)
+    // by always reporting the same hashCode, it forces the method to generate unique mappings
+    static class SpecialFeature extends MetaFeature {
+        static final UUIDGenerator idGen = new UUIDGenerator();
+        SpecialFeature(String title, Rating rating, int runtime) {
+            super(ftrFac.createFeature(title, rating, runtime, false, true, false, true),
+                    idGen.generateUUID(), LocalDateTime.now(), null);
+        }
+        @Override
+        public int hashCode() {
+            return 37;
+        }
     }
 }

@@ -8,7 +8,7 @@ import performancescheduler.data.Rating;
 
 public class MetaFeature extends MetaWrapper<Feature> implements Feature {
     
-    MetaFeature(Feature toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
+    protected MetaFeature(Feature toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
         super(toWrap, id, createTime, changeTime);
     }
 

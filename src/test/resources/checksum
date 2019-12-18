@@ -1,2 +1,6 @@
 singleFeature.xml=f686784ba6a4194aff5dcf3a15cfdee
 simpleSchedule.xml=edd46b50eb3c66265733431a92fd3c4
+noTwinFeature.xml=7eadbb0fd8ff7fece74767d7d0a6a7
+hashCollisions.xml=a4cd14ab0ff47c5267ee555a7bba4
+nullPerformance.xml=949fcbffb25503c3394ae08c12e4fa
+unmappedFeature.xml=9a4d6ce1a248e03a7ba331534bc88a
