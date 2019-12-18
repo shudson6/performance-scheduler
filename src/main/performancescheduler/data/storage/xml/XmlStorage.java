@@ -47,6 +47,7 @@ public class XmlStorage implements Storage {
 
     @Override
     public void store(Collection<Feature> featureData, Collection<Performance> performanceData) throws IOException {
+        Objects.requireNonNull(featureData);
         // clear these; they are no longer valid but it's also not certain that the input data is valid
         features = null;
         performances = null;
