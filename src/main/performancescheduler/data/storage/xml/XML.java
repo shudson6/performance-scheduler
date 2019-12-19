@@ -23,4 +23,6 @@ class XML {
     public static final String SEATING = "seating";
     
     public static final int RADIX = 36;
+    
+    private XML() {}
 }

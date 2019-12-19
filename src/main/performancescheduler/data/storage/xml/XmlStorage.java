@@ -55,31 +55,21 @@ public class XmlStorage implements Storage {
         
         try {
             new XmlSaver(file).save(featureData, performanceData);
-        } catch (FileNotFoundException e) {
-            rethrow(e, "Specified file " + file.getAbsolutePath() + " could not be written to.");
-        } catch (XMLStreamException | FactoryConfigurationError e) {
-            rethrow(e, "Error while storing " + file.getAbsolutePath());
-        } 
+        } catch (FileNotFoundException | XMLStreamException | FactoryConfigurationError e) {
+            throw new IOException("Error storing data to " + file.getAbsolutePath(), e);
+        }
     }
 
     private void load() throws IOException {
-        if (features == null) {
-            features = new ArrayList<>();
-        }
-        if (performances == null) {
-            performances = new ArrayList<>();
-        }
+        features = new ArrayList<>();
+        performances = new ArrayList<>();
         try {
             loader.load(features, performances);
         } catch (FileNotFoundException e) {
-            rethrow(e, "Could not find the file " + file.getAbsolutePath());
+            throw new IOException("Could not find the file " + file.getAbsolutePath(), e);
         } catch (XMLStreamException | FactoryConfigurationError e) {
-            rethrow(e, "Error while parsing " + file.getAbsolutePath());
+            throw new IOException("Error while parsing " + file.getAbsolutePath(), e);
         } 
-    }
-    
-    private void rethrow(Throwable cause, String message) throws IOException {
-        throw new IOException(message, cause);
     }
     
     private XmlStorage(File f) {

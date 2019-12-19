@@ -3,14 +3,17 @@ package performancescheduler.data.storage.xml;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
 import performancescheduler.data.Auditorium;
@@ -34,10 +37,34 @@ public class XmlStorageTest {
     @Rule
     public TemporaryFolder temp = new TemporaryFolder();
     
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+    
     @Before
     public void setUp() {
         features = buildFeatureList();
         performances = buildPerformanceList();
+    }
+    
+    @Test
+    public void badXmlShouldThrowIOException() throws IOException {
+        exception.expect(IOException.class);
+        XmlStorage.getInstance(XmlStorageTest.class.getResource("/xml/NotWellFormed.xml").getFile())
+                .restorePerformanceData();
+    }
+    
+    @Test
+    public void fileNotFoundOnRestore() throws IOException {
+        file = new File(System.getProperty("user.dir"));
+        exception.expect(IOException.class);
+        XmlStorage.getInstance(file).restoreFeatureData();
+    }
+    
+    @Test
+    public void fileNotFoundOnStore() throws IOException {
+        file = new File(System.getProperty("user.dir"));
+        exception.expect(IOException.class);
+        XmlStorage.getInstance(file).store(features, performances);
     }
     
     @Test
@@ -50,6 +77,19 @@ public class XmlStorageTest {
         assertTrue(xml.restoreFeatureData().containsAll(features));
         assertTrue(performances.containsAll(xml.restorePerformanceData()));
         assertTrue(xml.restorePerformanceData().containsAll(performances));
+    }
+    
+    // same test as above, but reversed order of Performances and Features
+    @Test
+    public void testLoadPerformancesAndFeatures() throws IOException {
+        String fname = XmlStorageTest.class.getResource("/xml/Normal.xml").getFile();
+        // verify checksum of the file so we know it hasn't changed
+        assertTrue(ChecksumVerifier.getInstance().verifyFile(new File(fname)));
+        XmlStorage xml = XmlStorage.getInstance(fname);
+        assertTrue(performances.containsAll(xml.restorePerformanceData()));
+        assertTrue(xml.restorePerformanceData().containsAll(performances));
+        assertTrue(features.containsAll(xml.restoreFeatureData()));
+        assertTrue(xml.restoreFeatureData().containsAll(features));
     }
     
     @Test
