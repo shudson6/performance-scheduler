@@ -17,31 +17,32 @@ public class MetaPerformance extends MetaWrapper<Performance> implements Perform
 
     @Override
     public int compareTo(Performance o) {
-        return wrapped.compareTo(o);
+    	// to be consistent with the natural ordering of Performance, in which null comes after all valid instances...
+        return (wrapped != null) ? wrapped.compareTo(o) : (o == null) ? 0 : 1;
     }
 
     @Override
     public LocalDate getDate() {
-        return wrapped.getDate();
+        return (wrapped != null) ? wrapped.getDate() : null;
     }
 
     @Override
     public LocalTime getTime() {
-        return wrapped.getTime();
+        return (wrapped != null) ? wrapped.getTime() : null;
     }
 
     @Override
     public LocalDateTime getDateTime() {
-        return wrapped.getDateTime();
+        return (wrapped != null) ? wrapped.getDateTime() : null;
     }
 
     @Override
     public Auditorium getAuditorium() {
-        return wrapped.getAuditorium();
+        return (wrapped != null) ? wrapped.getAuditorium() : null;
     }
 
     @Override
     public Feature getFeature() {
-        return wrapped.getFeature();
+        return (wrapped != null) ? wrapped.getFeature() : null;
     }
 }

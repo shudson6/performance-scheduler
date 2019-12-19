@@ -102,7 +102,8 @@ class FeatureImpl implements Feature {
     @Override
     public int compareTo(Feature ftr) {
         if (ftr == null) {
-            throw new NullPointerException("FeatureImpl.compareTo: received null parameter.");
+        	// defines a natural ordering in which null comes after all instances
+        	return -1;
         }
         int result = this.getTitle().compareToIgnoreCase(ftr.getTitle());
         if (result == 0) {

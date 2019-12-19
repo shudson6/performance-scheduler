@@ -67,8 +67,10 @@ class PerformanceImpl implements Performance {
     
     @Override
     public int compareTo(Performance p) {
-        Objects.requireNonNull(p, "PerformanceImpl.compareTo: received null parameter");
-        
+        if (p == null) {
+        	// defines a natural ordering in which null comes after all valid instances
+        	return -1;
+        }
         int result;
         if (feature == null) {
             result = p.getFeature() == null ? 0 : -1;
