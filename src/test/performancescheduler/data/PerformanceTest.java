@@ -156,10 +156,8 @@ public class PerformanceTest {
     }
     
     @Test
-    public void compareToShouldThrowNPE() {
-        exception.expect(NullPointerException.class);
-        exception.expectMessage(matchPI);
-        perf[0].compareTo(null);
+    public void compareToShouldPutNullLast() {
+        assertTrue(perf[0].compareTo(null) < 0);
     }
     
     @Test

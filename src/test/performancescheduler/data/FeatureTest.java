@@ -104,10 +104,8 @@ public class FeatureTest {
     }
     
     @Test
-    public void compareToShouldThrowNPE() {
-        exception.expect(NullPointerException.class);
-        exception.expectMessage(CoreMatchers.containsString("compareTo"));
-        features.get(0).compareTo(null);
+    public void compareToShouldPutNullLast() {
+        assertTrue(features.get(0).compareTo(null) < 0);
     }
     
     @Test
