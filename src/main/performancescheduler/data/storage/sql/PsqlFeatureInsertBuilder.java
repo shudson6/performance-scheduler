@@ -43,7 +43,7 @@ class PsqlFeatureInsertBuilder {
     }
     
     private String ftrString(MetaFeature ftr) {
-        return String.format("('%s','%s','%s',%d,%s,%s,%s,%s,'%s','%s'),", ftr.getUuid().toString(),
+        return String.format("('%s','%s','%s',%d,%s,%s,%s,%s,'%s','%s',true),", ftr.getUuid().toString(),
                 ftr.getTitle(), ftr.getRating().toString(), ftr.getRuntime(), Boolean.toString(ftr.is3d()),
                 Boolean.toString(ftr.hasClosedCaptions()), Boolean.toString(ftr.hasOpenCaptions()),
                 Boolean.toString(ftr.hasDescriptiveAudio()), ftr.getCreatedTimestamp().toString(),
