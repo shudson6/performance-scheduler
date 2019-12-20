@@ -12,14 +12,21 @@ public class MetaWrapperTest {
 	static LocalDateTime time = LocalDateTime.of(2020, 2, 13, 17, 00);
 
 	@Test
-	public void nullWrappedEqualsNullObj() {
-		assertTrue(new MetaWrapper<Object>(null, uuid, time, null).equals(null));
-	}
-
-	@Test
 	public void nullWrappedEqualsNullWrapped() {
 		assertTrue(new MetaWrapper<Object>(null, uuid, time, time)
 				.equals(new MetaWrapper<Object>(null, uuid, time, time)));
+	}
+	
+	@Test
+	public void nullWrappedNotEqualsNonNullWrapped() {
+	    assertFalse(new MetaWrapper<String>(null, uuid, time, null)
+	            .equals(new MetaWrapper<String>("Foo", uuid, time, null)));
+	}
+	
+	@SuppressWarnings("unlikely-arg-type")
+    @Test
+	public void nullWrappedNotEqualsPlainNonNull() {
+	    assertFalse(new MetaWrapper<String>(null, uuid, time, null).equals("foo"));
 	}
 	
 	@Test
