@@ -17,8 +17,15 @@ public class MetaPerformance extends MetaWrapper<Performance> implements Perform
 
     @Override
     public int compareTo(Performance o) {
-    	// to be consistent with the natural ordering of Performance, in which null comes after all valid instances...
-        return (wrapped != null) ? wrapped.compareTo(o) : (o == null) ? 0 : 1;
+    	if (wrapped != null) {
+    		return wrapped.compareTo(o);
+    	}
+    	// wrapped is null
+    	if (o instanceof MetaPerformance) {
+    		return (((MetaPerformance) o).wrapped == null) ? 0 : 1;
+    	} else {
+    		return (o == null) ? 0 : 1;
+    	}
     }
 
     @Override

@@ -44,13 +44,6 @@ public class MetaPerformanceTest {
     public ExpectedException exception = ExpectedException.none();
     
     @Test
-    public void wrappingNullCausesNPE() {
-        exception.expect(NullPointerException.class);
-        exception.expectMessage("wrapped data");
-        metaFactory.newMetaPerformance(null);
-    }
-    
-    @Test
     public void verifyCompareTo() {
         MetaPerformance mf1 = metaFactory.newMetaPerformance(p1);
         MetaPerformance mf2 = metaFactory.newMetaPerformance(p2);
@@ -68,5 +61,23 @@ public class MetaPerformanceTest {
     public void verifyGetters() {
         assertEquals(dateTime.toLocalDate(), metaFactory.newMetaPerformance(p1).getDate());
         assertEquals(dateTime.toLocalTime(), metaFactory.newMetaPerformance(p2).getTime());
+    }
+    
+    @Test
+    public void wrapNullTestGetters() {
+    	assertEquals(null, metaFactory.newMetaPerformance(null).getDate());
+    	assertEquals(null, metaFactory.newMetaPerformance(null).getTime());
+    	assertEquals(null, metaFactory.newMetaPerformance(null).getDateTime());
+    	assertEquals(null, metaFactory.newMetaPerformance(null).getFeature());
+    	assertEquals(null, metaFactory.newMetaPerformance(null).getAuditorium());
+    }
+    
+    @Test
+    public void wrapNullTestCompareTo() {
+    	MetaPerformance mpn = metaFactory.newMetaPerformance(null);
+    	assertTrue(mpn.compareTo(null) == 0);
+    	assertTrue(mpn.compareTo(metaFactory.newMetaPerformance(null)) == 0);
+    	assertTrue(mpn.compareTo(p1) > 0);
+    	assertTrue(mpn.compareTo(metaFactory.newMetaPerformance(p1)) > 0);
     }
 }

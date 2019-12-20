@@ -14,8 +14,15 @@ public class MetaFeature extends MetaWrapper<Feature> implements Feature {
 
     @Override
     public int compareTo(Feature o) {
-    	// to be consistent with the natural ordering of FeatureImpl, in which null comes last...
-        return (wrapped != null) ? wrapped.compareTo(o) : (o == null) ? 0 : 1;
+    	if (wrapped != null) {
+    		return wrapped.compareTo(o);
+    	}
+    	// wrapped = null
+    	if (o instanceof MetaFeature) {
+    		return (((MetaFeature) o).wrapped == null) ? 0 : 1;
+    	} else {
+    		return (o == null) ? 0 : 1;
+    	}
     }
 
     @Override

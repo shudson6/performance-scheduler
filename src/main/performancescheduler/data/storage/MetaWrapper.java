@@ -55,7 +55,7 @@ public class MetaWrapper<T> {
             return uuid.equals(((MetaWrapper<?>) o).uuid) 
                     && created.equals(((MetaWrapper<?>) o).created)
                     && changed.equals(((MetaWrapper<?>) o).changed) 
-                    && (wrapped == null) ? o == null : wrapped.equals(((MetaWrapper<?>) o).wrapped);
+                    && (wrapped != null) ? wrapped.equals(((MetaWrapper<?>) o).wrapped) : (o == null);
         }
         return (wrapped == null) ? o == null : wrapped.equals(o);
     }

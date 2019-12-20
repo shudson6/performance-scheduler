@@ -111,5 +111,36 @@ public class MetaFeatureTest {
         mf1 = metaFactory.newMetaFeature(ftr2);
         assertTrue(mf1.compareTo(mf2) == 0);
         assertTrue(mf1.compareTo(ftr2) == 0);
+        
+        // ensure null is always greatest
+        assertTrue(mf1.compareTo(null) < 0);
+    }
+    
+    @Test
+    public void checkGettersWhenWrappingNull() {
+    	MetaFeature mfn = metaFactory.newMetaFeature(null);
+    	assertEquals(MetaWrapper.NULLSTR, mfn.getTitle());
+    	assertEquals(null, mfn.getRating());
+    	assertEquals(0, mfn.getRuntime());
+    	assertFalse(mfn.is3d());
+    	assertFalse(mfn.hasClosedCaptions());
+    	assertFalse(mfn.hasOpenCaptions());
+    	assertFalse(mfn.hasDescriptiveAudio());
+    }
+    
+    @Test
+    public void checkEqualsWhenWrappingNull() {
+    	MetaFeature mfn = metaFactory.newMetaFeature(null);
+    	assertTrue(mfn.equals(null));
+    	assertFalse(mfn.equals(metaFactory.newMetaFeature(ftr1)));
+    }
+    
+    @Test
+    public void checkCompareToWhenWrappingNull() {
+    	MetaFeature mfn = metaFactory.newMetaFeature(null);
+    	assertTrue(mfn.compareTo(null) == 0);
+    	assertTrue(mfn.compareTo(mfn) == 0);
+    	assertTrue(mfn.compareTo(ftr1) > 0);
+    	assertTrue(mfn.compareTo(metaFactory.newMetaFeature(ftr1)) > 0);
     }
 }
