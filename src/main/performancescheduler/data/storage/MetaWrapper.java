@@ -32,15 +32,15 @@ public class MetaWrapper<T> {
         changed = (changeTime != null) ? changeTime : createTime;
     }
     
-    UUID getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
     
-    LocalDateTime getCreatedTimestamp() {
+    public LocalDateTime getCreatedTimestamp() {
         return created;
     }
     
-    LocalDateTime getChangedTimestamp() {
+    public LocalDateTime getChangedTimestamp() {
         return changed;
     }
     
