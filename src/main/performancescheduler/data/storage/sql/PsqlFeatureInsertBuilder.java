@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import performancescheduler.data.storage.MetaFeature;
 
-class FeatureSqlGenerator {
+class PsqlFeatureInsertBuilder {
     /********************
      * Setting initial capacity of StringBuilder:
      * each values group is: uuid 32, 4 hyphens = 36
@@ -32,6 +32,7 @@ class FeatureSqlGenerator {
         StringBuilder str = new StringBuilder(SQL_SIZE + features.size() * ENTRY_SIZE);
         str.append("INSERT INTO FEATUREDATA VALUES ");
         features.stream().filter(f -> f.getTitle() != null).forEach(f -> str.append(ftrString(f)));
+        str.replace(str.lastIndexOf(","), str.length(), " ");
         str.append(ON_CONFLICT);
         features.stream().filter(f -> f.getTitle() == null).forEach(f -> str.append(delString(f)));
         return str.toString();
