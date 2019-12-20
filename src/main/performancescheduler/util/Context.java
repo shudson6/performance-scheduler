@@ -11,17 +11,17 @@ public class Context {
     public static final String PERFSCHED_DIR = ".perfsched";
     
     private static Properties presentContext = new Properties();
-//    static {
-//        String filename = String.format("%s%s%s%s%s", System.getProperty("user.home"), 
-//                System.getProperty("file.separator"), PERFSCHED_DIR, System.getProperty("file.separator"), CONFIG_FILE);
-//        System.out.println("[DEBUG] finding properties file: " + filename);
-//        try (FileInputStream fis = new FileInputStream(filename)) {
-//            presentContext.load(fis);
-//            System.out.println("[DEBUG] found. properties loaded to context.");
-//        } catch (IOException ex) {
-//            System.exit(1);
-//        }
-//    }
+    static {
+        String filename = String.format("%s%s%s%s%s", System.getProperty("user.home"), 
+                System.getProperty("file.separator"), PERFSCHED_DIR, System.getProperty("file.separator"), CONFIG_FILE);
+        System.out.println("[DEBUG] finding properties file: " + filename);
+        try (FileInputStream fis = new FileInputStream(filename)) {
+            presentContext.load(fis);
+            System.out.println("[DEBUG] found. properties loaded to context.");
+        } catch (IOException ex) {
+            System.exit(1);
+        }
+    }
     
     public static String getProperty(String propertyName) {
         return presentContext.getProperty(propertyName);
