@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import performancescheduler.data.storage.MetaFeature;
+import performancescheduler.data.storage.MetaWrapper;
 
 class FeatureValueLister implements ValueLister<MetaFeature> {
 	public final int ENTRY_SIZE = 141;
@@ -16,7 +17,7 @@ class FeatureValueLister implements ValueLister<MetaFeature> {
 	@Override
 	public String listValues(MetaFeature ftr) {
 		StringBuilder sb = new StringBuilder(ENTRY_SIZE);
-		if (ftr != null) {
+		if (ftr != null && !ftr.getTitle().equals(MetaWrapper.NULLSTR)) {
 		    sb.append("(");
     		for (String s : COL_ORDER) {
     			sb.append(colValue(s, ftr) + ",");

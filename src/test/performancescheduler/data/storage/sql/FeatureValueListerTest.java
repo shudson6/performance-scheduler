@@ -37,6 +37,11 @@ public class FeatureValueListerTest {
     }
     
     @Test
+    public void nullWrappedShouldGetEmptyString() {
+        assertTrue(new FeatureValueLister().listValues(new TestMetaFeature(null, uuid, ldt, null)).isEmpty());
+    }
+    
+    @Test
     public void columnOrder() {
         ArrayList<String> cols = new ArrayList<>(11);
         cols.add(SQL.COL_UUID);

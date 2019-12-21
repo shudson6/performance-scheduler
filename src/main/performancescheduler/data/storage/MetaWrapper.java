@@ -15,6 +15,9 @@ import java.util.UUID;
  * @author Steven Hudson
  */
 public class MetaWrapper<T> {
+    /**
+     * Returned by pass-through methods when the wrapped object is {@code null}.
+     */
 	public static final String NULLSTR = "[null]";
 	
     private final UUID uuid;
