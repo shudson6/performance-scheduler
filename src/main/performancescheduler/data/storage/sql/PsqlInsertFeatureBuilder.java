@@ -1,42 +1,25 @@
 package performancescheduler.data.storage.sql;
 
-import java.util.Collection;
-import java.util.TreeSet;
-
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaWrapper;
 
-class PsqlInsertFeatureBuilder {
-    private Collection<MetaFeature> features;
-    private FeatureValueLister values;
-    
-    public PsqlInsertFeatureBuilder() {
-        features = new TreeSet<>();
-        values = new FeatureValueLister();
-    }
-    
-    public void clear() {
-        features.clear();
-    }
+class PsqlInsertFeatureBuilder extends SqlCommandBuilder<MetaFeature> {
+    private FeatureValueLister values = new FeatureValueLister();
     
     public boolean add(MetaFeature ftr) {
         if (ftr != null && !ftr.getTitle().equals(MetaWrapper.NULLSTR)) {
-            return features.add(ftr);
+            return super.add(ftr);
         }
         return false;
     }
     
-    public String getCommand() {
-        return buildCommand();
-    }
-    
     protected String buildCommand() {
-        if (features.isEmpty()) {
+        if (getData().isEmpty()) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO FEATUREDATA VALUES ");
-        features.forEach(f -> sb.append(values.listValues(f) + ","));
+        getData().forEach(f -> sb.append(values.listValues(f) + ","));
         sb.replace(sb.lastIndexOf(","), sb.length(), " ");
         sb.append(conflictClause());
         sb.append(";");
