@@ -6,6 +6,7 @@ import performancescheduler.data.storage.MetaWrapper;
 class PsqlInsertFeatureBuilder extends SqlCommandBuilder<MetaFeature> {
     private FeatureValueLister values = new FeatureValueLister();
     
+    @Override
     public boolean add(MetaFeature ftr) {
         if (ftr != null && !ftr.getTitle().equals(MetaWrapper.NULLSTR)) {
             return super.add(ftr);
@@ -13,6 +14,7 @@ class PsqlInsertFeatureBuilder extends SqlCommandBuilder<MetaFeature> {
         return false;
     }
     
+    @Override
     protected String buildCommand() {
         if (getData().isEmpty()) {
             return "";
