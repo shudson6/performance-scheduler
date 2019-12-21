@@ -27,7 +27,7 @@ public class PsqlInsertFeatureBuilderTest {
         Feature ftr = ftrFactory.createFeature("Foo", Rating.R, 90, false, true, true, true);
         pInsert.clear();
         pInsert.add(new TestMetaFeature(ftr, uuid, ldt, ldt));
-        assertEquals("INSERT INTO FEATUREDATA VALUES ('abcd9876-1234-1234-1234-abcdef567890','Foo','R',90,"
+        assertEquals("INSERT INTO featuredata VALUES ('abcd9876-1234-1234-1234-abcdef567890','Foo','R',90,"
                 + "false,true,true,true,'2020-03-27 19:15:00','2020-03-27 19:15:00',true) ON CONFLICT (uuid) DO UPDATE "
                 + "SET title=EXCLUDED.title,rating=EXCLUDED.rating,runtime=EXCLUDED.runtime,is3d=EXCLUDED.is3d,"
                 + "cc=EXCLUDED.cc,oc=EXCLUDED.oc,da=EXCLUDED.da,created=EXCLUDED.created,changed=EXCLUDED.changed,"
@@ -57,7 +57,7 @@ public class PsqlInsertFeatureBuilderTest {
 
     private String testString(Collection<MetaFeature> features) {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO FEATUREDATA VALUES ");
+        sb.append("INSERT INTO " + SQL.TBL_FEATURE + " VALUES ");
         for (MetaFeature mf : features) {
             if (mf != null && !mf.getTitle().equals(MetaWrapper.NULLSTR)) {
                 sb.append("(");

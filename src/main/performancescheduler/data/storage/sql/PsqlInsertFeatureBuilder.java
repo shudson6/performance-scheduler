@@ -18,7 +18,9 @@ class PsqlInsertFeatureBuilder extends SqlCommandBuilder<MetaFeature> {
             return "";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO FEATUREDATA VALUES ");
+        sb.append("INSERT INTO ");
+        sb.append(SQL.TBL_FEATURE);
+        sb.append(" VALUES ");
         getData().forEach(f -> sb.append(values.listValues(f) + ","));
         sb.replace(sb.lastIndexOf(","), sb.length(), " ");
         sb.append(conflictClause());
