@@ -1,5 +1,7 @@
 package performancescheduler.data.storage.sql;
 
+import java.time.format.DateTimeFormatter;
+
 public class SQL {
 	public static final String TBL_FEATURE = "featuredata";
 	public static final String COL_UUID = "uuid";
@@ -13,6 +15,8 @@ public class SQL {
 	public static final String COL_CREATED = "created";
 	public static final String COL_CHANGED = "changed";
 	public static final String COL_ACTIVE = "active";
+	
+	public static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
 	private SQL() {}
 }
