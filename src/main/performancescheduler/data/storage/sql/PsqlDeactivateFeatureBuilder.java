@@ -6,6 +6,14 @@ import performancescheduler.data.storage.MetaWrapper;
 public class PsqlDeactivateFeatureBuilder extends SqlCommandBuilder<MetaFeature> {
 
     @Override
+    public boolean add(MetaFeature toAdd) {
+        if (toAdd != null && toAdd.getTitle().equals(MetaWrapper.NULLSTR)) {
+            return super.add(toAdd);
+        }
+        return false;
+    }
+    
+    @Override
     protected String buildCommand() {
         StringBuilder sb = new StringBuilder();
         getData().stream().filter(mf -> (mf != null) && mf.getTitle().equals(MetaWrapper.NULLSTR))

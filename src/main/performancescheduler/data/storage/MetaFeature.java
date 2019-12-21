@@ -32,7 +32,7 @@ public class MetaFeature extends MetaWrapper<Feature> implements Feature {
 
     @Override
     public Rating getRating() {
-        return (wrapped != null) ? wrapped.getRating() : null;
+        return (wrapped != null) ? wrapped.getRating() : Rating.NR;
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 public class MetaWrapper<T> {
     /**
-     * Returned by pass-through methods when the wrapped object is {@code null}.
+     * Returned by certain pass-through methods when the wrapped object is {@code null}.
      */
 	public static final String NULLSTR = "[null]";
 	
@@ -45,6 +45,10 @@ public class MetaWrapper<T> {
     
     public LocalDateTime getChangedTimestamp() {
         return changed;
+    }
+    
+    public T getWrapped() {
+        return wrapped;
     }
     
     @Override
