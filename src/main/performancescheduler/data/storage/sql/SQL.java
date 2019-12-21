@@ -19,6 +19,10 @@ public class SQL {
 	public static final String COL_OC = "oc";
 	public static final String COL_DA = "da";
 	
+	public static final String COL_FEATUREID = "feature";
+	public static final String COL_DATETIME = "datetime";
+	public static final String COL_AUDITORIUM = "auditorium";
+	
 	public static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
 	private SQL() {}
