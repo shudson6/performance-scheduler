@@ -25,7 +25,7 @@ public class MetaWrapper<T> {
     private final LocalDateTime changed;
     protected T wrapped;
     
-    MetaWrapper(T toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
+    public MetaWrapper(T toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
         Objects.requireNonNull(id, "MetaWrapper: id must be non-null.");
         Objects.requireNonNull(createTime, "MetaWrapper: creation time must be non-null.");
         
