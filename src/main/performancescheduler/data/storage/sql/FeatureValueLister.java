@@ -16,11 +16,14 @@ class FeatureValueLister implements ValueLister<MetaFeature> {
 	@Override
 	public String listValues(MetaFeature ftr) {
 		StringBuilder sb = new StringBuilder(ENTRY_SIZE);
-		sb.append("(");
-		for (String s : COL_ORDER) {
-			sb.append(colValue(s, ftr) + ",");
+		if (ftr != null) {
+		    sb.append("(");
+    		for (String s : COL_ORDER) {
+    			sb.append(colValue(s, ftr) + ",");
+    		}
+    		sb.deleteCharAt(sb.lastIndexOf(","));
+    		sb.append(")");
 		}
-		sb.replace(sb.lastIndexOf(","), sb.length(), ")");
 		return sb.toString();
 	}
 	

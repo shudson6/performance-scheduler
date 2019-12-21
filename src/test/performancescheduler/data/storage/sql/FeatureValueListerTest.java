@@ -32,6 +32,11 @@ public class FeatureValueListerTest {
     }
     
     @Test
+    public void nullFeatureShouldGetEmptyString() {
+        assertTrue(new FeatureValueLister().listValues(null).isEmpty());
+    }
+    
+    @Test
     public void columnOrder() {
         ArrayList<String> cols = new ArrayList<>(11);
         cols.add(SQL.COL_UUID);
