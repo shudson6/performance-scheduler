@@ -19,7 +19,7 @@ public class PsqlInsertFeatureBuilderTest {
     FeatureFactory ftrFactory = FeatureFactory.newFactory();
     UUID uuid = new UUID(0xabcd987612341234L, 0x1234abcdef567890L);
     LocalDateTime ldt = LocalDateTime.of(2020, 3, 27, 19, 15);
-    PsqlInsertFeatureBuilder pInsert = new PsqlInsertFeatureBuilder();
+    PsqlInsertBuilder<MetaFeature> pInsert = new PsqlInsertBuilder<>(new FeatureValueLister(), SQL.TBL_FEATURE);
     FeatureValueLister fvl = new FeatureValueLister();
 
     @Test

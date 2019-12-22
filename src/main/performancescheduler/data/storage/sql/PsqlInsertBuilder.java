@@ -1,15 +1,24 @@
 package performancescheduler.data.storage.sql;
 
-import performancescheduler.data.storage.MetaFeature;
+import java.util.Objects;
+
 import performancescheduler.data.storage.MetaWrapper;
 
-class PsqlInsertFeatureBuilder extends SqlCommandBuilder<MetaFeature> {
-    private FeatureValueLister values = new FeatureValueLister();
+class PsqlInsertBuilder<T extends MetaWrapper<?>> extends SqlCommandBuilder<T> {
+    private ValueLister<T> vl;
+    private String tbl;
+    
+    public PsqlInsertBuilder(ValueLister<T> valueLister, String tableName) {
+        Objects.requireNonNull(valueLister);
+        Objects.requireNonNull(tableName);
+        vl = valueLister;
+        tbl = tableName;
+    }
     
     @Override
-    public boolean add(MetaFeature ftr) {
-        if (ftr != null && !ftr.getTitle().equals(MetaWrapper.NULLSTR)) {
-            return super.add(ftr);
+    public boolean add(T toAdd) {
+        if (toAdd != null && toAdd.getWrapped() != null) {
+            return super.add(toAdd);
         }
         return false;
     }
@@ -21,9 +30,9 @@ class PsqlInsertFeatureBuilder extends SqlCommandBuilder<MetaFeature> {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO ");
-        sb.append(SQL.TBL_FEATURE);
+        sb.append(tbl);
         sb.append(" VALUES ");
-        getData().forEach(f -> sb.append(values.listValues(f) + ","));
+        getData().forEach(f -> sb.append(vl.listValues(f) + ","));
         sb.replace(sb.lastIndexOf(","), sb.length(), " ");
         sb.append(conflictClause());
         sb.append(";");
@@ -35,7 +44,7 @@ class PsqlInsertFeatureBuilder extends SqlCommandBuilder<MetaFeature> {
         sb.append("ON CONFLICT (");
         sb.append(SQL.COL_UUID);
         sb.append(") DO UPDATE SET ");
-        values.columnOrder().stream().filter(s -> !s.equals(SQL.COL_UUID))
+        vl.columnOrder().stream().filter(s -> !s.equals(SQL.COL_UUID))
                 .forEach(s -> sb.append(s + "=EXCLUDED." + s + ","));
         sb.deleteCharAt(sb.lastIndexOf(","));
         return sb.toString();
