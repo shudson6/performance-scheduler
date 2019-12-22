@@ -3,6 +3,7 @@ package performancescheduler.data.storage.sql;
 import java.util.Arrays;
 import java.util.List;
 
+import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
 
 public class PerformanceValueLister extends ValueLister<MetaPerformance> {
@@ -20,10 +21,17 @@ public class PerformanceValueLister extends ValueLister<MetaPerformance> {
             case SQL.COL_AUDITORIUM:
                 return Integer.toString(subject.getAuditorium().getNumber());
             case SQL.COL_FEATUREID:
-                // TODO: How to get the uuid for the feature
-                return "TODO";
+                return featureId(subject);
             default:
                 return super.colValue(col, subject);
+        }
+    }
+    
+    private String featureId(MetaPerformance mp) {
+        if (mp.getFeature() instanceof MetaFeature) {
+            return quotes(((MetaFeature) mp.getFeature()).getUuid().toString());
+        } else {
+            throw new IllegalArgumentException("MetaPerformance is required to have an instance of MetaFeature");
         }
     }
 

@@ -30,8 +30,8 @@ public class PsqlInsertFeatureBuilderTest {
         assertEquals("INSERT INTO featuredata VALUES ('abcd9876-1234-1234-1234-abcdef567890','Foo','R',90,"
                 + "false,true,true,true,'2020-03-27 19:15:00','2020-03-27 19:15:00',true) ON CONFLICT (uuid) DO UPDATE "
                 + "SET title=EXCLUDED.title,rating=EXCLUDED.rating,runtime=EXCLUDED.runtime,is3d=EXCLUDED.is3d,"
-                + "cc=EXCLUDED.cc,oc=EXCLUDED.oc,da=EXCLUDED.da,created=EXCLUDED.created,changed=EXCLUDED.changed,"
-                + "active=EXCLUDED.active;",
+                + "cc=EXCLUDED.cc,oc=EXCLUDED.oc,da=EXCLUDED.da,changed=EXCLUDED.changed,active=EXCLUDED.active "
+                + "WHERE featuredata.uuid=EXCLUDED.uuid AND featuredata.changed<>EXCLUDED.changed;",
                 pInsert.getCommand());
     }
     
@@ -105,9 +105,12 @@ public class PsqlInsertFeatureBuilderTest {
         sb.replace(sb.lastIndexOf(","), sb.length(), " ");
         // the conflict clause
         sb.append("ON CONFLICT (" + SQL.COL_UUID + ") DO UPDATE SET ");
-        fvl.columnOrder().stream().filter(s -> !s.equals(SQL.COL_UUID))
+        fvl.columnOrder().stream().filter(s -> !s.equals(SQL.COL_UUID) && !s.equals(SQL.COL_CREATED))
                 .forEach(s -> sb.append(s + "=EXCLUDED." + s + ","));
-        sb.replace(sb.lastIndexOf(","), sb.length(), ";");
+        sb.replace(sb.lastIndexOf(","), sb.length(), " ");
+        sb.append("WHERE " + SQL.TBL_FEATURE + "." + SQL.COL_UUID + "=EXCLUDED." + SQL.COL_UUID + " ");
+        sb.append("AND " + SQL.TBL_FEATURE + "." + SQL.COL_CHANGED + "<>EXCLUDED." + SQL.COL_CHANGED);
+        sb.append(";");
         return sb.toString();
     }
 }

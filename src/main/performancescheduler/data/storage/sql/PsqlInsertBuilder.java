@@ -44,9 +44,13 @@ class PsqlInsertBuilder<T extends MetaWrapper<?>> extends SqlCommandBuilder<T> {
         sb.append("ON CONFLICT (");
         sb.append(SQL.COL_UUID);
         sb.append(") DO UPDATE SET ");
-        vl.columnOrder().stream().filter(s -> !s.equals(SQL.COL_UUID))
+        // don't update the uuid or created fields
+        vl.columnOrder().stream().filter(s -> !s.equals(SQL.COL_UUID) && !s.equals(SQL.COL_CREATED))
                 .forEach(s -> sb.append(s + "=EXCLUDED." + s + ","));
-        sb.deleteCharAt(sb.lastIndexOf(","));
+        sb.replace(sb.lastIndexOf(","), sb.length(), " ");
+        // update the entry if the changed field is different (indicating there's actually something to update)
+        sb.append(String.format("WHERE %1$s.%2$s=EXCLUDED.%2$s AND %1$s.%3$s<>EXCLUDED.%3$s", 
+                tbl, SQL.COL_UUID, SQL.COL_CHANGED));
         return sb.toString();
     }
 }
