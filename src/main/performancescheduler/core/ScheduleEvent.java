@@ -7,6 +7,7 @@ import performancescheduler.data.Feature;
 import performancescheduler.data.Performance;
 
 public class ScheduleEvent<T> {
+	public static final int NONE = 0;
 	public static final int ADD = 0x0001;
 	public static final int REMOVE = 0x0002;
 	public static final int REPLACE = 0x0003;	// add && remove
@@ -15,23 +16,45 @@ public class ScheduleEvent<T> {
 	public static final int FEATURE = 0x0010;
 	public static final int PERFORMANCE = 0x0020;
 	
-	public static <E> ScheduleEvent<E> addSingle(E added) {
-		Objects.requireNonNull(added);
-		return new ScheduleEvent<E>(added, null, null, null, ADD | SINGLE | typeMask(added));
+	public static <E> ScheduleEvent<E> emptyEvent() {
+		return new ScheduleEvent<>(null, null, null, null, NONE);
 	}
 	
-	public static <E> ScheduleEvent<E> addMultiple(Collection<E> added) {
-		Objects.requireNonNull(added);
-		return new ScheduleEvent<E>(null, added, null, null, ADD | MULTIPLE);
+	public static <E> ScheduleEvent<E> newEvent(E entry, int action) {
+		Objects.requireNonNull(entry);
+		if (action == ADD) {
+			return new ScheduleEvent<>(entry, null, null, null, ADD | SINGLE | typeMask(entry.getClass()));
+		} else if (action == REMOVE) {
+			return new ScheduleEvent<>(null, null, entry, null, REMOVE | SINGLE | typeMask(entry.getClass()));
+		} else {
+			throw new IllegalArgumentException("Action must be ADD or REMOVE.");
+		}
 	}
 	
-	private static int typeMask(Object t) {
-		if (t instanceof Feature) {
+	public static <E> ScheduleEvent<E> newEvent(Collection<E> entries, int action) {
+		Objects.requireNonNull(entries);
+		if (!entries.isEmpty()) {
+			if (action == ADD) {
+				return new ScheduleEvent<>(null, entries, null, null, 
+						ADD | MULTIPLE | typeMask(entries.iterator().next().getClass()));
+			} else if (action == REMOVE) {
+				return new ScheduleEvent<>(null, null, null, entries,
+						REMOVE | MULTIPLE | typeMask(entries.iterator().next().getClass()));
+			} else {
+				throw new IllegalArgumentException("Action must be ADD or REMOVE.");
+			}
+		} else {
+			throw new IllegalArgumentException("Event may not be empty.");
+		}
+	}
+	
+	private static <E> int typeMask(Class<E> clazz) {
+		if (Feature.class.isAssignableFrom(clazz)) {
 			return FEATURE;
-		} else if (t instanceof Performance) {
+		} else if (Performance.class.isAssignableFrom(clazz)) {
 			return PERFORMANCE;
 		}
-		return 0;
+		return NONE;
 	}
 	
 	private final int eventType;
