@@ -29,21 +29,15 @@ public class XmlStorage implements Storage {
         Objects.requireNonNull(filename);
         return getInstance(new File(filename));
     }
-
+    
     @Override
-    public Collection<Feature> restoreFeatureData() throws IOException {
-        if (features == null) {
-            load();
+    public void restore(Collection<Feature> featureData, Collection<Performance> performanceData) throws IOException {
+        Objects.requireNonNull(featureData);
+        load();
+        featureData.addAll(features);
+        if (performanceData != null) {
+            performanceData.addAll(performances);
         }
-        return features;
-    }
-
-    @Override
-    public Collection<Performance> restorePerformanceData() throws IOException {
-        if (performances == null) {
-            load();
-        }
-        return performances;
     }
 
     @Override

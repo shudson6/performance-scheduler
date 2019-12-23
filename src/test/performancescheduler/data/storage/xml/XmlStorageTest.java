@@ -50,14 +50,14 @@ public class XmlStorageTest {
     public void badXmlShouldThrowIOException() throws IOException {
         exception.expect(IOException.class);
         XmlStorage.getInstance(XmlStorageTest.class.getResource("/xml/NotWellFormed.xml").getFile())
-                .restorePerformanceData();
+                .restore(new ArrayList<Feature>(), null);
     }
     
     @Test
     public void fileNotFoundOnRestore() throws IOException {
         file = new File(System.getProperty("user.dir"));
         exception.expect(IOException.class);
-        XmlStorage.getInstance(file).restoreFeatureData();
+        XmlStorage.getInstance(file).restore(new ArrayList<Feature>(), null);
     }
     
     @Test
@@ -73,10 +73,13 @@ public class XmlStorageTest {
         // verify checksum of the file so we know it hasn't changed
         assertTrue(ChecksumVerifier.getInstance().verifyFile(new File(fname)));
         XmlStorage xml = XmlStorage.getInstance(fname);
-        assertTrue(features.containsAll(xml.restoreFeatureData()));
-        assertTrue(xml.restoreFeatureData().containsAll(features));
-        assertTrue(performances.containsAll(xml.restorePerformanceData()));
-        assertTrue(xml.restorePerformanceData().containsAll(performances));
+        ArrayList<Feature> ftrl = new ArrayList<>();
+        ArrayList<Performance> pfml = new ArrayList<>();
+        xml.restore(ftrl, pfml);
+        assertTrue(features.containsAll(ftrl));
+        assertTrue(ftrl.containsAll(features));
+        assertTrue(performances.containsAll(pfml));
+        assertTrue(pfml.containsAll(performances));
     }
     
     // same test as above, but reversed order of Performances and Features
@@ -86,10 +89,13 @@ public class XmlStorageTest {
         // verify checksum of the file so we know it hasn't changed
         assertTrue(ChecksumVerifier.getInstance().verifyFile(new File(fname)));
         XmlStorage xml = XmlStorage.getInstance(fname);
-        assertTrue(performances.containsAll(xml.restorePerformanceData()));
-        assertTrue(xml.restorePerformanceData().containsAll(performances));
-        assertTrue(features.containsAll(xml.restoreFeatureData()));
-        assertTrue(xml.restoreFeatureData().containsAll(features));
+        ArrayList<Feature> ftrl = new ArrayList<>();
+        ArrayList<Performance> pfml = new ArrayList<>();
+        xml.restore(ftrl, pfml);
+        assertTrue(performances.containsAll(pfml));
+        assertTrue(pfml.containsAll(performances));
+        assertTrue(features.containsAll(ftrl));
+        assertTrue(ftrl.containsAll(features));
     }
     
     @Test
