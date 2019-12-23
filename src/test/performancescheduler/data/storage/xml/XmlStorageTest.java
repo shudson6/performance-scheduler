@@ -75,9 +75,10 @@ public class XmlStorageTest {
         XmlStorage xml = XmlStorage.getInstance(fname);
         ArrayList<Feature> ftrl = new ArrayList<>();
         ArrayList<Performance> pfml = new ArrayList<>();
-        xml.restore(ftrl, pfml);
+        xml.restore(ftrl, null);
         assertTrue(features.containsAll(ftrl));
         assertTrue(ftrl.containsAll(features));
+        xml.restore(ftrl, pfml);
         assertTrue(performances.containsAll(pfml));
         assertTrue(pfml.containsAll(performances));
     }
