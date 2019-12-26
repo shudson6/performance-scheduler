@@ -1,6 +1,7 @@
 package performancescheduler.data.storage.sql;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 abstract class SqlCommandBuilder<T> {
@@ -12,6 +13,14 @@ abstract class SqlCommandBuilder<T> {
     
     public boolean add(T toAdd) {
         return data.add(toAdd);
+    }
+    
+    public boolean addAll(Collection<T> toAdd) {
+        boolean result = false;
+        for (T t : toAdd) {
+            result |= add(t);
+        }
+        return result;
     }
     
     public String getCommand() {

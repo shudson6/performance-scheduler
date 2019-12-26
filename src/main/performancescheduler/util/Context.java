@@ -1,7 +1,7 @@
 package performancescheduler.util;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import performancescheduler.data.Auditorium;
@@ -12,11 +12,8 @@ public class Context {
     
     private static Properties presentContext = new Properties();
     static {
-        String filename = String.format("%s%s%s%s%s", System.getProperty("user.home"), 
-                System.getProperty("file.separator"), PERFSCHED_DIR, System.getProperty("file.separator"), CONFIG_FILE);
-        System.out.println("[DEBUG] finding properties file: " + filename);
-        try (FileInputStream fis = new FileInputStream(filename)) {
-            presentContext.load(fis);
+        try (InputStream is = Context.class.getResourceAsStream("perfsched_default.conf")) {
+            presentContext.load(is);
             System.out.println("[DEBUG] found. properties loaded to context.");
         } catch (IOException ex) {
             System.exit(1);
@@ -29,5 +26,9 @@ public class Context {
     
     public static Auditorium getAuditorium(int number) {
         return Auditorium.getInstance(number, null, false, 1);
+    }
+    
+    static void dumpProperties() {
+        presentContext.forEach((p, v) -> System.out.format("%s = %s%n", p, v));
     }
 }
