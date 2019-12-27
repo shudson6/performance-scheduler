@@ -12,7 +12,7 @@ public class Context {
     
     private static Properties presentContext = new Properties();
     static {
-        try (InputStream is = Context.class.getResourceAsStream("perfsched_default.conf")) {
+        try (InputStream is = Context.class.getResourceAsStream("/perfsched_default.conf")) {
             presentContext.load(is);
             System.out.println("[DEBUG] found. properties loaded to context.");
         } catch (IOException ex) {

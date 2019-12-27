@@ -11,21 +11,25 @@ import performancescheduler.util.Context;
 class DbConnectionService implements AutoCloseable {
     private Connection conn = null;
     
+    public DbConnectionService() throws ClassNotFoundException {
+        loadDefaultDriver();
+    }
+    
     public void close() throws SQLException {
         if (conn != null) {
-            conn.close();
+            try {
+                conn.close();
+            } finally {
+                conn = null;
+            }
         }
     }
     
     public Statement getStatement() throws IOException {
-        if (conn != null) {
-            try {
-                return conn.createStatement();
-            } catch (SQLException e) {
-                throw new IOException("Could not get Statement object: see cause", e);
-            }
-        } else {
-            throw new IOException("Cannot create Statement; no connection to database.");
+        try {
+            return conn.createStatement();
+        } catch (Exception ex) {
+            throw new IOException("Failed to create Statement object: see cause.", ex);
         }
     }
     
@@ -39,11 +43,11 @@ class DbConnectionService implements AutoCloseable {
                                            Context.getProperty("DB_PASSWD"));
     }
     
-    static {
-        try {
-            Class.forName(Context.getProperty("DB_DRIVER"));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    static void loadDefaultDriver() throws ClassNotFoundException {
+        loadDriver(Context.getProperty("DB_DRIVER"));
+    }
+    
+    static void loadDriver(String className) throws ClassNotFoundException {
+        Class.forName(className);
     }
 }
