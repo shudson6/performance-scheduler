@@ -54,7 +54,7 @@ public class EventFactoryTest {
     @Test
     public void testNewRemovePerformanceEvent() {
         PerformanceEvent ev = eventFactory.newRemovePerformanceEvent(Arrays.asList(pfm1));
-        assertEquals(1, ev.getRemoved());
+        assertEquals(1, ev.getRemoved().size());
         assertTrue(ev.getRemoved().contains(pfm1));
         assertTrue(ev.getAdded().isEmpty());
         assertEquals(ScheduleEvent.REMOVE, ev.getAction());
