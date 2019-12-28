@@ -1,4 +1,4 @@
-package performancescheduler.core;
+package performancescheduler.core.event;
 
 import java.util.Collection;
 import java.util.Objects;
