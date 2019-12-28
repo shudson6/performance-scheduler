@@ -1,13 +1,16 @@
 package performancescheduler.core;
 
+import java.util.Arrays;
 import java.util.List;
 
+import performancescheduler.core.event.EventFactory;
 import performancescheduler.core.event.FeatureDataListener;
 import performancescheduler.core.event.FeatureEvent;
 import performancescheduler.data.Feature;
 
 public class FeatureManager {
 	private List<FeatureDataListener> listenerList;
+	private EventFactory eventFactory = EventFactory.newFactory();
 	private boolean eventsEnabled = true;
 	
 	public void addFeatureDataListener(FeatureDataListener listener) {
@@ -22,19 +25,19 @@ public class FeatureManager {
 	
 	public void fireAddFeature(Feature added) {
 		if (eventsEnabled) {
-			fireEvent(FeatureEvent.newAddEvent(added));
+			fireEvent(eventFactory.newAddFeatureEvent(Arrays.asList(added)));
 		}
 	}
 	
 	public void fireRemoveFeature(Feature removed) {
 		if (eventsEnabled) {
-			fireEvent(FeatureEvent.newRemoveEvent(removed));
+			fireEvent(eventFactory.newRemoveFeatureEvent(Arrays.asList(removed)));
 		}
 	}
 	
 	public void fireUpdateEvent(Feature updated, Feature pre) {
 		if (eventsEnabled) {
-			fireEvent(FeatureEvent.newReplaceEvent(updated, pre));
+			fireEvent(eventFactory.newUpdateFeatureEvent(Arrays.asList(updated), Arrays.asList(pre)));
 		}
 	}
 	

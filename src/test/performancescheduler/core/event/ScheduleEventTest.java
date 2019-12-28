@@ -39,19 +39,12 @@ public class ScheduleEventTest {
 
     @Test
     public void testUpdateEvent() {
-        ScheduleEvent<String> event = new ScheduleEvent<>(abcList, xyzList, ScheduleEvent.REPLACE);
+        ScheduleEvent<String> event = new ScheduleEvent<>(abcList, xyzList, ScheduleEvent.UPDATE);
         assertTrue(event.getRemoved().containsAll(xyzList));
         assertTrue(xyzList.containsAll(event.getRemoved()));
         assertTrue(event.getAdded().containsAll(abcList));
         assertTrue(abcList.containsAll(event.getAdded()));
-        assertEquals(ScheduleEvent.REPLACE, event.getAction());
-    }
-    
-    @Test
-    public void testWrapObject() {
-        Collection<String> foo = ScheduleEvent.wrapObject("foo");
-        assertEquals(1, foo.size());
-        assertTrue(foo.contains("foo"));
+        assertEquals(ScheduleEvent.UPDATE, event.getAction());
     }
     
     @Test

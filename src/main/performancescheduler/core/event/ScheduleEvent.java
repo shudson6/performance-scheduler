@@ -7,7 +7,7 @@ import java.util.List;
 public class ScheduleEvent<T> {
 	public static final int ADD = 0x0001;
 	public static final int REMOVE = 0x0002;
-	public static final int REPLACE = 0x0003;	// add && remove
+	public static final int UPDATE = 0x0003;	// add && remove
 	
 	private final int action;
 	private final List<T> added = new ArrayList<>();
@@ -25,12 +25,6 @@ public class ScheduleEvent<T> {
 		return new ArrayList<>(removed);
 	}
 	
-	static <E> Collection<E> wrapObject(E item) {
-		List<E> list = new ArrayList<>();
-		list.add(item);
-		return list;
-	}
-	
 	ScheduleEvent(Collection<T> add, Collection<T> rem, int act) {
 		action = validateAction(act);
 		if (add != null) {
@@ -45,10 +39,10 @@ public class ScheduleEvent<T> {
 		switch (action) {
 			case ADD:
 			case REMOVE:
-			case REPLACE:
+			case UPDATE:
 				return action;
 			default:
-				throw new IllegalArgumentException("Action must be one of ADD, REMOVE, REPLACE.");
+				throw new IllegalArgumentException("Action must be one of ADD, REMOVE, UPDATE.");
 		}
 	}
 }
