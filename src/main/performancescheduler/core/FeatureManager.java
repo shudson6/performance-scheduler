@@ -39,7 +39,9 @@ public class FeatureManager {
 	}
 	
 	public void fireEvent(FeatureEvent event) {
-		listenerList.forEach(l -> l.featureDataChanged(event));
+	    if (eventsEnabled) {
+	        listenerList.forEach(l -> l.featureDataChanged(event));
+	    }
 	}
 	
 	public void removeFeatureDataListener(FeatureDataListener listener) {

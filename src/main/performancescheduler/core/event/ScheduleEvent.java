@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class ScheduleEvent<T> {
-	public static final int NONE = 0;
 	public static final int ADD = 0x0001;
 	public static final int REMOVE = 0x0002;
 	public static final int REPLACE = 0x0003;	// add && remove
@@ -26,13 +25,13 @@ public class ScheduleEvent<T> {
 		return new ArrayList<>(removed);
 	}
 	
-	protected static <E> Collection<E> wrapObject(E item) {
+	static <E> Collection<E> wrapObject(E item) {
 		List<E> list = new ArrayList<>();
 		list.add(item);
 		return list;
 	}
 	
-	protected ScheduleEvent(Collection<T> add, Collection<T> rem, int act) {
+	ScheduleEvent(Collection<T> add, Collection<T> rem, int act) {
 		action = validateAction(act);
 		if (add != null) {
 			added.addAll(add);
