@@ -61,7 +61,7 @@ public class FeatureManager {
 	    }
 	}
 	
-	public Collection<Feature> getData() {
+	public List<Feature> getData() {
 		return new ArrayList<>(featureData);
 	}
 	
@@ -89,6 +89,10 @@ public class FeatureManager {
 	
 	public void setEventsEnabled(boolean enable) {
 		eventsEnabled = enable;
+	}
+	
+	public int size() {
+		return featureData.size();
 	}
 	
 	public boolean update(Feature before, Feature after) {
