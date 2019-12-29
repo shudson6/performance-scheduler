@@ -31,6 +31,7 @@ public class SqlSaverTest {
     static final LocalDateTime testGoTime = LocalDateTime.of(1992, 9, 23, 15, 4);  // last nuclear test (USA)
     
     static final String QUERY_COUNT = "SELECT COUNT(uuid) FROM %s WHERE created='1945-06-16 05:29:00';";
+    static final String COUNT_DELETED = "SELECT COUNT(uuid) FROM %s WHERE active=false";
     static final String DELETE = "DELETE FROM %s WHERE created='1945-06-16 05:29:00';";
     
     static DbConnectionService dcs;
@@ -90,7 +91,7 @@ public class SqlSaverTest {
     @Test
     public void shouldNotSavePerformanceWithoutCorrespondingFeature() {
         try {
-            saver.save(Arrays.asList(new MetaFeature[0]), Arrays.asList(mpFoobar));
+            saver.save(null, Arrays.asList(mpFoobar));
         } catch (IOException ex) {
             assertTrue(ex.getCause().getMessage().contains("foreign key"));
             return;
@@ -104,9 +105,29 @@ public class SqlSaverTest {
         assertEquals(1, selectCount(SQL.TBL_FEATURE));
         assertEquals(1, selectCount(SQL.TBL_PERFORMANCE));
     }
+    
+    @Test
+    public void featureAndPerformanceShouldBeRemoved() throws IOException, SQLException {
+        saver.save(Arrays.asList(mfFoobar), Arrays.asList(mpFoobar));
+        assertEquals(1, selectCount(SQL.TBL_FEATURE));
+        assertEquals(1, selectCount(SQL.TBL_PERFORMANCE));
+        MetaFeature mfDelete = new TestMetaFeature(null, mfFoobar.getUuid(), mfFoobar.getCreatedTimestamp(),
+                testChanged);
+        MetaPerformance mpDelete = new TestMetaPerformance(null, mpFoobar.getUuid(), mpFoobar.getCreatedTimestamp(),
+                testChanged);
+        saver.save(Arrays.asList(mfDelete), Arrays.asList(mpDelete));
+        assertEquals(1, selectDeleted(SQL.TBL_FEATURE));
+        assertEquals(1, selectDeleted(SQL.TBL_PERFORMANCE));
+    }
 
     private int selectCount(String tbl) throws SQLException, IOException {
         ResultSet rs = dcs.getStatement().executeQuery(String.format(QUERY_COUNT, tbl));
+        rs.next();
+        return rs.getInt(1);
+    }
+    
+    private int selectDeleted(String tbl) throws SQLException, IOException {
+        ResultSet rs = dcs.getStatement().executeQuery(String.format(COUNT_DELETED, tbl));
         rs.next();
         return rs.getInt(1);
     }
