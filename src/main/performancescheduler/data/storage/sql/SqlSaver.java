@@ -18,7 +18,7 @@ class SqlSaver {
     
     public void save(Collection<MetaFeature> features, Collection<MetaPerformance> performances) throws IOException {
         PsqlDeactivateBuilder delete = new PsqlDeactivateBuilder();
-        // do performances first, since they have dependencies (don't assume ON DELETE CASCADE)
+        // delete performances first, since they have dependencies (don't assume ON DELETE CASCADE)
         PsqlInsertPerformanceBuilder pInsert = new PsqlInsertPerformanceBuilder();
         if (performances != null) {
             performances.stream().filter(p -> p.getWrapped() != null).forEach(pInsert::add);
@@ -34,11 +34,11 @@ class SqlSaver {
             if (!cmd.isEmpty()) {
                 dcs.getStatement().execute(cmd);
             }
-            cmd = pInsert.getCommand();
+            cmd = fInsert.getCommand();
             if (!cmd.isEmpty()) {
                 dcs.getStatement().execute(cmd);
             }
-            cmd = fInsert.getCommand();
+            cmd = pInsert.getCommand();
             if (!cmd.isEmpty()) {
                 dcs.getStatement().execute(cmd);
             }
