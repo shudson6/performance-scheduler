@@ -13,7 +13,7 @@ import performancescheduler.core.event.FeatureEvent;
 import performancescheduler.data.Feature;
 
 public class FeatureManager {
-	private List<FeatureDataListener> listenerList;
+	private List<FeatureDataListener> listenerList = new ArrayList<>();
 	private EventFactory eventFactory = EventFactory.newFactory();
 	private boolean eventsEnabled = true;
 	
