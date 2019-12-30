@@ -11,7 +11,7 @@ import performancescheduler.data.Performance;
 
 public class MetaPerformance extends MetaWrapper<Performance> implements Performance {
 
-    protected MetaPerformance(Performance toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
+    MetaPerformance(Performance toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
         super(toWrap, id, createTime, changeTime);
     }
 
