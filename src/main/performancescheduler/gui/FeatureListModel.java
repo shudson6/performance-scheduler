@@ -1,5 +1,8 @@
 package performancescheduler.gui;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,6 +21,7 @@ public class FeatureListModel extends AbstractListModel<Feature> {
 		Objects.requireNonNull(ftrMgr);
 		featureManager = ftrMgr;
 		data = featureManager.getData();
+		featureManager.addFeatureDataListener(event -> setData(featureManager.getData()));
 	}
 
 	@Override
@@ -28,5 +32,14 @@ public class FeatureListModel extends AbstractListModel<Feature> {
 	@Override
 	public Feature getElementAt(int index) {
 		return data.get(index);
+	}
+	
+	private void setData(Collection<Feature> ftrs) {
+		data = new ArrayList<>(ftrs != null ? ftrs.size() : 0);
+		if (ftrs != null) {
+			data.addAll(ftrs);
+			Collections.sort(data);
+		}
+		fireContentsChanged(this, 0, data.size());
 	}
 }

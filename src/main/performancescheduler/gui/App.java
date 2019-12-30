@@ -23,17 +23,16 @@ public class App {
 	private AppFrame appFrame;
 	private FeatureManager ftrMgr;
 	
+	public AppFrame getAppFrame() {
+		return appFrame;
+	}
+	
 	public FeatureManager getFeatureManager() {
 		return ftrMgr;
 	}
 	
 	protected void start() {
 		ftrMgr = new FeatureManager();
-		
-		// TODO: remove this 'test' code
-		FeatureFactory ftrFactory = FeatureFactory.newFactory();
-		ftrMgr.add(ftrFactory.createFeature("Foobar", Rating.R, 105, false, true, true, true));
-		ftrMgr.add(ftrFactory.createFeature("Hungry", Rating.PG, 90, false, true, true, true));
 		
 		appFrame = new AppFrame(this);
 		appFrame.setVisible(true);
