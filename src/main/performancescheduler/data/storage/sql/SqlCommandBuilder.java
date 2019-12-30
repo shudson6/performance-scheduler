@@ -15,14 +15,6 @@ abstract class SqlCommandBuilder<T> {
         return data.add(toAdd);
     }
     
-    public boolean addAll(Collection<T> toAdd) {
-        boolean result = false;
-        for (T t : toAdd) {
-            result |= add(t);
-        }
-        return result;
-    }
-    
     public String getCommand() {
         return buildCommand();
     }
