@@ -18,7 +18,7 @@ public class SqlFeatureLoader {
     FeatureFactory featureFactory = FeatureFactory.newFactory();
     MetaDataFactory metaFactory = MetaDataFactory.newFactory();
     
-    private Map<UUID, MetaFeature> loadFeatures(Statement stmt) throws SQLException {
+    public Map<UUID, MetaFeature> loadFeatures(Statement stmt) throws SQLException {
         ResultSet rs = stmt.executeQuery("select count(uuid) from featuredata where active=true;");
         Map<UUID, MetaFeature> ftrMap = new HashMap<>(rs.getInt(1) * 2);
         rs = stmt.executeQuery("select * from featuredata where active=true;");
