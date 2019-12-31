@@ -73,8 +73,8 @@ public class DbConnectionServiceTest {
         assertEquals(Context.getProperty("DB_USER"), DbConnectionService.getDefaultProperties().getProperty("user"));
         assertEquals(Context.getProperty("DB_PASSWD"), DbConnectionService.getDefaultProperties()
                 .getProperty("password"));
-        assertEquals(SQL.TBL_FEATURE, DbConnectionService.getDefaultProperties().getProperty(SQL.TBL_FEATURE));
-        assertEquals(SQL.TBL_PERFORMANCE, DbConnectionService.getDefaultProperties().getProperty(SQL.TBL_PERFORMANCE));
+        assertEquals(SQL.TBL_FEATURE, DbConnectionService.getDefaultProperties().getProperty("features"));
+        assertEquals(SQL.TBL_PERFORMANCE, DbConnectionService.getDefaultProperties().getProperty("performances"));
     }
     
     @Test

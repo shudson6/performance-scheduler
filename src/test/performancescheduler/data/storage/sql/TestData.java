@@ -1,6 +1,7 @@
 package performancescheduler.data.storage.sql;
 
 import java.time.LocalDateTime;
+import java.util.Properties;
 import java.util.UUID;
 
 import performancescheduler.data.Auditorium;
@@ -13,7 +14,7 @@ import performancescheduler.data.storage.MetaDataFactory;
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
 
-class TestData {
+final class TestData {
     static final String TEST_TBL_FEATURE = "testfeatures";
     static final String TEST_TBL_PERFORMANCE = "testperformances";
     
@@ -46,4 +47,13 @@ class TestData {
     static final Performance pfmBar2 = performanceFactory.createPerformance(ftrBar, ldtStart, aud2);
     static final MetaPerformance mpFoo1 = metaFactory.newMetaPerformance(pfmFoo1, uuid2, ldtCreate, null);
     static final MetaPerformance mpBar2 = metaFactory.newMetaPerformance(pfmBar2, uuid3, ldtCreate, null);
+    
+    static Properties PROPERTIES() {
+        Properties p = new Properties();
+        p.put("features", TEST_TBL_FEATURE);
+        p.put("performances", TEST_TBL_PERFORMANCE);
+        return p;
+    }
+    
+    private TestData() {}
 }
