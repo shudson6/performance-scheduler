@@ -14,6 +14,7 @@ import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaWrapper;
+import performancescheduler.data.storage.TestMetaFeature;
 
 public class PsqlInsertFeatureBuilderTest {
     FeatureFactory ftrFactory = FeatureFactory.newFactory();

@@ -12,6 +12,8 @@ import performancescheduler.data.Rating;
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
 import performancescheduler.data.storage.MetaWrapper;
+import performancescheduler.data.storage.TestMetaFeature;
+import performancescheduler.data.storage.TestMetaPerformance;
 
 public class PsqlDeactivateBuilderTest {
     FeatureFactory ftrFactory = FeatureFactory.newFactory();

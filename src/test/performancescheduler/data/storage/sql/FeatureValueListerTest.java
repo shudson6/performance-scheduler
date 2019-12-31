@@ -12,6 +12,7 @@ import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 import performancescheduler.data.storage.MetaFeature;
+import performancescheduler.data.storage.TestMetaFeature;
 
 public class FeatureValueListerTest {
     FeatureFactory ftrFactory = FeatureFactory.newFactory();

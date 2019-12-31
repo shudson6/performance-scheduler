@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,6 +24,8 @@ import performancescheduler.data.PerformanceFactory;
 import performancescheduler.data.Rating;
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
+import performancescheduler.data.storage.TestMetaFeature;
+import performancescheduler.data.storage.TestMetaPerformance;
 import performancescheduler.util.UUIDGenerator;
 
 public class SqlSaverTest {
@@ -47,7 +50,10 @@ public class SqlSaverTest {
     
     @BeforeClass
     public static void setUpBefore() throws ClassNotFoundException, SQLException {
-        dcs = new DbConnectionService();
+        Properties testProp = new Properties();
+        testProp.put("features", TestData.TEST_TBL_FEATURE);
+        testProp.put("performances", TestData.TEST_TBL_PERFORMANCE);
+        dcs = new DbConnectionService(testProp);
         dcs.start();
         saver = new SqlSaver(dcs);
     }

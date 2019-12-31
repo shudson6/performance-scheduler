@@ -17,6 +17,8 @@ import performancescheduler.data.PerformanceFactory;
 import performancescheduler.data.Rating;
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
+import performancescheduler.data.storage.TestMetaFeature;
+import performancescheduler.data.storage.TestMetaPerformance;
 
 public class PsqlInsertPerformanceBuilderTest {
     UUID uuid = new UUID(0xabcd987612341234L, 0x1234abcdef567890L);

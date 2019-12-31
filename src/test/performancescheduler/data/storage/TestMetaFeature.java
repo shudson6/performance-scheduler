@@ -1,4 +1,4 @@
-package performancescheduler.data.storage.sql;
+package performancescheduler.data.storage;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

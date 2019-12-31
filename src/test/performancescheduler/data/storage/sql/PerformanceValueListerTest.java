@@ -12,6 +12,7 @@ import performancescheduler.data.Auditorium;
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 import performancescheduler.data.storage.MetaPerformance;
+import performancescheduler.data.storage.TestMetaPerformance;
 import performancescheduler.util.UUIDGenerator;
 
 public class PerformanceValueListerTest {
