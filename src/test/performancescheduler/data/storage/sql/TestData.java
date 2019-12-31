@@ -14,18 +14,21 @@ import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
 
 class TestData {
+    static final String TEST_TBL_FEATURE = "testfeatures";
+    static final String TEST_TBL_PERFORMANCE = "testperformances";
+    
     static final FeatureFactory featureFactory = FeatureFactory.newFactory();
     static final PerformanceFactory performanceFactory = PerformanceFactory.newFactory();
     static final MetaDataFactory metaFactory = MetaDataFactory.newFactory();
     
-    static final UUID uuid0 = UUID.fromString("0d725a2e-eccc-1e15-9f37-82d33246a8c3");
-    static final UUID uuid1 = UUID.fromString("1d725a2e-eccc-1e15-9f37-82d33246a8c3");
-    static final UUID uuid2 = UUID.fromString("2d725a2e-eccc-1e15-9f37-82d33246a8c3");
-    static final UUID uuid3 = UUID.fromString("3d725a2e-eccc-1e15-9f37-82d33246a8c3");
-    static final UUID uuid4 = UUID.fromString("4d725a2e-eccc-1e15-9f37-82d33246a8c3");
-    static final UUID uuid5 = UUID.fromString("5d725a2e-eccc-1e15-9f37-82d33246a8c3");
-    static final UUID uuid6 = UUID.fromString("6d725a2e-eccc-1e15-9f37-82d33246a8c3");
-    static final UUID uuid7 = UUID.fromString("7d725a2e-eccc-1e15-9f37-82d33246a8c3");
+    static final UUID uuid0 = UUID.fromString("0d725a2e-dead-beef-9f37-82d33246a8c3");
+    static final UUID uuid1 = UUID.fromString("1d725a2e-dead-beef-9f37-82d33246a8c3");
+    static final UUID uuid2 = UUID.fromString("2d725a2e-dead-beef-9f37-82d33246a8c3");
+    static final UUID uuid3 = UUID.fromString("3d725a2e-dead-beef-9f37-82d33246a8c3");
+    static final UUID uuid4 = UUID.fromString("4d725a2e-dead-beef-9f37-82d33246a8c3");
+    static final UUID uuid5 = UUID.fromString("5d725a2e-dead-beef-9f37-82d33246a8c3");
+    static final UUID uuid6 = UUID.fromString("6d725a2e-dead-beef-9f37-82d33246a8c3");
+    static final UUID uuid7 = UUID.fromString("7d725a2e-dead-beef-9f37-82d33246a8c3");
 
     static final LocalDateTime ldtCreate = LocalDateTime.of(1945, 6, 16, 5, 29);  // first nuclear test
     static final LocalDateTime ldtChange = LocalDateTime.of(1954, 3, 1, 6, 45);   // castle bravo

@@ -5,12 +5,15 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import performancescheduler.util.Context;
 
 public class DbConnectionServiceTest {
     DbConnectionService dcs = null;
@@ -20,7 +23,7 @@ public class DbConnectionServiceTest {
     
     @Before
     public void setUp() throws ClassNotFoundException {
-        dcs = new DbConnectionService();
+        dcs = new DbConnectionService(null);
     }
     
     @After
@@ -32,7 +35,7 @@ public class DbConnectionServiceTest {
     
     @Test
     public void closeIsNopIfConnNull() throws SQLException, ClassNotFoundException {
-        new DbConnectionService().close();
+        new DbConnectionService(null).close();
     }
 
     @Test
@@ -62,5 +65,24 @@ public class DbConnectionServiceTest {
     public void shouldGetClassNotFoundException() throws ClassNotFoundException {
         exception.expect(ClassNotFoundException.class);
         DbConnectionService.loadDriver("foobar");
+    }
+    
+    @Test
+    public void checkDefaultProperties() {
+        assertEquals(Context.getProperty("DB_URL"), DbConnectionService.getDefaultProperties().getProperty("url"));
+        assertEquals(Context.getProperty("DB_USER"), DbConnectionService.getDefaultProperties().getProperty("user"));
+        assertEquals(Context.getProperty("DB_PASSWD"), DbConnectionService.getDefaultProperties()
+                .getProperty("password"));
+        assertEquals(SQL.TBL_FEATURE, DbConnectionService.getDefaultProperties().getProperty(SQL.TBL_FEATURE));
+        assertEquals(SQL.TBL_PERFORMANCE, DbConnectionService.getDefaultProperties().getProperty(SQL.TBL_PERFORMANCE));
+    }
+    
+    @Test
+    public void checkCustomProperties() throws ClassNotFoundException, SQLException {
+        Properties props = new Properties();
+        props.put("test", "testy");
+        DbConnectionService d = new DbConnectionService(props);
+        assertEquals("testy", d.getProperty("test"));
+        d.close();
     }
 }

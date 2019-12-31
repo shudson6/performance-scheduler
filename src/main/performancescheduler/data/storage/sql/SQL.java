@@ -3,6 +3,7 @@ package performancescheduler.data.storage.sql;
 import java.time.format.DateTimeFormatter;
 
 public class SQL {
+    public static final String TBL_AUDITORIUMS = "auditoriums";
 	public static final String TBL_FEATURE = "featuredata";
 	public static final String TBL_PERFORMANCE = "performancedata";
 	

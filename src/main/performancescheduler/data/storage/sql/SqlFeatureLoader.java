@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import performancescheduler.data.Feature;
@@ -17,11 +18,18 @@ import performancescheduler.data.storage.MetaFeature;
 public class SqlFeatureLoader {
     FeatureFactory featureFactory = FeatureFactory.newFactory();
     MetaDataFactory metaFactory = MetaDataFactory.newFactory();
+    String table;
+    
+    public SqlFeatureLoader(String ftrTableName) {
+        Objects.requireNonNull(ftrTableName);
+        table = ftrTableName;
+    }
     
     public Map<UUID, MetaFeature> loadFeatures(Statement stmt) throws SQLException {
-        ResultSet rs = stmt.executeQuery("select count(uuid) from featuredata where active=true;");
+        ResultSet rs = stmt.executeQuery(String.format("SELECT COUNT(%s) FROM %s WHERE %s=TRUE;",
+                SQL.COL_UUID, table, SQL.COL_ACTIVE));
         Map<UUID, MetaFeature> ftrMap = new HashMap<>(rs.getInt(1) * 2);
-        rs = stmt.executeQuery("select * from featuredata where active=true;");
+        rs = stmt.executeQuery(String.format("SELECT * FROM %s WHERE %s=TRUE;", table, SQL.COL_ACTIVE));
         while (rs.next()) {
             ftrMap.put(UUID.fromString(rs.getString(SQL.COL_UUID)), createMetaFeature(rs));
         }

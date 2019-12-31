@@ -28,6 +28,10 @@ public class Context {
         return Auditorium.getInstance(number, null, false, 1);
     }
     
+    public static void setProperty(String propName, String value) {
+        presentContext.setProperty(propName, value);
+    }
+    
     static void dumpProperties() {
         presentContext.forEach((p, v) -> System.out.format("%s = %s%n", p, v));
     }
