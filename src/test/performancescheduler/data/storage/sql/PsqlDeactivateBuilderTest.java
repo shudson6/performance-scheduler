@@ -19,7 +19,7 @@ public class PsqlDeactivateBuilderTest {
     FeatureFactory ftrFactory = FeatureFactory.newFactory();
     UUID uuid = new UUID(0xabcd987612341234L, 0x1234abcdef567890L);
     LocalDateTime ldt = LocalDateTime.of(2020, 3, 27, 19, 15);
-    PsqlDeactivateBuilder pDel = new PsqlDeactivateBuilder();
+    PsqlDeactivateBuilder pDel = new PsqlDeactivateBuilder(TestData.TEST_TBL_FEATURE, TestData.TEST_TBL_PERFORMANCE);
 
     @Test
     public void emptyCommand() {
@@ -42,9 +42,9 @@ public class PsqlDeactivateBuilderTest {
         assertEquals(delstr(mf) + delstr(mp), pDel.getCommand());
     }
     
-    private String delstr(MetaWrapper mw) {
+    private String delstr(MetaWrapper<?> mw) {
         return String.format("UPDATE %s SET %s=false,%s='%s' WHERE %s='%s';", 
-                (mw instanceof MetaPerformance) ? SQL.TBL_PERFORMANCE : SQL.TBL_FEATURE,
+                (mw instanceof MetaPerformance) ? TestData.TEST_TBL_PERFORMANCE : TestData.TEST_TBL_FEATURE,
                 SQL.COL_ACTIVE, SQL.COL_CHANGED, mw.getChangedTimestamp().format(SQL.DATETIME_FMT),
                 SQL.COL_UUID, mw.getUuid().toString());
     }
