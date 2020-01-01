@@ -43,8 +43,8 @@ final class TestData {
     static final MetaFeature mfFoo = metaFactory.newMetaFeature(ftrFoo, uuid0, ldtCreate, null);
     static final MetaFeature mfBar = metaFactory.newMetaFeature(ftrBar, uuid1, ldtCreate, null);
     
-    static final Performance pfmFoo1 = performanceFactory.createPerformance(ftrFoo, ldtStart, aud1);
-    static final Performance pfmBar2 = performanceFactory.createPerformance(ftrBar, ldtStart, aud2);
+    static final Performance pfmFoo1 = performanceFactory.createPerformance(mfFoo, ldtStart, aud1);
+    static final Performance pfmBar2 = performanceFactory.createPerformance(mfBar, ldtStart, aud2);
     static final MetaPerformance mpFoo1 = metaFactory.newMetaPerformance(pfmFoo1, uuid2, ldtCreate, null);
     static final MetaPerformance mpBar2 = metaFactory.newMetaPerformance(pfmBar2, uuid3, ldtCreate, null);
     

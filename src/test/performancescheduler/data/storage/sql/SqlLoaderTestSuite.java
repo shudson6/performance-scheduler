@@ -37,9 +37,9 @@ public class SqlLoaderTestSuite {
             DbConnectionService dbcs = new DbConnectionService(TestData.PROPERTIES());
             dbcs.start();
             dbcs.getStatement().execute(String.format("DELETE FROM %s WHERE CAST(%s AS VARCHAR) LIKE '%%dead-beef%%';", 
-                    TestData.TEST_TBL_FEATURE, SQL.COL_UUID));
-            dbcs.getStatement().execute(String.format("DELETE FROM %s WHERE CAST(%s AS VARCHAR) LIKE '%%dead-beef%%';", 
                     TestData.TEST_TBL_PERFORMANCE, SQL.COL_UUID));
+            dbcs.getStatement().execute(String.format("DELETE FROM %s WHERE CAST(%s AS VARCHAR) LIKE '%%dead-beef%%';", 
+                    TestData.TEST_TBL_FEATURE, SQL.COL_UUID));
             dbcs.close();
         }
     }
