@@ -23,7 +23,7 @@ import performancescheduler.data.storage.TestMetaPerformance;
 public class PsqlInsertPerformanceBuilderTest {
     UUID uuid = new UUID(0xabcd987612341234L, 0x1234abcdef567890L);
     LocalDateTime ldt = LocalDateTime.of(2020, 3, 27, 19, 15);
-    PsqlInsertBuilder<MetaPerformance> pInsert = new PsqlInsertPerformanceBuilder();
+    PsqlInsertBuilder<MetaPerformance> pInsert = new PsqlInsertPerformanceBuilder(TestData.TEST_TBL_PERFORMANCE);
     FeatureFactory ftrFac = FeatureFactory.newFactory();
     PerformanceFactory pfmFac = PerformanceFactory.newFactory();
     Auditorium aud = Auditorium.getInstance(1, null, false, 100);
@@ -62,7 +62,7 @@ public class PsqlInsertPerformanceBuilderTest {
     
     private String testString(Collection<MetaPerformance> mps) {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO " + SQL.TBL_PERFORMANCE + " VALUES ");
+        sb.append("INSERT INTO " + TestData.TEST_TBL_PERFORMANCE + " VALUES ");
         for (MetaPerformance mp : mps) {
             if (mp != null && mp.getWrapped() != null) {
                 sb.append("(");
@@ -101,8 +101,8 @@ public class PsqlInsertPerformanceBuilderTest {
         pvl.columnOrder().stream().filter(s -> !s.equals(SQL.COL_UUID) && !s.equals(SQL.COL_CREATED))
                 .forEach(s -> sb.append(s + "=EXCLUDED." + s + ","));
         sb.replace(sb.lastIndexOf(","), sb.length(), " ");
-        sb.append("WHERE " + SQL.TBL_PERFORMANCE + "." + SQL.COL_UUID + "=EXCLUDED." + SQL.COL_UUID + " ");
-        sb.append("AND " + SQL.TBL_PERFORMANCE + "." + SQL.COL_CHANGED + "<>EXCLUDED." + SQL.COL_CHANGED);
+        sb.append("WHERE " + TestData.TEST_TBL_PERFORMANCE + "." + SQL.COL_UUID + "=EXCLUDED." + SQL.COL_UUID + " ");
+        sb.append("AND " + TestData.TEST_TBL_PERFORMANCE + "." + SQL.COL_CHANGED + "<>EXCLUDED." + SQL.COL_CHANGED);
         sb.append(";");
         return sb.toString();
     }
