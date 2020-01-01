@@ -3,6 +3,7 @@ package performancescheduler.data.storage.sql;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +28,8 @@ public class SqlPerformanceLoader {
         table = pfmTableName;
     }
     
-    public Collection<MetaPerformance> loadPerformances(Statement stmt, Map<UUID, MetaFeature> ftrs) throws SQLException {
+    public Collection<MetaPerformance> loadPerformances(Statement stmt, Map<UUID, MetaFeature> ftrs,
+            LocalDate start, LocalDate end) throws SQLException {
         Collection<MetaPerformance> pfms = createCollection(stmt);
         ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM %s WHERE %s=TRUE;", table, SQL.COL_ACTIVE));
         while (rs.next()) {
@@ -53,5 +55,9 @@ public class SqlPerformanceLoader {
         return perfFactory.createPerformance(ftrs.get(UUID.fromString(rs.getString(SQL.COL_FEATUREID))),
                 LocalDateTime.parse(rs.getString(SQL.COL_DATETIME), SQL.DATETIME_FMT),
                 Context.getAuditorium(rs.getInt(SQL.COL_AUDITORIUM)));
+    }
+    
+    private String dataCmd(LocalDate start, LocalDate end) {
+        // not checked; the loader will only call this with valid dates
     }
 }
