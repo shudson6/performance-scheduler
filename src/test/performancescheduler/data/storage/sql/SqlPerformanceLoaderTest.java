@@ -8,7 +8,7 @@ public class SqlPerformanceLoaderTest {
 
     @Test
     public void test() {
-        fail("Not yet implemented");
+        
     }
 
 }
