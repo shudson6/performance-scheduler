@@ -16,9 +16,9 @@ import performancescheduler.data.storage.MetaDataFactory;
 import performancescheduler.data.storage.MetaFeature;
 
 public class SqlFeatureLoader {
-    FeatureFactory featureFactory = FeatureFactory.newFactory();
-    MetaDataFactory metaFactory = MetaDataFactory.newFactory();
-    String table;
+    private FeatureFactory featureFactory = FeatureFactory.newFactory();
+    private MetaDataFactory metaFactory = MetaDataFactory.newFactory();
+    private String table;
     
     public SqlFeatureLoader(String ftrTableName) {
         Objects.requireNonNull(ftrTableName);
@@ -26,10 +26,8 @@ public class SqlFeatureLoader {
     }
     
     public Map<UUID, MetaFeature> loadFeatures(Statement stmt) throws SQLException {
-        ResultSet rs = stmt.executeQuery(String.format("SELECT COUNT(%s) FROM %s WHERE %s=TRUE;",
-                SQL.COL_UUID, table, SQL.COL_ACTIVE));
-        Map<UUID, MetaFeature> ftrMap = new HashMap<>(rs.getInt(1) * 2);
-        rs = stmt.executeQuery(String.format("SELECT * FROM %s WHERE %s=TRUE;", table, SQL.COL_ACTIVE));
+        Map<UUID, MetaFeature> ftrMap = new HashMap<>(hashMapCap(stmt));
+        ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM %s WHERE %s=TRUE;", table, SQL.COL_ACTIVE));
         while (rs.next()) {
             ftrMap.put(UUID.fromString(rs.getString(SQL.COL_UUID)), createMetaFeature(rs));
         }
@@ -38,12 +36,20 @@ public class SqlFeatureLoader {
     
     private MetaFeature createMetaFeature(ResultSet rs) throws SQLException {
         return metaFactory.newMetaFeature(createFeature(rs), UUID.fromString(rs.getString(SQL.COL_UUID)),
-                LocalDateTime.parse(rs.getString(SQL.COL_CREATED)), LocalDateTime.parse(rs.getString(SQL.COL_CHANGED)));
+                LocalDateTime.parse(rs.getString(SQL.COL_CREATED), SQL.DATETIME_FMT),
+                LocalDateTime.parse(rs.getString(SQL.COL_CHANGED), SQL.DATETIME_FMT));
     }
     
     private Feature createFeature(ResultSet rs) throws SQLException {
         return featureFactory.createFeature(rs.getString(SQL.COL_TITLE), Rating.valueOf(rs.getString(SQL.COL_RATING)),
                 rs.getInt(SQL.COL_RUNTIME), rs.getBoolean(SQL.COL_IS3D), rs.getBoolean(SQL.COL_CC),
                 rs.getBoolean(SQL.COL_OC), rs.getBoolean(SQL.COL_DA));
+    }
+    
+    private int hashMapCap(Statement stmt) throws SQLException {
+        ResultSet rs = stmt.executeQuery(String.format("SELECT COUNT(%s) FROM %s WHERE %s=TRUE;",
+                SQL.COL_UUID, table, SQL.COL_ACTIVE));
+        rs.next();
+        return rs.getInt(1) * 2;
     }
 }

@@ -50,10 +50,7 @@ public class SqlSaverTest {
     
     @BeforeClass
     public static void setUpBefore() throws ClassNotFoundException, SQLException {
-        Properties testProp = new Properties();
-        testProp.put("features", TestData.TEST_TBL_FEATURE);
-        testProp.put("performances", TestData.TEST_TBL_PERFORMANCE);
-        dcs = new DbConnectionService(testProp);
+        dcs = new DbConnectionService(TestData.PROPERTIES());
         dcs.start();
         saver = new SqlSaver(dcs);
     }
@@ -77,21 +74,21 @@ public class SqlSaverTest {
     
     @After
     public void tearDown() throws SQLException, IOException {
-        dcs.getStatement().execute(String.format(DELETE, SQL.TBL_PERFORMANCE));
-        dcs.getStatement().execute(String.format(DELETE, SQL.TBL_FEATURE));
+        dcs.getStatement().execute(String.format(DELETE, TestData.TEST_TBL_PERFORMANCE));
+        dcs.getStatement().execute(String.format(DELETE, TestData.TEST_TBL_FEATURE));
     }
 
     @Test
     public void saveFeature() throws IOException, SQLException {
         saver.save(Arrays.asList(mfFoobar), null);
-        assertEquals(1, selectCount(SQL.TBL_FEATURE));
+        assertEquals(1, selectCount(TestData.TEST_TBL_FEATURE));
     }
     
     @Test
     public void shouldUpdateFeatureWithoutError() throws IOException, SQLException {
         saver.save(Arrays.asList(mfFoobar), null);
         saver.save(Arrays.asList(mfFoobar2), null);
-        assertEquals(1, selectCount(SQL.TBL_FEATURE));
+        assertEquals(1, selectCount(TestData.TEST_TBL_FEATURE));
     }
     
     @Test
@@ -108,22 +105,22 @@ public class SqlSaverTest {
     @Test
     public void shouldSaveFeatureAndPerformance() throws IOException, SQLException {
         saver.save(Arrays.asList(mfFoobar), Arrays.asList(mpFoobar));
-        assertEquals(1, selectCount(SQL.TBL_FEATURE));
-        assertEquals(1, selectCount(SQL.TBL_PERFORMANCE));
+        assertEquals(1, selectCount(TestData.TEST_TBL_FEATURE));
+        assertEquals(1, selectCount(TestData.TEST_TBL_PERFORMANCE));
     }
     
     @Test
     public void featureAndPerformanceShouldBeRemoved() throws IOException, SQLException {
         saver.save(Arrays.asList(mfFoobar), Arrays.asList(mpFoobar));
-        assertEquals(1, selectCount(SQL.TBL_FEATURE));
-        assertEquals(1, selectCount(SQL.TBL_PERFORMANCE));
+        assertEquals(1, selectCount(TestData.TEST_TBL_FEATURE));
+        assertEquals(1, selectCount(TestData.TEST_TBL_PERFORMANCE));
         MetaFeature mfDelete = new TestMetaFeature(null, mfFoobar.getUuid(), mfFoobar.getCreatedTimestamp(),
                 testChanged);
         MetaPerformance mpDelete = new TestMetaPerformance(null, mpFoobar.getUuid(), mpFoobar.getCreatedTimestamp(),
                 testChanged);
         saver.save(Arrays.asList(mfDelete), Arrays.asList(mpDelete));
-        assertEquals(1, selectDeleted(SQL.TBL_FEATURE));
-        assertEquals(1, selectDeleted(SQL.TBL_PERFORMANCE));
+        assertEquals(1, selectDeleted(TestData.TEST_TBL_FEATURE));
+        assertEquals(1, selectDeleted(TestData.TEST_TBL_PERFORMANCE));
     }
 
     private int selectCount(String tbl) throws SQLException, IOException {

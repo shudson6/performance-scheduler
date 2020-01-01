@@ -4,8 +4,8 @@ import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
 
 public class PsqlInsertPerformanceBuilder extends PsqlInsertBuilder<MetaPerformance> {
-    public PsqlInsertPerformanceBuilder() {
-        super(new PerformanceValueLister(), SQL.TBL_PERFORMANCE);
+    public PsqlInsertPerformanceBuilder(String tableName) {
+        super(new PerformanceValueLister(), tableName);
     }
     
     @Override
