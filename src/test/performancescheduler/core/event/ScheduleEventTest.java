@@ -53,4 +53,11 @@ public class ScheduleEventTest {
         exception.expectMessage("Action");
         new ScheduleEvent<String>(null, null, -50);
     }
+    
+    @Test
+    public void shouldThrowIllegalArgumentExceptionForMismatchedCollections() {
+        exception.expect(IllegalArgumentException.class);
+        exception.expectMessage("same size");
+        new ScheduleEvent<String>(abcList, Arrays.asList("foo", "bar"), ScheduleEvent.UPDATE);
+    }
 }

@@ -11,6 +11,7 @@ import performancescheduler.core.event.EventFactory;
 import performancescheduler.core.event.FeatureDataListener;
 import performancescheduler.core.event.FeatureEvent;
 import performancescheduler.data.Feature;
+import performancescheduler.data.FeatureFactory;
 
 public class FeatureManager {
 	private List<FeatureDataListener> listenerList;
@@ -18,6 +19,8 @@ public class FeatureManager {
 	private boolean eventsEnabled = true;
 	
 	private Collection<Feature> featureData = new TreeSet<>();
+	
+	public final FeatureFactory featureFactory = FeatureFactory.newFactory();
 	
 	public boolean add(Feature toAdd) {
 		boolean result = featureData.add(toAdd);
