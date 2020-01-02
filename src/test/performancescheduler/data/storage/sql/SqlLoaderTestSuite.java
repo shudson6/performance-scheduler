@@ -16,6 +16,7 @@ import org.junit.runners.Suite;
     SqlFeatureLoaderTest.class,
     SqlPerformanceLoaderTest.class,
     SqlLoaderTest.class,
+    SqlStorageTest.class,
     SqlLoaderTestSuite.RemoveTestData.class
 })
 

@@ -25,6 +25,7 @@ public class SQL {
 	public static final String COL_AUDITORIUM = "auditorium";
 	
 	public static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	public static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	private SQL() {}
 }

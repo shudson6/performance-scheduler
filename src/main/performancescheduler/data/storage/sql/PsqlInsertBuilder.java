@@ -31,6 +31,7 @@ class PsqlInsertBuilder<T extends MetaWrapper<?>> extends SqlCommandBuilder<T> {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO ");
         sb.append(tbl);
+        sb.append(" " + valueOrder() + " ");
         sb.append(" VALUES ");
         getData().forEach(f -> sb.append(vl.listValues(f) + ","));
         sb.replace(sb.lastIndexOf(","), sb.length(), " ");
@@ -52,5 +53,13 @@ class PsqlInsertBuilder<T extends MetaWrapper<?>> extends SqlCommandBuilder<T> {
         sb.append(String.format("WHERE %1$s.%2$s=EXCLUDED.%2$s AND %1$s.%3$s<>EXCLUDED.%3$s", 
                 tbl, SQL.COL_UUID, SQL.COL_CHANGED));
         return sb.toString();
+    }
+    
+    private String valueOrder() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("(");
+    	vl.columnOrder().forEach(s -> sb.append(s + ","));
+    	sb.replace(sb.lastIndexOf(","), sb.length(), ")");
+    	return sb.toString();
     }
 }

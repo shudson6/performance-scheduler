@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
@@ -14,6 +15,8 @@ import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
 
 public class SqlPerformanceLoaderTest {
+	static LocalDateTime early = LocalDateTime.of(1900, 10, 19, 13, 37);
+	static LocalDateTime late = LocalDateTime.of(2020, 1, 1, 13, 37);
 
     @Test
     public void test() throws ClassNotFoundException, SQLException, IOException {
@@ -22,10 +25,9 @@ public class SqlPerformanceLoaderTest {
         Map<UUID, MetaFeature> ftrMap = new SqlFeatureLoader(dbcs.getProperty("features"))
                 .loadFeatures(dbcs.getStatement());
         Collection<MetaPerformance> perf = new SqlPerformanceLoader(dbcs.getProperty("performances"))
-                .loadPerformances(dbcs.getStatement(), ftrMap);
+                .loadPerformances(dbcs.getStatement(), ftrMap, early.toLocalDate(), late.toLocalDate());
         assertEquals(2, perf.size());
         assertTrue(perf.contains(TestData.mpFoo1));
         assertTrue(perf.contains(TestData.mpBar2));
     }
-
 }

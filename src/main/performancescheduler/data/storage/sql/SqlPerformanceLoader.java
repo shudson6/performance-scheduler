@@ -30,17 +30,15 @@ public class SqlPerformanceLoader {
     
     public Collection<MetaPerformance> loadPerformances(Statement stmt, Map<UUID, MetaFeature> ftrs,
             LocalDate start, LocalDate end) throws SQLException {
-        Collection<MetaPerformance> pfms = createCollection(stmt);
-        ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM %s WHERE %s=TRUE;", table, SQL.COL_ACTIVE));
+        Collection<MetaPerformance> pfms = createCollection(stmt.executeQuery(countCmd(start, end)));
+        ResultSet rs = stmt.executeQuery(dataCmd(start, end));
         while (rs.next()) {
             pfms.add(createMetaPerformance(rs, ftrs));
         }
         return pfms;
     }
     
-    private Collection<MetaPerformance> createCollection(Statement stmt) throws SQLException {
-        ResultSet rs = stmt.executeQuery(String.format("SELECT COUNT(%s) FROM %s WHERE %s=TRUE;",
-                SQL.COL_UUID, table, SQL.COL_ACTIVE));
+    private Collection<MetaPerformance> createCollection(ResultSet rs) throws SQLException {
         rs.next();
         return new ArrayList<>(rs.getInt(1));
     }
@@ -58,6 +56,17 @@ public class SqlPerformanceLoader {
     }
     
     private String dataCmd(LocalDate start, LocalDate end) {
+    	return command("*", start, end);
+    }
+    
+    private String countCmd(LocalDate start, LocalDate end) {
+    	return command(String.format("COUNT(%s)", SQL.COL_UUID), start, end);
+    }
+    
+    private String command(String select, LocalDate start, LocalDate end) {
         // not checked; the loader will only call this with valid dates
+    	return String.format("SELECT %s FROM %s WHERE %s=TRUE AND %s>=CAST('%s' AS DATE) AND %s<=CAST('%s' AS DATE);",
+    			select, table, SQL.COL_ACTIVE, SQL.COL_DATETIME, start.format(SQL.DATE_FMT),
+    			SQL.COL_DATETIME, end.format(SQL.DATE_FMT));
     }
 }
