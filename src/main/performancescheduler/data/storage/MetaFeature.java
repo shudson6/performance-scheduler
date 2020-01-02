@@ -8,7 +8,7 @@ import performancescheduler.data.Rating;
 
 public class MetaFeature extends MetaWrapper<Feature> implements Feature {
     
-    protected MetaFeature(Feature toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
+    MetaFeature(Feature toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
         super(toWrap, id, createTime, changeTime);
     }
 
@@ -32,7 +32,7 @@ public class MetaFeature extends MetaWrapper<Feature> implements Feature {
 
     @Override
     public Rating getRating() {
-        return (wrapped != null) ? wrapped.getRating() : null;
+        return (wrapped != null) ? wrapped.getRating() : Rating.NR;
     }
 
     @Override
