@@ -4,10 +4,22 @@ import java.util.Objects;
 
 import performancescheduler.data.storage.MetaWrapper;
 
+/**
+ * Class used to generate SQL INSERT commands.
+ * @author Steven Hudson
+ *
+ * @param <T> the type of data to be inserted
+ */
 class PsqlInsertBuilder<T extends MetaWrapper<?>> extends SqlCommandBuilder<T> {
     private ValueLister<T> vl;
     private String tbl;
     
+    /**
+     * Create a new instance.
+     * @param valueLister instance to provide the values for objects to be inserted as well as the general ordering of
+     * those values
+     * @param tableName name of the table these values will be inserted into
+     */
     public PsqlInsertBuilder(ValueLister<T> valueLister, String tableName) {
         Objects.requireNonNull(valueLister);
         Objects.requireNonNull(tableName);

@@ -6,6 +6,10 @@ import java.util.List;
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaWrapper;
 
+/**
+ * Class used to enumerate the values that define a feature instance.
+ * @author Steven Hudson
+ */
 class FeatureValueLister extends ValueLister<MetaFeature> {
 	
 	@Override

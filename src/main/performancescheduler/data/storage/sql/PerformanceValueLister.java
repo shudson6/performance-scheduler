@@ -6,6 +6,10 @@ import java.util.List;
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
 
+/**
+ * Class used to enumerate the values that describe performance objects.
+ * @author Steven Hudson
+ */
 public class PerformanceValueLister extends ValueLister<MetaPerformance> {
 
     @Override

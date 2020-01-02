@@ -2,6 +2,10 @@ package performancescheduler.data.storage.sql;
 
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Static class that provides constants used by SQL classes as well as the database.
+ * @author Steven Hudson
+ */
 public class SQL {
     public static final String TBL_AUDITORIUMS = "auditoriums";
 	public static final String TBL_FEATURE = "featuredata";

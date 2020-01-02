@@ -6,10 +6,20 @@ import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
 import performancescheduler.data.storage.MetaWrapper;
 
+/**
+ * Class used to deactivate or "delete" data entries. This class is concerned with feature and performance data; both
+ * types have the {@code active} column so separate 'feature' and 'performance' versions are not required.
+ * @author Steven Hudson
+ */
 public class PsqlDeactivateBuilder extends SqlCommandBuilder<MetaWrapper<?>> {
     private final String featureTable;
     private final String performanceTable;
 
+    /**
+     * Create a new instance.
+     * @param ftrTable table containing features to be deactivated
+     * @param pfmTable table containing performances to be deactivated
+     */
     public PsqlDeactivateBuilder(String ftrTable, String pfmTable) {
         Objects.requireNonNull(ftrTable);
         Objects.requireNonNull(pfmTable);
