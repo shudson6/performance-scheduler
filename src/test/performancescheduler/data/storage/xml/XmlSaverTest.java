@@ -25,6 +25,7 @@ import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 import performancescheduler.data.Rating;
 import performancescheduler.data.storage.MetaFeature;
+import performancescheduler.data.storage.TestMetaFeature;
 import performancescheduler.util.ChecksumVerifier;
 import performancescheduler.util.UUIDGenerator;
 
@@ -119,7 +120,7 @@ public class XmlSaverTest {
     
     // this class is here to test the mapFeatures method (private in XmlSaver)
     // by always reporting the same hashCode, it forces the method to generate unique mappings
-    static class SpecialFeature extends MetaFeature {
+    static class SpecialFeature extends TestMetaFeature {
         static final UUIDGenerator idGen = new UUIDGenerator();
         SpecialFeature(String title, Rating rating, int runtime) {
             super(ftrFac.createFeature(title, rating, runtime, false, true, false, true),

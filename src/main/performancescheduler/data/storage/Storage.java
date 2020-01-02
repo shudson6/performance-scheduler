@@ -11,17 +11,13 @@ import performancescheduler.data.Performance;
  */
 public interface Storage {
     /**
-     * Load in the Features.
-     * @return a new {@code Collection} of {@code Feature}s
+     * Load in the data. Both parameters are required to be non-null; they will be cleared and populated with
+     * objects loaded from storage.
+     * @param featureData {@code Collection} to receive feature objects
+     * @param performanceData {@code Collection} to receive performance objects
      * @throws IOException in event of failure
      */
-    public Collection<Feature> restoreFeatureData() throws IOException;
-    /**
-     * Load in the Performances.
-     * @return a new {@code Collection} of {@code Performance}s
-     * @throws IOException in event of failure
-     */
-    public Collection<Performance> restorePerformanceData() throws IOException;
+    public void restore(Collection<Feature> featureData, Collection<Performance> performanceData) throws IOException;
     /**
      * Save what you've been working on. Whether or not either parameter may be null is up to the implementation. 
      * @param featureData the features to save

@@ -120,7 +120,7 @@ public class MetaFeatureTest {
     public void checkGettersWhenWrappingNull() {
     	MetaFeature mfn = metaFactory.newMetaFeature(null);
     	assertEquals(MetaWrapper.NULLSTR, mfn.getTitle());
-    	assertEquals(null, mfn.getRating());
+    	assertEquals(Rating.NR, mfn.getRating());
     	assertEquals(0, mfn.getRuntime());
     	assertFalse(mfn.is3d());
     	assertFalse(mfn.hasClosedCaptions());

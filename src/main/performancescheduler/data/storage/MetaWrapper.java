@@ -15,6 +15,9 @@ import java.util.UUID;
  * @author Steven Hudson
  */
 public class MetaWrapper<T> {
+    /**
+     * Returned by certain pass-through methods when the wrapped object is {@code null}.
+     */
 	public static final String NULLSTR = "[null]";
 	
     private final UUID uuid;
@@ -22,7 +25,7 @@ public class MetaWrapper<T> {
     private final LocalDateTime changed;
     protected T wrapped;
     
-    MetaWrapper(T toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
+    public MetaWrapper(T toWrap, UUID id, LocalDateTime createTime, LocalDateTime changeTime) {
         Objects.requireNonNull(id, "MetaWrapper: id must be non-null.");
         Objects.requireNonNull(createTime, "MetaWrapper: creation time must be non-null.");
         
@@ -42,6 +45,10 @@ public class MetaWrapper<T> {
     
     public LocalDateTime getChangedTimestamp() {
         return changed;
+    }
+    
+    public T getWrapped() {
+        return wrapped;
     }
     
     @Override
