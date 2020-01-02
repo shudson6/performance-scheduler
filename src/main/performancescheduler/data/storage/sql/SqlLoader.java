@@ -19,7 +19,7 @@ public class SqlLoader {
         dbcs = connection;
     }
     
-    public void load(Collection<MetaFeature> features, Collection<MetaPerformance> performances,
+    public void load(Collection<? super MetaFeature> features, Collection<? super MetaPerformance> performances,
             LocalDate start, LocalDate end) throws IOException, SQLException {
         // can never load performances w/o features (dependency)
         Objects.requireNonNull(features);

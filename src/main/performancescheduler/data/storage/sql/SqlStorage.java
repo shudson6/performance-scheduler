@@ -18,10 +18,10 @@ public class SqlStorage {
     	dbcs.start();
     }
 
-    public void restore(Collection<MetaFeature> featureData, Collection<MetaPerformance> performanceData,
+    public void restore(Collection<? super MetaFeature> featureData, Collection<? super MetaPerformance> perfData,
     		LocalDate start, LocalDate end) throws IOException, SQLException {
         Objects.requireNonNull(featureData);
-        new SqlLoader(dbcs).load(featureData, performanceData, start, end);
+        new SqlLoader(dbcs).load(featureData, perfData, start, end);
     }
 
     public void store(Collection<MetaFeature> featureData, Collection<MetaPerformance> performanceData) 
