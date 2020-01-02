@@ -3,6 +3,7 @@ package performancescheduler.gui.action;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -33,7 +34,8 @@ public class ImportXmlAction extends AbstractAction {
 		JFileChooser jfc = new JFileChooser(System.getProperty("user.dir"));
 		if (jfc.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
 			try {
-				Collection<Feature> ftrs = 	XmlStorage.getInstance(jfc.getSelectedFile()).restoreFeatureData();
+				Collection<Feature> ftrs = new ArrayList<>(); 
+				XmlStorage.getInstance(jfc.getSelectedFile()).restore(ftrs, null);
 				ftrMgr.setData(ftrs);
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(parent, "Failed to import data.");

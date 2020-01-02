@@ -3,6 +3,7 @@ package performancescheduler.gui;
 import java.util.Objects;
 
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 
 import performancescheduler.data.Feature;
 
@@ -11,6 +12,7 @@ public class AppFrame extends javax.swing.JFrame {
 	
 	private final App app;
 	private JList<Feature> featureList;
+	private JScrollPane ftrListPane;
 
 	public AppFrame(final App app) {
 		super("Woot");
@@ -25,7 +27,8 @@ public class AppFrame extends javax.swing.JFrame {
 		
 		featureList = new JList<>(new FeatureListModel(app.getFeatureManager()));
 		featureList.setCellRenderer(new FeaturePanelCellRenderer());
-		setContentPane(featureList);
+		ftrListPane = new JScrollPane(featureList);
+		setContentPane(ftrListPane);
 		
 		pack();
 	}
