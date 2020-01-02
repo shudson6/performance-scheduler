@@ -27,6 +27,7 @@ public class SqlStorageTest {
     @AfterClass
     public static void after() throws ClassNotFoundException, SQLException, IOException {
         SqlTestUtil.removeTestData();
+        store.close();
     }
 	
 	@Test
