@@ -3,6 +3,7 @@ package performancescheduler.data.storage.sql;
 import static org.junit.Assert.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
+import performancescheduler.data.storage.MetaDataFactory;
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaWrapper;
 import performancescheduler.data.storage.TestMetaFeature;
@@ -26,14 +28,10 @@ public class PsqlInsertFeatureBuilderTest {
     @Test
     public void insertSingleFeature() {
         Feature ftr = ftrFactory.createFeature("Foo", Rating.R, 90, false, true, true, true);
+        MetaFeature mftr = MetaDataFactory.newFactory().newMetaFeature(ftr, uuid, ldt, ldt);
         pInsert.clear();
-        pInsert.add(new TestMetaFeature(ftr, uuid, ldt, ldt));
-        assertEquals("INSERT INTO featuredata VALUES ('abcd9876-1234-1234-1234-abcdef567890','Foo','R',90,"
-                + "false,true,true,true,'2020-03-27 19:15:00','2020-03-27 19:15:00',true) ON CONFLICT (uuid) DO UPDATE "
-                + "SET title=EXCLUDED.title,rating=EXCLUDED.rating,runtime=EXCLUDED.runtime,is3d=EXCLUDED.is3d,"
-                + "cc=EXCLUDED.cc,oc=EXCLUDED.oc,da=EXCLUDED.da,changed=EXCLUDED.changed,active=EXCLUDED.active "
-                + "WHERE featuredata.uuid=EXCLUDED.uuid AND featuredata.changed<>EXCLUDED.changed;",
-                pInsert.getCommand());
+        pInsert.add(mftr);
+        assertEquals(testString(Arrays.asList(mftr)), pInsert.getCommand());
     }
     
     @Test
@@ -58,7 +56,10 @@ public class PsqlInsertFeatureBuilderTest {
 
     private String testString(Collection<MetaFeature> features) {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO " + SQL.TBL_FEATURE + " VALUES ");
+        sb.append("INSERT INTO "+ SQL.TBL_FEATURE + " (");
+        fvl.columnOrder().forEach(s -> sb.append(s + ","));
+        sb.replace(sb.lastIndexOf(","), sb.length(), ")");
+        sb.append(" VALUES ");
         for (MetaFeature mf : features) {
             if (mf != null && !mf.getTitle().equals(MetaWrapper.NULLSTR)) {
                 sb.append("(");

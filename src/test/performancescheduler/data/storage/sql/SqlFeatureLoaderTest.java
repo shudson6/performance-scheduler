@@ -7,12 +7,21 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import performancescheduler.data.storage.MetaFeature;
 
 public class SqlFeatureLoaderTest {
-
+    @BeforeClass
+    public static void before() throws ClassNotFoundException, IOException, SQLException {
+        SqlTestUtil.insertTestData();
+    }
+    
     @Test
     public void test() throws ClassNotFoundException, SQLException, IOException {
         DbConnectionService dbcs = new DbConnectionService(TestData.PROPERTIES());
@@ -23,5 +32,9 @@ public class SqlFeatureLoaderTest {
         assertTrue(ftrMap.containsValue(TestData.mfBar));
         assertTrue(ftrMap.containsValue(TestData.mfFoo));
     }
-
+    
+    @AfterClass
+    public static void after() throws ClassNotFoundException, SQLException, IOException {
+        SqlTestUtil.removeTestData();
+    }
 }

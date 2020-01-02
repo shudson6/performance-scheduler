@@ -31,7 +31,7 @@ class PsqlInsertBuilder<T extends MetaWrapper<?>> extends SqlCommandBuilder<T> {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO ");
         sb.append(tbl);
-        sb.append(" " + valueOrder() + " ");
+        sb.append(" " + valueOrder());
         sb.append(" VALUES ");
         getData().forEach(f -> sb.append(vl.listValues(f) + ","));
         sb.replace(sb.lastIndexOf(","), sb.length(), " ");

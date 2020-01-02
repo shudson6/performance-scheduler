@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -22,6 +23,11 @@ public class SqlStorageTest {
 	public static void setUpBefore() throws ClassNotFoundException, SQLException {
 		store = new SqlStorage(TestData.PROPERTIES());
 	}
+    
+    @AfterClass
+    public static void after() throws ClassNotFoundException, SQLException, IOException {
+        SqlTestUtil.removeTestData();
+    }
 	
 	@Test
 	public void saveTestData() throws IOException {

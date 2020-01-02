@@ -62,7 +62,10 @@ public class PsqlInsertPerformanceBuilderTest {
     
     private String testString(Collection<MetaPerformance> mps) {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO " + TestData.TEST_TBL_PERFORMANCE + " VALUES ");
+        sb.append("INSERT INTO " + TestData.TEST_TBL_PERFORMANCE + " (");
+        pvl.columnOrder().forEach(s -> sb.append(s + ","));
+        sb.replace(sb.lastIndexOf(","), sb.length(), ") ");
+        sb.append("VALUES ");
         for (MetaPerformance mp : mps) {
             if (mp != null && mp.getWrapped() != null) {
                 sb.append("(");
