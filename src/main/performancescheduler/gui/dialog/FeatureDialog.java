@@ -3,6 +3,7 @@ package performancescheduler.gui.dialog;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
@@ -44,6 +46,7 @@ public class FeatureDialog extends JDialog {
     }
     
     private void init() {
+    	Insets insets = new Insets(2, 2, 2, 2);
         pane = new JPanel(new GridBagLayout());
         
         titleLabel = new JLabel("Title");
@@ -51,17 +54,19 @@ public class FeatureDialog extends JDialog {
         titleLabelConst.gridx = 0;
         titleLabelConst.gridy = 0;
         titleLabelConst.anchor = GridBagConstraints.LINE_END;
+        titleLabelConst.insets = insets;
         pane.add(titleLabel, titleLabelConst);
         titleField = new JTextField(32);
         GridBagConstraints titleFieldConst = new GridBagConstraints();
         titleFieldConst.gridx = 1;
         titleFieldConst.gridy = 0;
-        titleFieldConst.gridwidth = 8;
+        titleFieldConst.gridwidth = 6;
         titleFieldConst.fill = GridBagConstraints.HORIZONTAL;
+        titleFieldConst.insets = insets;
         pane.add(titleField, titleFieldConst);
         
         is3dCheckBox = new JCheckBox("3D");
-        is3dCheckBox.setHorizontalTextPosition(JCheckBox.RIGHT);
+        is3dCheckBox.setHorizontalTextPosition(JCheckBox.LEFT);
         GridBagConstraints is3dConst = new GridBagConstraints();
         is3dConst.gridx = 1;
         is3dConst.gridy = 1;
@@ -72,12 +77,17 @@ public class FeatureDialog extends JDialog {
         GridBagConstraints ratingLabelConst = new GridBagConstraints();
         ratingLabelConst.gridx = 0;
         ratingLabelConst.gridy = 2;
+        ratingLabelConst.gridwidth = 2;
         ratingLabelConst.anchor = GridBagConstraints.LINE_END;
+        ratingLabelConst.insets = insets;
         pane.add(ratingLabel, ratingLabelConst);
         ratingComboBox = new JComboBox<>(new DefaultComboBoxModel<>(Rating.values()));
         GridBagConstraints ratingComboConst = new GridBagConstraints();
-        ratingComboConst.gridx = 1;
+        ratingComboConst.gridx = 2;
         ratingComboConst.gridy = 2;
+        ratingComboConst.gridwidth = 2;
+        ratingComboConst.anchor = GridBagConstraints.LINE_START;
+        ratingComboConst.insets = insets;
         pane.add(ratingComboBox, ratingComboConst);
         
         runtimeLabel = new JLabel("Runtime");
@@ -86,33 +96,40 @@ public class FeatureDialog extends JDialog {
         runtimeLabelConst.gridy = 3;
         runtimeLabelConst.gridwidth = 2;
         runtimeLabelConst.anchor = GridBagConstraints.LINE_END;
+        runtimeLabelConst.insets = insets;
         pane.add(runtimeLabel, runtimeLabelConst);
         runtimeSpinner = new JSpinner(new SpinnerNumberModel(100, 1, 720, 1));
         GridBagConstraints runtimeSpinnerConst = new GridBagConstraints();
-        runtimeSpinnerConst.gridx = 0;
+        runtimeSpinnerConst.gridx = 2;
         runtimeSpinnerConst.gridy = 3;
+        runtimeSpinnerConst.gridwidth = 2;
+        runtimeSpinnerConst.anchor = GridBagConstraints.LINE_START;
+        runtimeSpinnerConst.insets = insets;
         pane.add(runtimeSpinner, runtimeSpinnerConst);
         
         amenitiesPanel = initAmenititesPanel();
         GridBagConstraints amenitiesConst = new GridBagConstraints();
-        amenitiesConst.gridx = 5;
+        amenitiesConst.gridx = 4;
         amenitiesConst.gridy = 1;
-        amenitiesConst.gridwidth = 4;
+        amenitiesConst.gridwidth = 3;
         amenitiesConst.gridheight = 3;
+        amenitiesConst.anchor = GridBagConstraints.LINE_END;
         pane.add(amenitiesPanel, amenitiesConst);
         
         confirmButton = new JButton("Confirm");
         GridBagConstraints confirmConst = new GridBagConstraints();
-        confirmConst.gridx = 5;
+        confirmConst.gridx = 1;
         confirmConst.gridy = 4;
         confirmConst.gridwidth = 2;
+        confirmConst.insets = insets;
         pane.add(confirmButton, confirmConst);
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> setVisible(false));
         GridBagConstraints cancelConst = new GridBagConstraints();
-        cancelConst.gridx = 7;
+        cancelConst.gridx = 3;
         cancelConst.gridy = 4;
         cancelConst.gridwidth = 2;
+        cancelConst.insets = insets;
         pane.add(cancelButton, cancelConst);
         
         setContentPane(pane);
@@ -139,6 +156,9 @@ public class FeatureDialog extends JDialog {
     }
     
     public static void main(String[] args) {
-        new FeatureDialog(null).setVisible(true);
+    	SwingUtilities.invokeLater(() -> {
+    		new FeatureDialog(null).setVisible(true);
+    		System.exit(0);
+    	});
     }
 }
