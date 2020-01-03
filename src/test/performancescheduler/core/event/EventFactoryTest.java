@@ -19,8 +19,8 @@ public class EventFactoryTest {
     Feature ftr2 = FeatureFactory.newFactory().createFeature("Ftr2", Rating.PG, 100, false, true, true, true);
     Auditorium aud = Auditorium.getInstance(1, null, false, 100);
     LocalDateTime ldt = LocalDateTime.now();
-    Performance pfm1 = PerformanceFactory.newFactory().createPerformance(ftr1, ldt, aud);
-    Performance pfm2 = PerformanceFactory.newFactory().createPerformance(ftr2, ldt, aud);
+    Performance pfm1 = PerformanceFactory.newFactory().createPerformance(ftr1, ldt, aud.getNumber());
+    Performance pfm2 = PerformanceFactory.newFactory().createPerformance(ftr2, ldt, aud.getNumber());
     EventFactory eventFactory = EventFactory.newFactory();
 
     @Test

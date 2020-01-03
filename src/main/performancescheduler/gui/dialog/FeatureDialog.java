@@ -4,14 +4,17 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Objects;
 
 import javax.swing.BoxLayout;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -25,16 +28,22 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import performancescheduler.data.Feature;
+import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 
 
 public class FeatureDialog extends JDialog {
+	
+	private boolean confirmed = false;
+	private FeatureFactory featureFactory;
 
     private JPanel pane;
     private JLabel titleLabel;
     private JTextField titleField;
     private JLabel ratingLabel;
     private JComboBox<Rating> ratingComboBox;
+    private ComboBoxModel<Rating> ratingComboBoxModel;
     private JLabel runtimeLabel;
     private JSpinner runtimeSpinner;
     private JLabel is3dLabel;
@@ -46,9 +55,38 @@ public class FeatureDialog extends JDialog {
     private JButton confirmButton;
     private JButton cancelButton;
     
-    public FeatureDialog(Frame parent) {
+    public FeatureDialog(Frame parent, FeatureFactory ftrFact) {
         super(parent, true);
+        Objects.requireNonNull(ftrFact);
+        
+        featureFactory = ftrFact;
         init();
+    }
+    
+    public boolean showNewFeatureDialog() {
+    	confirmButton.setText("Create");
+    	setVisible(true);
+    	return confirmed;
+    }
+    
+    public Feature getCreatedFeature() {
+    	if (confirmed) {
+    		return featureFactory.createFeature(titleField.getText(), 
+    				ratingComboBox.getItemAt(ratingComboBox.getSelectedIndex()),
+    				(Integer) runtimeSpinner.getValue(),
+    				is3dCheckBox.isSelected(),
+    				ccCheckBox.isSelected(),
+    				ocCheckBox.isSelected(),
+    				daCheckBox.isSelected());
+    	} else {
+    		return null;
+    	}
+    }
+    
+    protected boolean validateInputs() {
+    	// honestly we just need a non-empty text field. the other values are constrained by the nature of their
+    	// input methods
+    	return !titleField.getText().isEmpty();
     }
     
     private void init() {
@@ -94,7 +132,8 @@ public class FeatureDialog extends JDialog {
         ratingLabelConst.anchor = GridBagConstraints.LINE_END;
         ratingLabelConst.insets = insets;
         pane.add(ratingLabel, ratingLabelConst);
-        ratingComboBox = new JComboBox<>(new DefaultComboBoxModel<>(Rating.values()));
+        ratingComboBoxModel = new DefaultComboBoxModel<>(Rating.values());
+        ratingComboBox = new JComboBox<>(ratingComboBoxModel);
         GridBagConstraints ratingComboConst = new GridBagConstraints();
         ratingComboConst.gridx = 3;
         ratingComboConst.gridy = 1;
@@ -130,6 +169,7 @@ public class FeatureDialog extends JDialog {
         pane.add(amenitiesPanel, amenitiesConst);
         
         confirmButton = new JButton("Confirm");
+        confirmButton.addActionListener(e -> confirmButtonClicked());
         GridBagConstraints confirmConst = new GridBagConstraints();
         confirmConst.gridx = 0;
         confirmConst.gridy = 3;
@@ -137,7 +177,7 @@ public class FeatureDialog extends JDialog {
         confirmConst.insets = insets;
         pane.add(confirmButton, confirmConst);
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> setVisible(false));
+        cancelButton.addActionListener(e -> cancelButtonClicked());
         GridBagConstraints cancelConst = new GridBagConstraints();
         cancelConst.gridx = 2;
         cancelConst.gridy = 3;
@@ -173,12 +213,7 @@ public class FeatureDialog extends JDialog {
         text.setDocument(new PlainDocument() {
             @Override
             public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
-                if (getLength() < 32) {
-                    // we know now there is room to insert at least something;
-                    // so make sure the string to insert is short enough and shorten it if not
-                    if (getLength() + str.length() > 32) {
-                        str = str.substring(0, 32 - getLength());
-                    }
+                if (getLength() + str.length() < 32) {
                     super.insertString(offset, str, attr);
                 }
             }
@@ -207,9 +242,19 @@ public class FeatureDialog extends JDialog {
         return text;
     }
     
+    private void confirmButtonClicked() {
+    	confirmed = true;
+    	setVisible(false);
+    }
+    
+    private void cancelButtonClicked() {
+    	confirmed = false;
+    	setVisible(false);
+    }
+    
     public static void main(String[] args) {
     	SwingUtilities.invokeLater(() -> {
-    		new FeatureDialog(null).setVisible(true);
+    		new FeatureDialog(null, FeatureFactory.newFactory()).setVisible(true);
     		System.exit(0);
     	});
     }
