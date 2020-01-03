@@ -69,10 +69,9 @@ public class DbConnectionServiceTest {
     
     @Test
     public void checkDefaultProperties() {
-        assertEquals(Context.getProperty("DB_URL"), DbConnectionService.getDefaultProperties().getProperty("url"));
-        assertEquals(Context.getProperty("DB_USER"), DbConnectionService.getDefaultProperties().getProperty("user"));
-        assertEquals(Context.getProperty("DB_PASSWD"), DbConnectionService.getDefaultProperties()
-                .getProperty("password"));
+        assertEquals("jdbc:postgresql://localhost/perfsched", DbConnectionService.getDefaultProperties().getProperty("url"));
+        assertEquals("perfsched", DbConnectionService.getDefaultProperties().getProperty("user"));
+        assertEquals("hudysched", DbConnectionService.getDefaultProperties().getProperty("password"));
         assertEquals(SQL.TBL_FEATURE, DbConnectionService.getDefaultProperties().getProperty("features"));
         assertEquals(SQL.TBL_PERFORMANCE, DbConnectionService.getDefaultProperties().getProperty("performances"));
     }

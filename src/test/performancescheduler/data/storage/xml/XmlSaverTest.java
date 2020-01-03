@@ -59,7 +59,7 @@ public class XmlSaverTest {
     public void writeEmptyPerformanceWhenFeatureNotMapped()
             throws IOException, XMLStreamException, FactoryConfigurationError {
         performances.add(pFac.createPerformance(new SpecialFeature("Foo", Rating.R, 137),
-                LocalDateTime.of(2020, 1, 27, 19, 35), Auditorium.getInstance(1, null, false, 100)));
+                LocalDateTime.of(2020, 1, 27, 19, 35), 1));
         File toSave = temp.newFile(UNMAP_FILE);
         new XmlSaver(toSave).save(features, performances);
         assertTrue(ChecksumVerifier.getInstance().verifyFile(toSave));
@@ -95,8 +95,7 @@ public class XmlSaverTest {
             throws IOException, XMLStreamException, FactoryConfigurationError {
         Feature f = ftrFac.createFeature("Foobar", Rating.NR, 110, false, true, false, false);
         features.add(f);
-        performances.add(pFac.createPerformance(f, LocalDateTime.of(2020, 1, 27, 18, 15),
-                Auditorium.getInstance(1, null, true, 100)));
+        performances.add(pFac.createPerformance(f, LocalDateTime.of(2020, 1, 27, 18, 15), 1));
         File toSave = temp.newFile(SIMPLE_FILE);
         new XmlSaver(toSave).save(features, performances);
         assertTrue(ChecksumVerifier.getInstance().verifyFile(toSave));

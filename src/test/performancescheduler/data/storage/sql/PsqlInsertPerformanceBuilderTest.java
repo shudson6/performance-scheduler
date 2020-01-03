@@ -32,7 +32,7 @@ public class PsqlInsertPerformanceBuilderTest {
     
     @Test
     public void dontAcceptPerformanceWithNonMetaFeature() {
-        Performance pfm = pfmFac.createPerformance(ftr, ldt, aud);
+        Performance pfm = pfmFac.createPerformance(ftr, ldt, aud.getNumber());
         MetaPerformance mp = new TestMetaPerformance(pfm, uuid, ldt, ldt);
         pInsert.clear();
         assertFalse(pInsert.add(mp));
@@ -51,7 +51,7 @@ public class PsqlInsertPerformanceBuilderTest {
     @Test
     public void insertSinglePerformance() {
         MetaFeature mf = new TestMetaFeature(ftr, uuid, ldt, null);
-        Performance pfm = pfmFac.createPerformance(mf, ldt, aud);
+        Performance pfm = pfmFac.createPerformance(mf, ldt, aud.getNumber());
         MetaPerformance mp = new TestMetaPerformance(pfm, uuid, ldt, ldt);
         pInsert.clear();
         assertTrue(pInsert.add(mp));
@@ -75,7 +75,7 @@ public class PsqlInsertPerformanceBuilderTest {
                             sb.append("'" + mp.getDateTime().format(SQL.DATETIME_FMT) + "'");
                             break;
                         case SQL.COL_AUDITORIUM:
-                            sb.append(mp.getAuditorium().getNumber());
+                            sb.append(mp.getAuditorium());
                             break;
                         case SQL.COL_FEATUREID:
                             sb.append("'" + ((MetaFeature) mp.getFeature()).getUuid().toString() + "'");

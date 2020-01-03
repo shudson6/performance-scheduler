@@ -71,7 +71,7 @@ public class SqlPerformanceLoader {
     private Performance createPerformance(ResultSet rs, Map<UUID, MetaFeature> ftrs) throws SQLException {
         return perfFactory.createPerformance(ftrs.get(UUID.fromString(rs.getString(SQL.COL_FEATUREID))),
                 LocalDateTime.parse(rs.getString(SQL.COL_DATETIME), SQL.DATETIME_FMT),
-                Context.getAuditorium(rs.getInt(SQL.COL_AUDITORIUM)));
+                rs.getInt(SQL.COL_AUDITORIUM));
     }
     
     private String dataCmd(LocalDate start, LocalDate end) {

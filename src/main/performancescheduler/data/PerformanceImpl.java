@@ -15,22 +15,25 @@ import java.util.Objects;
 class PerformanceImpl implements Performance {
     private final LocalDateTime dateTime;
     private final Feature feature;
-    private final Auditorium auditorium;
+    private final int auditorium;
     
     /**
      * Create a new instance.
      * @param f Feature
      * @param d date and time not {@code null}
-     * @param l auditorium not {@code null}
-     * @throws NullPointerException if the time or auditorium are {@code null}
+     * @param aud auditorium number
+     * @throws NullPointerException if the time is {@code null}
+     * @throws IllegalArgumentException if the auditorium is negative
      */
-    PerformanceImpl(Feature f, LocalDateTime d, Auditorium l) {
+    PerformanceImpl(Feature f, LocalDateTime d, int aud) {
         Objects.requireNonNull(d, "PerformanceImpl: date/time must not be null.");
-        Objects.requireNonNull(l, "PerformanceImpl: location must not be null.");
+        if (aud < 0) {
+        	throw new IllegalArgumentException("PerformanceImpl: auditorium number must be positive.");
+        }
         
         feature = f;
         dateTime = d;
-        auditorium = l;
+        auditorium = aud;
     }
 
     @Override
@@ -49,7 +52,7 @@ class PerformanceImpl implements Performance {
     }
 
     @Override
-    public Auditorium getAuditorium() {
+    public int getAuditorium() {
         return auditorium;
     }
 
@@ -61,8 +64,8 @@ class PerformanceImpl implements Performance {
     @Override
     public String toString() {
         String title = (feature != null) ? feature.getTitle() : "[null feature]";
-        return String.format("%s | %s, %s | %s", title, dateTime.toLocalDate().toString(),
-                dateTime.toLocalTime().toString(), auditorium.getName());
+        return String.format("%s | %s, %s | aud %d", title, dateTime.toLocalDate().toString(),
+                dateTime.toLocalTime().toString(), auditorium);
     }
     
     @Override
@@ -78,7 +81,7 @@ class PerformanceImpl implements Performance {
             result = p.getFeature() == null ? 1 : feature.compareTo(p.getFeature());
         }
         if (result == 0) {
-            result = Integer.compare(this.auditorium.getNumber(), p.getAuditorium().getNumber());
+            result = Integer.compare(this.auditorium, p.getAuditorium());
         }
         if (result == 0) {
             result = this.dateTime.compareTo(p.getDateTime());
@@ -91,7 +94,7 @@ class PerformanceImpl implements Performance {
         if (o instanceof Performance) {
             Performance p = (Performance) o;
             boolean result = (feature == null) ? p.getFeature() == null : feature.equals(p.getFeature());
-            return result && this.getAuditorium().getNumber() == p.getAuditorium().getNumber()
+            return result && this.getAuditorium() == p.getAuditorium()
                     && this.getDateTime().equals(p.getDateTime());
         }
         return false;
@@ -101,7 +104,7 @@ class PerformanceImpl implements Performance {
     public int hashCode() {
         int rslt = 23 * ((feature != null) ? feature.hashCode() : 1);
         rslt = 23 * rslt + dateTime.hashCode();
-        rslt = 23 * rslt + auditorium.hashCode();
+        rslt = 23 * rslt + auditorium;
         return rslt;
     }
 }

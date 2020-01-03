@@ -32,8 +32,7 @@ public class MetaDataFactoryTest {
     @Test
     public void copiedPerformanceHasEqualMembers() {
         Feature f = fF.createFeature("Foobar", Rating.R, 90, false, true, false, false);
-        Performance p = pF.createPerformance(f, LocalDateTime.of(2020, 10, 11, 12, 0),
-                Auditorium.getInstance(1, null, false, 50));
+        Performance p = pF.createPerformance(f, LocalDateTime.of(2020, 10, 11, 12, 0), 1);
         MetaPerformance mp = fac.newMetaPerformance(p);
         MetaPerformance mc = fac.copyMetaData(mp, p);
         assertEquals(mp.getUuid(), mc.getUuid());

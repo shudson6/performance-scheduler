@@ -22,8 +22,7 @@ public class PerformanceValueListerTest {
     
     @Test
     public void test() {
-        Performance p = PerformanceFactory.newFactory().createPerformance(null, LocalDateTime.now(),
-                Auditorium.getInstance(1, null, false, 100));
+        Performance p = PerformanceFactory.newFactory().createPerformance(null, LocalDateTime.now(), 1);
         MetaPerformance mp = new TestMetaPerformance(p, new UUIDGenerator().generateUUID(), LocalDateTime.now(), null);
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("MetaPerformance");
