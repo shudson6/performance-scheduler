@@ -73,7 +73,7 @@ class XmlSaver {
     private void writePerformance(Performance p, Integer i) throws XMLStreamException {
         xmlw.writeStartElement(XML.PERFORMANCE);
         writeSimpleElement(XML.FEATURE_ID, Integer.toUnsignedString(i, XML.RADIX));
-        writeSimpleElement(XML.AUDITORIUM, Integer.toString(p.getAuditorium().getNumber()));
+        writeSimpleElement(XML.AUDITORIUM, Integer.toString(p.getAuditorium()));
         writeSimpleElement(XML.DATE, p.getDate().toString());
         writeSimpleElement(XML.TIME, p.getTime().toString());
         xmlw.writeEndElement();

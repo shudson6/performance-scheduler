@@ -19,7 +19,7 @@ public class PerformanceValueLister extends ValueLister<MetaPerformance> {
             case SQL.COL_DATETIME:
                 return quotes(subject.getDateTime().format(SQL.DATETIME_FMT));
             case SQL.COL_AUDITORIUM:
-                return Integer.toString(subject.getAuditorium().getNumber());
+                return Integer.toString(subject.getAuditorium());
             case SQL.COL_FEATUREID:
                 return featureId(subject);
             default:

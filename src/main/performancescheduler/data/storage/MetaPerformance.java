@@ -44,8 +44,8 @@ public class MetaPerformance extends MetaWrapper<Performance> implements Perform
     }
 
     @Override
-    public Auditorium getAuditorium() {
-        return (wrapped != null) ? wrapped.getAuditorium() : null;
+    public int getAuditorium() {
+        return (wrapped != null) ? wrapped.getAuditorium() : -1;
     }
 
     @Override
