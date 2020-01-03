@@ -23,9 +23,9 @@ public interface Performance extends Comparable<Performance> {
      */
     public LocalDateTime getDateTime();
     /**
-     * @return the location of the performance
+     * @return the number of the auditorium in which this performance is scheduled
      */
-    public Auditorium getAuditorium();
+    public int getAuditorium();
     /**
      * @return the feature being presented
      */

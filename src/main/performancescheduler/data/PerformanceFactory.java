@@ -17,10 +17,10 @@ public class PerformanceFactory {
      * Create a new {@link Performance} instance.
      * @param feature the Feature to be shown
      * @param dateTime the date and time of showtime
-     * @param auditorium the auditorium where it will show
+     * @param auditorium number of the auditorium where it will show
      * @return a Performance instance
      */
-    public Performance createPerformance(Feature feature, LocalDateTime dateTime, Auditorium auditorium) {
+    public Performance createPerformance(Feature feature, LocalDateTime dateTime, int auditorium) {
         return new PerformanceImpl(feature, dateTime, auditorium);
     }
     

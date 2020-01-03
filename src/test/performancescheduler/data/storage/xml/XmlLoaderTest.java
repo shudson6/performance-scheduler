@@ -42,10 +42,9 @@ public class XmlLoaderTest {
 		new XmlLoader(new File(XmlLoaderTest.class.getResource("/xml/LoaderTest.xml").getFile()))
 				.load(features, performances);
 		assertTrue(features.contains(ftr1234));
-		assertTrue(performances.contains(prfFactory.createPerformance(ftr1234, LocalDateTime.of(2019, 12, 12, 8, 30),
-				Context.getAuditorium(5))));
-		assertTrue(performances.contains(prfFactory.createPerformance(null, LocalDateTime.of(2019, 12, 13, 9, 0),
-				Context.getAuditorium(5))));
+		assertTrue(performances.contains(prfFactory.createPerformance(ftr1234, 
+				LocalDateTime.of(2019, 12, 12, 8, 30), 5)));
+		assertTrue(performances.contains(prfFactory.createPerformance(null, LocalDateTime.of(2019, 12, 13, 9, 0), 5)));
 	}
 	
 	@Rule

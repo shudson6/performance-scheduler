@@ -55,7 +55,7 @@ class DbConnectionService implements AutoCloseable {
     }
     
     static void loadDefaultDriver() throws ClassNotFoundException {
-        loadDriver(Context.getProperty("DB_DRIVER"));
+        loadDriver(defaults.getProperty("driver"));
     }
     
     static void loadDriver(String className) throws ClassNotFoundException {
@@ -72,9 +72,10 @@ class DbConnectionService implements AutoCloseable {
     
     private static final Properties defaults = new Properties();
     static {
-        defaults.put("url", Context.getProperty("DB_URL"));
-        defaults.put("user", Context.getProperty("DB_USER"));
-        defaults.put("password", Context.getProperty("DB_PASSWD"));
+    	defaults.put("driver", "org.postgresql.Driver");
+        defaults.put("url", "jdbc:postgresql://localhost/perfsched");
+        defaults.put("user", "perfsched");
+        defaults.put("password", "hudysched");
         defaults.put("features", SQL.TBL_FEATURE);
         defaults.put("performances", SQL.TBL_PERFORMANCE);
         defaults.put("auditoriums", SQL.TBL_AUDITORIUMS);
