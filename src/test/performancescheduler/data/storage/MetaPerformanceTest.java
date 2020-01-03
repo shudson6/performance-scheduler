@@ -36,8 +36,8 @@ public class MetaPerformanceTest {
         ftr2 = ftrFactory.createFeature("Bar", Rating.R, 90, false, false, false, false);
         dateTime = LocalDateTime.now();
         aud = Auditorium.getInstance(1, null, false, 100);
-        p1 = perfFactory.createPerformance(ftr1, dateTime, aud);
-        p2 = perfFactory.createPerformance(ftr2, dateTime, aud);
+        p1 = perfFactory.createPerformance(ftr1, dateTime, aud.getNumber());
+        p2 = perfFactory.createPerformance(ftr2, dateTime, aud.getNumber());
     }
     
     @Rule
@@ -69,7 +69,7 @@ public class MetaPerformanceTest {
     	assertEquals(null, metaFactory.newMetaPerformance(null).getTime());
     	assertEquals(null, metaFactory.newMetaPerformance(null).getDateTime());
     	assertEquals(null, metaFactory.newMetaPerformance(null).getFeature());
-    	assertEquals(null, metaFactory.newMetaPerformance(null).getAuditorium());
+    	assertEquals(-1, metaFactory.newMetaPerformance(null).getAuditorium());
     }
     
     @Test
