@@ -82,10 +82,28 @@ public abstract class ScheduleDataManager<T> {
         return data.size();
     }
     
+    /**
+     * Updates an element by replacing it in the underlying structure. Like {@link #add()} and {@link #remove()},
+     * the return value indicates whether the structure changed as a result of the operation. However, an update
+     * involves removal and addition and it cannot be guaranteed that both operations succeed. By the default behavior
+     * of this method, a return value of {@code true} indicates that the {@code before} element was removed, but says
+     * nothing about the subsequent addition of the {@code after} element.
+     * 
+     * <p>The default behavior of this method is to first remove {@code before}. If that succeeds, then the attempt is
+     * made to add {@code after}. If that succeeds, then an update event is fired--otherwise, a remove event is fired
+     * instead. In either case, as long as the initial remove succeeded, the return value will be {@code true}.
+     * 
+     * @param before the element to be updated
+     * @param after the new value of the element
+     * @return {@code true} if the underlying data structure changed as a result of the operation
+     */
     public boolean update(T before, T after) {
         if (data.remove(before)) {
-            data.add(after);
-            fireUpdateEvent(after, before);
+            if (data.add(after)) {
+                fireUpdateEvent(after, before);
+            } else {
+                fireRemoveEvent(before);
+            }
             return true;
         }
         return false;
