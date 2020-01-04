@@ -105,6 +105,23 @@ public class ScheduleDataManagerTest extends ScheduleDataManager<String> {
         assertEquals(2, size());
     }
     
+    @Test
+    public void shouldFireRemoveEventIfAfterCantBeAdded() {
+        add("Foo");
+        add("Bar");
+        addScheduleDataListener(e -> {
+            assertEquals(ScheduleEvent.REMOVE, e.getAction());
+            assertTrue(e.getRemoved().contains("Bar"));
+            fired = true;
+        });
+        assertTrue(update("Bar", "Foo"));
+        assertFalse(data.contains("Bar"));
+        assertTrue(data.contains("Foo"));
+        if (!fired) {
+            fail("Event did not fire.");
+        }
+    }
+    
     public ScheduleDataManagerTest() {
         super();
         data = new TreeSet<>();
