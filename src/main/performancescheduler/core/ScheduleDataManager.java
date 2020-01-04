@@ -12,7 +12,7 @@ import performancescheduler.core.event.ScheduleEvent;
 public abstract class ScheduleDataManager<T> {
     private List<ScheduleDataListener<T>> listenerList = new ArrayList<>();
     private boolean eventsEnabled = true;
-    private EventFactory eventFactory = new EventFactory();
+    protected final EventFactory eventFactory = new EventFactory();
     
     protected Collection<T> data;
     

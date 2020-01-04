@@ -1,6 +1,6 @@
 package performancescheduler.core;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
@@ -18,14 +18,19 @@ public class FeatureManager extends ScheduleDataManager<Feature> {
     
     @Override
     public List<Feature> getData() {
-        return Arrays.asList(data.toArray(new Feature[data.size()]));
+        return new ArrayList<>(data);
     }
 
     @Override
     public void setData(Collection<Feature> newData) {
+        TreeSet<Feature> old = new TreeSet<>(data);
         data.clear();
         if (newData != null) {
             data.addAll(newData);
+        }
+        if (areEventsEnabled()) {
+            fireEvent(eventFactory.newRemoveEvent(old));
+            fireEvent(eventFactory.newAddEvent(data));
         }
     }
 }
