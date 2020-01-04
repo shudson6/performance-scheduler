@@ -21,7 +21,7 @@ public class FeatureListModel extends AbstractListModel<Feature> {
 		Objects.requireNonNull(ftrMgr);
 		featureManager = ftrMgr;
 		data = featureManager.getData();
-		featureManager.addFeatureDataListener(event -> setData(featureManager.getData()));
+		featureManager.addScheduleDataListener(event -> setData(featureManager.getData()));
 	}
 
 	@Override
