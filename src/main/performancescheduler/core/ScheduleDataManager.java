@@ -8,6 +8,7 @@ import java.util.List;
 import performancescheduler.core.event.EventFactory;
 import performancescheduler.core.event.ScheduleDataListener;
 import performancescheduler.core.event.ScheduleEvent;
+import performancescheduler.data.Feature;
 
 public abstract class ScheduleDataManager<T> {
     private List<ScheduleDataListener<T>> listenerList = new ArrayList<>();
@@ -82,7 +83,19 @@ public abstract class ScheduleDataManager<T> {
         listenerList.remove(listener);
     }
     
-    public abstract void setData(Collection<T> newData);
+    public void setData(Collection<T> newData) {
+        Collection<T> old = data;
+        data = initData();
+        if (areEventsEnabled() && !old.isEmpty()) {
+            fireEvent(eventFactory.newRemoveEvent(old));
+        }
+        if (newData != null) {
+            data.addAll(newData);
+            if (areEventsEnabled() && !data.isEmpty()) {
+                fireEvent(eventFactory.newAddEvent(data));
+            }
+        }
+    }
     
     public void setEventsEnabled(boolean enable) {
         eventsEnabled = enable;

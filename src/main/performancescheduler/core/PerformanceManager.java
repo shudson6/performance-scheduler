@@ -15,22 +15,13 @@ public class PerformanceManager extends ScheduleDataManager<Performance> {
         return new ArrayList<>(data);
     }
     
+    public PerformanceFactory getPerformanceFactory() {
+        return performanceFactory;
+    }
+    
     @Override
     protected Collection<Performance> initData() {
         // TODO create a better data structure for this purpose
         return new ArrayList<>();
-    }
-
-    @Override
-    public void setData(Collection<Performance> newData) {
-        ArrayList<Performance> old = new ArrayList<>(data);
-        data.clear();
-        if (newData != null) {
-            data.addAll(newData);
-        }
-        if (areEventsEnabled()) {
-            fireEvent(eventFactory.newRemoveEvent(old));
-            fireEvent(eventFactory.newAddEvent(data));
-        }
     }
 }

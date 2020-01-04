@@ -24,19 +24,4 @@ public class FeatureManager extends ScheduleDataManager<Feature> {
     protected Collection<Feature> initData() {
         return new TreeSet<>();
     }
-
-    @Override
-    public void setData(Collection<Feature> newData) {
-        Collection<Feature> old = data;
-        data = initData();
-        if (areEventsEnabled() && !old.isEmpty()) {
-            fireEvent(eventFactory.newRemoveEvent(old));
-        }
-        if (newData != null) {
-            data.addAll(newData);
-            if (areEventsEnabled() && !data.isEmpty()) {
-                fireEvent(eventFactory.newAddEvent(data));
-            }
-        }
-    }
 }
