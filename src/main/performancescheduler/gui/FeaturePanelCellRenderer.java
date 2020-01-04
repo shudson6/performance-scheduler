@@ -13,6 +13,7 @@ import javax.swing.border.Border;
 
 import performancescheduler.data.Feature;
 
+@SuppressWarnings("serial")
 public class FeaturePanelCellRenderer extends JPanel implements ListCellRenderer<Feature> {
 	private final String WIDE_STRING = "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM";
 	private final Border unselBorder = BorderFactory.createLineBorder(Color.darkGray, 2);
