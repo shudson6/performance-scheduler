@@ -38,6 +38,10 @@ public abstract class ScheduleDataManager<T> {
         return eventsEnabled;
     }
     
+    public boolean contains(T element) {
+        return data.contains(element);
+    }
+    
     public void fireAddEvent(T added) {
         if (eventsEnabled) {
             fireEvent(eventFactory.newAddEvent(Arrays.asList(added)));

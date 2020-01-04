@@ -115,8 +115,8 @@ public class ScheduleDataManagerTest extends ScheduleDataManager<String> {
             fired = true;
         });
         assertTrue(update("Bar", "Foo"));
-        assertFalse(data.contains("Bar"));
-        assertTrue(data.contains("Foo"));
+        assertFalse(contains("Bar"));
+        assertTrue(contains("Foo"));
         if (!fired) {
             fail("Event did not fire.");
         }

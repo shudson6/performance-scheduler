@@ -9,11 +9,15 @@ import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;
 
 public class FeatureManager extends ScheduleDataManager<Feature> {
-    public final FeatureFactory featureFactory = FeatureFactory.newFactory();
+    private final FeatureFactory featureFactory = FeatureFactory.newFactory();
     
     @Override
     public List<Feature> getData() {
         return new ArrayList<>(data);
+    }
+    
+    public FeatureFactory getFeatureFactory() {
+        return featureFactory;
     }
     
     @Override
@@ -23,15 +27,16 @@ public class FeatureManager extends ScheduleDataManager<Feature> {
 
     @Override
     public void setData(Collection<Feature> newData) {
-        TreeSet<Feature> old = new TreeSet<>(data);
-        data.clear();
+        Collection<Feature> old = data;
+        data = initData();
+        if (areEventsEnabled() && !old.isEmpty()) {
+            fireEvent(eventFactory.newRemoveEvent(old));
+        }
         if (newData != null) {
             data.addAll(newData);
-        }
-        if (areEventsEnabled()) {
-            fireEvent(eventFactory.newRemoveEvent(old));
-            if (!data.isEmpty());
-            fireEvent(eventFactory.newAddEvent(data));
+            if (areEventsEnabled() && !data.isEmpty()) {
+                fireEvent(eventFactory.newAddEvent(data));
+            }
         }
     }
 }
