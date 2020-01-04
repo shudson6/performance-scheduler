@@ -2,7 +2,6 @@ package performancescheduler.gui;
 
 import java.util.Objects;
 
-import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -10,6 +9,7 @@ import performancescheduler.gui.action.ExportXmlAction;
 import performancescheduler.gui.action.ImportXmlAction;
 import performancescheduler.gui.action.NewFeatureAction;
 
+@SuppressWarnings("serial")
 public class AppFrameMenuBar extends javax.swing.JMenuBar {
 	private App app;
 	

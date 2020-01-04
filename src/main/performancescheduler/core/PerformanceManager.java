@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import performancescheduler.core.event.PerformanceDataListener;
 import performancescheduler.data.Performance;
 
 public class PerformanceManager {
-	Collection<Performance> performanceData = new ArrayList<>();
+    private List<PerformanceDataListener> listenerList = new ArrayList<>();
+    private boolean eventsEnabled = true;
+    
+    private	Collection<Performance> performanceData = new ArrayList<>();
 	
 	public boolean add(Performance performance) {
 		if (performance != null && performanceData.add(performance)) {

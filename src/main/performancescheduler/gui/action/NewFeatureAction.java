@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JOptionPane;
 
-import performancescheduler.data.FeatureFactory;
 import performancescheduler.gui.App;
 import performancescheduler.gui.dialog.FeatureDialog;
 
@@ -16,7 +15,7 @@ public class NewFeatureAction extends PerformanceSchedulerAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		FeatureDialog dialog = new FeatureDialog(app.getAppFrame(), FeatureFactory.newFactory());
+		FeatureDialog dialog = new FeatureDialog(app.getAppFrame(), app.getFeatureManager().featureFactory);
 		if (dialog.showNewFeatureDialog()) {
 			if (!app.getFeatureManager().add(dialog.getCreatedFeature())) {
 				JOptionPane.showMessageDialog(app.getAppFrame(), "Could not add feature to the document.");
