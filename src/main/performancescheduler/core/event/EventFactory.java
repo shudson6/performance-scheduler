@@ -26,4 +26,6 @@ public class EventFactory {
 	    Objects.requireNonNull(before);
 	    return new ScheduleEvent<T>(after, before, ScheduleEvent.UPDATE);
 	}
+	
+	private EventFactory() {}
 }

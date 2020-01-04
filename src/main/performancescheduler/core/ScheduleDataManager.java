@@ -12,7 +12,7 @@ import performancescheduler.core.event.ScheduleEvent;
 public abstract class ScheduleDataManager<T> {
     private List<ScheduleDataListener<T>> listenerList = new ArrayList<>();
     private boolean eventsEnabled = true;
-    protected final EventFactory eventFactory = new EventFactory();
+    protected final EventFactory eventFactory = EventFactory.newFactory();
     
     protected Collection<T> data;
     
@@ -82,7 +82,7 @@ public abstract class ScheduleDataManager<T> {
         return data.size();
     }
     
-    public boolean update(T after, T before) {
+    public boolean update(T before, T after) {
         if (data.remove(before)) {
             data.add(after);
             fireUpdateEvent(after, before);
