@@ -42,4 +42,20 @@ public class EventFactory {
 	    Objects.requireNonNull(after);
 	    return new PerformanceEvent(after, before, ScheduleEvent.UPDATE);
 	}
+	
+	public <T> ScheduleEvent<T> newAddEvent(Collection<T> t) {
+	    Objects.requireNonNull(t);
+	    return new ScheduleEvent<T>(t, null, ScheduleEvent.ADD);
+	}
+	
+	public <T> ScheduleEvent<T> newRemoveEvent(Collection<T> t) {
+	    Objects.requireNonNull(t);
+	    return new ScheduleEvent<T>(null, t, ScheduleEvent.REMOVE);
+	}
+	
+	public <T> ScheduleEvent<T> newUpdateEvent(Collection<T> after, Collection<T> before) {
+	    Objects.requireNonNull(after);
+	    Objects.requireNonNull(before);
+	    return new ScheduleEvent<T>(after, before, ScheduleEvent.UPDATE);
+	}
 }
