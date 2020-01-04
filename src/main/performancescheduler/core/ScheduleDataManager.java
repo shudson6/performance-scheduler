@@ -16,6 +16,10 @@ public abstract class ScheduleDataManager<T> {
     
     protected Collection<T> data;
     
+    protected ScheduleDataManager() {
+        data = initData();
+    }
+    
     public boolean add(T toAdd) {
         boolean result = data.add(toAdd);
         if (result) {
@@ -59,6 +63,8 @@ public abstract class ScheduleDataManager<T> {
     }
     
     public abstract Collection<T> getData();
+    
+    protected abstract Collection<T> initData();
     
     public boolean remove(T toRm) {
         boolean result = data.remove(toRm);

@@ -8,17 +8,17 @@ import performancescheduler.data.PerformanceFactory;
 
 public class PerformanceManager extends ScheduleDataManager<Performance> {
     public final PerformanceFactory performanceFactory = PerformanceFactory.newFactory();
-    
-    public PerformanceManager() {
-        super();
-        // TODO build a more appropriate data structure for this
-        data = new ArrayList<>();
-    }
 
     @Override
     public Collection<Performance> getData() {
         // TODO change this once there is a better data structure in place for data
         return new ArrayList<>(data);
+    }
+    
+    @Override
+    protected Collection<Performance> initData() {
+        // TODO create a better data structure for this purpose
+        return new ArrayList<>();
     }
 
     @Override

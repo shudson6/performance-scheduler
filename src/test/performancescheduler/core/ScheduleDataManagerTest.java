@@ -121,15 +121,15 @@ public class ScheduleDataManagerTest extends ScheduleDataManager<String> {
             fail("Event did not fire.");
         }
     }
-    
-    public ScheduleDataManagerTest() {
-        super();
-        data = new TreeSet<>();
-    }
 
     @Override
     public Collection<String> getData() {
         return data;
+    }
+    
+    @Override
+    protected Collection<String> initData() {
+        return new TreeSet<>();
     }
 
     @Override
