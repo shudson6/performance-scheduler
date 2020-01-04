@@ -33,6 +33,7 @@ import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 
 
+@SuppressWarnings("serial")
 public class FeatureDialog extends JDialog {
 	
 	private boolean confirmed = false;
@@ -65,6 +66,7 @@ public class FeatureDialog extends JDialog {
     
     public boolean showNewFeatureDialog() {
     	confirmButton.setText("Create");
+    	setLocationRelativeTo(getParent());
     	setVisible(true);
     	return confirmed;
     }
