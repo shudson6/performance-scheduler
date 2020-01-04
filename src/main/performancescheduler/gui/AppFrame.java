@@ -23,7 +23,7 @@ public class AppFrame extends javax.swing.JFrame {
 	
 	private void init() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setJMenuBar(new AppFrameMenuBar());
+		setJMenuBar(new AppFrameMenuBar(app));
 		
 		featureList = new JList<>(new FeatureListModel(app.getFeatureManager()));
 		featureList.setCellRenderer(new FeaturePanelCellRenderer());

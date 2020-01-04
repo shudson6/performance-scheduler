@@ -42,5 +42,4 @@ public class ImportXmlAction extends AbstractAction {
 			}
 		}
 	}
-
 }
