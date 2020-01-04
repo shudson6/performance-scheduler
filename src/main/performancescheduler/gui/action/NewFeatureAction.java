@@ -1,6 +1,5 @@
 package performancescheduler.gui.action;
 
-import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
