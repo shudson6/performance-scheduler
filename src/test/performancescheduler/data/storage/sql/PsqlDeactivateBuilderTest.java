@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import performancescheduler.TestData;
 import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 import performancescheduler.data.storage.MetaFeature;

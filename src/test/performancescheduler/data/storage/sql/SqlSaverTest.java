@@ -16,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import performancescheduler.TestData;
 import performancescheduler.data.Auditorium;
 import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;

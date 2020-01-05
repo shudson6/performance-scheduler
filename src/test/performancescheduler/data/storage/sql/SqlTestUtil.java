@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import performancescheduler.TestData;
+
 class SqlTestUtil {
     static void insertTestData() throws ClassNotFoundException, IOException, SQLException {
         DbConnectionService dbcs = new DbConnectionService(TestData.PROPERTIES());

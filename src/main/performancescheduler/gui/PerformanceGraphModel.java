@@ -15,6 +15,7 @@ import performancescheduler.gui.event.GraphDataListener;
 
 public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDataListener<Performance> {
     private List<GraphDataListener> listenerList = new ArrayList<>();
+    private boolean eventsEnabled = true;
     private Collection<Performance> data = new ArrayList<>();
     
     private final LocalDateTime rangeStart;
@@ -27,8 +28,6 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
             throw new IllegalStateException("Date range must span at least 24 hours.");
         }
     }
-    
-    private boolean eventsEnabled = true;
     
     public boolean accept(Performance p) {
         return rangeStart.compareTo(p.getDateTime()) <= 0 && rangeEnd.compareTo(p.getDateTime()) >= 0;

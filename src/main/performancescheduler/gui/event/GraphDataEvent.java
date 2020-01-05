@@ -10,11 +10,11 @@ import performancescheduler.data.Performance;
 public class GraphDataEvent {
     public static final int ADD = 0x0001;
     public static final int REMOVE = 0x0002;
-    public static final int REPLACE = 0x0003; 
+    public static final int REPLACE = 0x0003;
     
     public static GraphDataEvent newAddEvent(Performance toAdd) {
         Objects.requireNonNull(toAdd);
-        return new GraphDataEvent(Arrays.asList(toAdd), null, ADD);
+        return newAddEvent(Arrays.asList(toAdd));
     }
     
     public static GraphDataEvent newAddEvent(Collection<Performance> toAdd) {
@@ -24,7 +24,7 @@ public class GraphDataEvent {
     
     public static GraphDataEvent newRemoveEvent(Performance toRem) {
         Objects.requireNonNull(toRem);
-        return new GraphDataEvent(null, Arrays.asList(toRem), REMOVE);
+        return newRemoveEvent(Arrays.asList(toRem));
     }
     
     public static GraphDataEvent newRemoveEvent(Collection<Performance> toRem) {
@@ -35,7 +35,7 @@ public class GraphDataEvent {
     public static GraphDataEvent newReplaceEvent(Performance before, Performance after) {
         Objects.requireNonNull(before);
         Objects.requireNonNull(after);
-        return new GraphDataEvent(Arrays.asList(after), Arrays.asList(before), REPLACE);
+        return newReplaceEvent(Arrays.asList(before), Arrays.asList(after));
     }
     
     public static GraphDataEvent newReplaceEvent(Collection<Performance> before, Collection<Performance> after) {

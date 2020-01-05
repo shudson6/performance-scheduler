@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import performancescheduler.TestData;
 import performancescheduler.data.Auditorium;
 import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;
