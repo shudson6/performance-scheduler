@@ -1,5 +1,7 @@
 package performancescheduler.gui;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -13,11 +15,27 @@ import performancescheduler.gui.event.GraphDataListener;
 
 public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDataListener<Performance> {
     private List<GraphDataListener> listenerList = new ArrayList<>();
-    private Collection<Performance> data;
+    private Collection<Performance> data = new ArrayList<>();
+    
+    private final LocalDateTime rangeStart;
+    private final LocalDateTime rangeEnd;
+    
+    public PerformanceGraphModel(LocalDateTime start, LocalDateTime end) {
+        rangeStart = (start != null) ? start : LocalDateTime.MIN;
+        rangeEnd = (end != null) ? end : LocalDateTime.MAX;
+        if (Duration.between(rangeStart, rangeEnd).compareTo(Duration.ofHours(24)) < 0) {
+            throw new IllegalStateException("Date range must span at least 24 hours.");
+        }
+    }
+    
     private boolean eventsEnabled = true;
     
+    public boolean accept(Performance p) {
+        return rangeStart.compareTo(p.getDateTime()) <= 0 && rangeEnd.compareTo(p.getDateTime()) >= 0;
+    }
+    
     public boolean add(Performance p) {
-        boolean result = data.add(p);
+        boolean result = accept(p) && data.add(p);
         if (result) {
             fireAddEvent(p);
         }
