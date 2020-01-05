@@ -21,7 +21,7 @@ public class EventFactoryTest {
     LocalDateTime ldt = LocalDateTime.now();
     Performance pfm1 = PerformanceFactory.newFactory().createPerformance(ftr1, ldt, aud.getNumber());
     Performance pfm2 = PerformanceFactory.newFactory().createPerformance(ftr2, ldt, aud.getNumber());
-    EventFactory eventFactory = EventFactory.newFactory();
+    ScheduleEventFactory eventFactory = ScheduleEventFactory.newFactory();
 
     @Test
     public void testNewAddFeatureEvent() {

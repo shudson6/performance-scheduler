@@ -6,9 +6,9 @@ import java.util.Objects;
 import performancescheduler.data.Feature;
 import performancescheduler.data.Performance;
 
-public class EventFactory {
-    public static EventFactory newFactory() {
-        return new EventFactory();
+public class ScheduleEventFactory {
+    public static ScheduleEventFactory newFactory() {
+        return new ScheduleEventFactory();
     }
 	
 	public <T> ScheduleEvent<T> newAddEvent(Collection<T> t) {
@@ -27,5 +27,5 @@ public class EventFactory {
 	    return new ScheduleEvent<T>(after, before, ScheduleEvent.UPDATE);
 	}
 	
-	private EventFactory() {}
+	private ScheduleEventFactory() {}
 }

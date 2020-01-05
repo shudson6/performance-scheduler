@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import performancescheduler.core.event.EventFactory;
+import performancescheduler.core.event.ScheduleEventFactory;
 import performancescheduler.core.event.ScheduleDataListener;
 import performancescheduler.core.event.ScheduleEvent;
 import performancescheduler.data.Feature;
@@ -13,7 +13,7 @@ import performancescheduler.data.Feature;
 public abstract class ScheduleDataManager<T> {
     private List<ScheduleDataListener<T>> listenerList = new ArrayList<>();
     private boolean eventsEnabled = true;
-    protected final EventFactory eventFactory = EventFactory.newFactory();
+    protected final ScheduleEventFactory eventFactory = ScheduleEventFactory.newFactory();
     
     protected Collection<T> data;
     
