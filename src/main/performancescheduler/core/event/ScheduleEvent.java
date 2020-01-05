@@ -9,6 +9,7 @@ public class ScheduleEvent<T> {
 	public static final int ADD = 0x0001;
 	public static final int REMOVE = 0x0002;
 	public static final int UPDATE = 0x0003;	// add && remove
+	public static final int REPLACE = 0x0003;   // because I can't make up my mind what to call it
 	
 	private final int action;
 	private final List<T> added = new ArrayList<>();
