@@ -1,5 +1,7 @@
 package performancescheduler.gui;
 
+import java.awt.datatransfer.DataFlavor;
+
 import javax.swing.SwingUtilities;
 
 import performancescheduler.core.FeatureManager;
@@ -8,6 +10,16 @@ import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 
 public class App {
+    public static final DataFlavor featureFlavor = createFlavor("performancescheduler.data.Feature");
+    public static final DataFlavor performanceFlavor = createFlavor("performancescheduler.data.Performance");
+    private static DataFlavor createFlavor(String s) {
+        try {
+            return new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + ";class=\"" + s + "\"");
+        } catch (ClassNotFoundException ex) {
+            return null;
+        }
+    }
+    
 	private static App app = null;
 	
 	public static void main(String[] args) {

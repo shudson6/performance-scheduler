@@ -8,9 +8,8 @@ import javax.swing.JSplitPane;
 
 import performancescheduler.data.Feature;
 
+@SuppressWarnings("serial")
 public class AppFrame extends javax.swing.JFrame {
-	private static final long serialVersionUID = 5340974071886747788L;
-	
 	private final App app;
 	private JSplitPane mainSplitPane;
 	private JList<Feature> featureList;
@@ -30,9 +29,11 @@ public class AppFrame extends javax.swing.JFrame {
 		
 		featureList = new JList<>(new FeatureListModel(app.getFeatureManager()));
 		featureList.setCellRenderer(new FeaturePanelCellRenderer());
+		featureList.setTransferHandler(new FeatureTransferHandler());
+		featureList.setDragEnabled(true);
 		ftrListPane = new JScrollPane(featureList);
 		
-		pGraph = new PerformanceGraph();
+		pGraph = new PerformanceGraph(app);
 		pGraph.setModel(new PerformanceGraphModel(null, null));
 		app.getPerformanceManager().addScheduleDataListener(pGraph.getModel());
 		
