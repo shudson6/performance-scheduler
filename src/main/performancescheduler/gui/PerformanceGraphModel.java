@@ -129,6 +129,7 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
     }
 
     private void scheduleDataAdded(Collection<Performance> add) {
+        boolean before = areEventsEnabled();
         setEventsEnabled(false);
         Collection<Performance> c = new ArrayList<>();
         for (Performance p : add) {
@@ -136,13 +137,14 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
                 c.add(p);
             }
         }
-        setEventsEnabled(true);
+        setEventsEnabled(before);
         if (!c.isEmpty()) {
             fireEvent(GraphDataEvent.newAddEvent(c));
         }
     }
     
     private void scheduleDataRemoved(Collection<Performance> rem) {
+        boolean before = areEventsEnabled();
         setEventsEnabled(false);
         Collection<Performance> c = new ArrayList<>();
         for (Performance p : rem) {
@@ -150,13 +152,14 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
                 c.add(p);
             }
         }
-        setEventsEnabled(true);
+        setEventsEnabled(before);
         if (!c.isEmpty()) {
             fireEvent(GraphDataEvent.newRemoveEvent(c));
         }
     }
     
     private void scheduleDataReplaced(Collection<Performance> rem, Collection<Performance> add) {
+        boolean before = areEventsEnabled();
         setEventsEnabled(false);
         Collection<Performance> crem = new ArrayList<>();
         Collection<Performance> cadd = new ArrayList<>();
@@ -170,7 +173,7 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
                 cadd.add(p);
             }
         }
-        setEventsEnabled(true);
+        setEventsEnabled(before);
         if (!crem.isEmpty() && !cadd.isEmpty()) {
             fireEvent(GraphDataEvent.newReplaceEvent(crem, cadd));
         } else if (!crem.isEmpty()) {
