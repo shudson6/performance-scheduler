@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 import performancescheduler.data.Feature;
 
@@ -11,8 +12,10 @@ public class AppFrame extends javax.swing.JFrame {
 	private static final long serialVersionUID = 5340974071886747788L;
 	
 	private final App app;
+	private JSplitPane mainSplitPane;
 	private JList<Feature> featureList;
 	private JScrollPane ftrListPane;
+	private PerformanceGraphView pGraph;
 
 	public AppFrame(final App app) {
 		super("Woot");
@@ -28,7 +31,16 @@ public class AppFrame extends javax.swing.JFrame {
 		featureList = new JList<>(new FeatureListModel(app.getFeatureManager()));
 		featureList.setCellRenderer(new FeaturePanelCellRenderer());
 		ftrListPane = new JScrollPane(featureList);
-		setContentPane(ftrListPane);
+		
+		pGraph = new PerformanceGraphView();
+		pGraph.setModel(new PerformanceGraphModel(null, null));
+		
+		mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		mainSplitPane.setDividerLocation(0.2d);
+		mainSplitPane.setLeftComponent(featureList);
+		mainSplitPane.setRightComponent(pGraph);
+		
+		setContentPane(mainSplitPane);
 		
 		pack();
 	}

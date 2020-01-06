@@ -1,7 +1,9 @@
 package performancescheduler.gui;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -22,8 +24,9 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
     private final LocalDateTime rangeEnd;
     
     public PerformanceGraphModel(LocalDateTime start, LocalDateTime end) {
-        rangeStart = (start != null) ? start : LocalDateTime.MIN;
-        rangeEnd = (end != null) ? end : LocalDateTime.MAX;
+        rangeStart = (start != null) ? start : LocalDateTime.of(LocalDate.now(), LocalTime.of(6, 0));
+        rangeEnd = (end != null) ? end
+                : LocalDateTime.of(rangeStart.toLocalDate().plusDays(1), rangeStart.toLocalTime());
         if (Duration.between(rangeStart, rangeEnd).compareTo(Duration.ofHours(24)) < 0) {
             throw new IllegalStateException("Date range must span at least 24 hours.");
         }
