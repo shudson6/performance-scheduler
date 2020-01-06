@@ -9,6 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import performancescheduler.data.Feature;
+import performancescheduler.data.Performance;
 import performancescheduler.data.storage.xml.XmlStorage;
 import performancescheduler.gui.App;
 
@@ -24,8 +25,10 @@ public class ImportXmlAction extends PerformanceSchedulerAction {
 		if (jfc.showOpenDialog(app.getAppFrame()) == JFileChooser.APPROVE_OPTION) {
 			try {
 				Collection<Feature> ftrs = new ArrayList<>(); 
-				XmlStorage.getInstance(jfc.getSelectedFile()).restore(ftrs, null);
+				Collection<Performance> pfms = new ArrayList<>();
+				XmlStorage.getInstance(jfc.getSelectedFile()).restore(ftrs, pfms);
 				app.getFeatureManager().setData(ftrs);
+				app.getPerformanceManager().setData(pfms);
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(app.getAppFrame(), "Failed to import data.");
 			}

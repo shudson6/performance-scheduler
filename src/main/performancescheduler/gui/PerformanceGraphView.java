@@ -1,6 +1,7 @@
 package performancescheduler.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.util.Objects;
 
@@ -9,31 +10,37 @@ import javax.swing.JComponent;
 @SuppressWarnings("serial")
 public class PerformanceGraphView extends JComponent {
     // TODO replace this with a context variable
-    private static final int PIXPERMIN = 1;
-    private static final int AUDHEIGHT = 23;
-    private static final int NUMAUDS = 14;
     private static final Color gridLineColor = Color.DARK_GRAY;
     
-    private PerformanceGraphModel data;
+    private final PerformanceGraph graph;
+    private PerformanceGraphCellRenderer renderer;
     
-    protected void paintGrid(Graphics g) {
-        g.setColor(gridLineColor);
-        for (int x = 0; x < getWidth(); x += 60 * PIXPERMIN) {
-            g.drawLine(x, 0, x, getHeight());
-        }
-        for (int y = 0; y < getHeight(); y += AUDHEIGHT) {
-            g.drawLine(0, y, getWidth(), y);
-        }
+    public PerformanceGraphView(PerformanceGraph parent) {
+        Objects.requireNonNull(parent);
+        graph = parent;
+        renderer = new PerformanceGraphCellRenderer();
     }
     
     @Override
     public void paintComponent(Graphics g) {
         paintGrid(g);
+        paintPerformances(g);
     }
     
-    public void setModel(PerformanceGraphModel model) {
-        Objects.requireNonNull(model);
-        data = model;
-        repaint();
+    protected void paintGrid(Graphics g) {
+        g.setColor(gridLineColor);
+        for (int x = 0; x < getWidth(); x += 60 * graph.getPixelsPerMinute()) {
+            g.drawLine(x, 0, x, getHeight());
+        }
+        for (int y = 0; y < getHeight(); y += graph.getAuditoriumHeight()) {
+            g.drawLine(0, y, getWidth(), y);
+        }
+    }
+    
+    protected void paintPerformances(Graphics g) {
+        graph.getModel().forEach(p -> {
+            Component c = renderer.getCellRendererComponent(graph, p, false, false);
+            c.paint(g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight()));
+        });
     }
 }
