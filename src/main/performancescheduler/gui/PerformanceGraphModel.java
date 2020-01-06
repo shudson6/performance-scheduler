@@ -16,7 +16,7 @@ import performancescheduler.gui.event.GraphDataListener;
 public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDataListener<Performance> {
     private List<GraphDataListener> listenerList = new ArrayList<>();
     private boolean eventsEnabled = true;
-    private Collection<Performance> data = new ArrayList<>();
+    private Collection<Performance> data;
     
     private final LocalDateTime rangeStart;
     private final LocalDateTime rangeEnd;
@@ -27,10 +27,11 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
         if (Duration.between(rangeStart, rangeEnd).compareTo(Duration.ofHours(24)) < 0) {
             throw new IllegalStateException("Date range must span at least 24 hours.");
         }
+        data = initData();
     }
     
     public boolean accept(Performance p) {
-        return rangeStart.compareTo(p.getDateTime()) <= 0 && rangeEnd.compareTo(p.getDateTime()) >= 0;
+        return rangeStart.compareTo(p.getDateTime()) <= 0 && rangeEnd.compareTo(p.getDateTime()) > 0;
     }
     
     public boolean add(Performance p) {
@@ -41,8 +42,18 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
         return result;
     }
     
+    public void addEventListener(GraphDataListener listener) {
+        if (!listenerList.contains(listener)) {
+            listenerList.add(listener);
+        }
+    }
+    
     public boolean areEventsEnabled() {
         return eventsEnabled;
+    }
+    
+    public boolean contains(Performance p) {
+        return data.contains(p);
     }
     
     public void fireAddEvent(Performance p) {
@@ -63,10 +74,16 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
         }
     }
     
-    public void fireReplaceEvent(Performance old, Performance add) {
-        if (eventsEnabled) {
-            fireEvent(GraphDataEvent.newReplaceEvent(old, add));
-        }
+    public LocalDateTime getRangeEnd() {
+        return rangeEnd;
+    }
+    
+    public LocalDateTime getRangeStart() {
+        return rangeStart;
+    }
+    
+    protected Collection<Performance> initData() {
+        return new ArrayList<>();
     }
 
     @Override
@@ -81,17 +98,21 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
         }
         return result;
     }
+    
+    public void removeEventListener(GraphDataListener listener) {
+        listenerList.remove(listener);
+    }
 
     @Override
     public void scheduleDataChanged(ScheduleEvent<Performance> event) {
         switch (event.getAction()) {
-            case GraphDataEvent.ADD:
+            case ScheduleEvent.ADD:
                 scheduleDataAdded(event.getAdded());
                 break;
-            case GraphDataEvent.REMOVE:
+            case ScheduleEvent.REMOVE:
                 scheduleDataRemoved(event.getRemoved());
                 break;
-            case GraphDataEvent.REPLACE:
+            case ScheduleEvent.UPDATE:
                 scheduleDataReplaced(event.getRemoved(), event.getAdded());
                 break;
             default:
@@ -101,6 +122,10 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
     
     public void setEventsEnabled(boolean enabled) {
         eventsEnabled = enabled;
+    }
+    
+    public int size() {
+        return data.size();
     }
 
     private void scheduleDataAdded(Collection<Performance> add) {
@@ -150,7 +175,7 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
             fireEvent(GraphDataEvent.newReplaceEvent(crem, cadd));
         } else if (!crem.isEmpty()) {
             fireEvent(GraphDataEvent.newRemoveEvent(crem));
-        } else if (crem.isEmpty() && !cadd.isEmpty()) {
+        } else if (!cadd.isEmpty()) {
             fireEvent(GraphDataEvent.newAddEvent(cadd));
         }
         // if both are empty, there's nothing to fire

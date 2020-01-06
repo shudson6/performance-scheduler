@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import performancescheduler.core.event.ScheduleDataListener;
 import performancescheduler.core.event.ScheduleEvent;
+import performancescheduler.data.Performance;
 
 public class ScheduleDataManagerTest extends ScheduleDataManager<String> {
     boolean fired;

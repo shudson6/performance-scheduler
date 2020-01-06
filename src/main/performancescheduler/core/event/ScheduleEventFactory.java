@@ -13,18 +13,18 @@ public class ScheduleEventFactory {
 	
 	public <T> ScheduleEvent<T> newAddEvent(Collection<T> t) {
 	    Objects.requireNonNull(t);
-	    return new ScheduleEvent<T>(t, null, ScheduleEvent.ADD);
+	    return new ScheduleEventImpl<T>(t, null, ScheduleEvent.ADD);
 	}
 	
 	public <T> ScheduleEvent<T> newRemoveEvent(Collection<T> t) {
 	    Objects.requireNonNull(t);
-	    return new ScheduleEvent<T>(null, t, ScheduleEvent.REMOVE);
+	    return new ScheduleEventImpl<T>(null, t, ScheduleEvent.REMOVE);
 	}
 	
 	public <T> ScheduleEvent<T> newUpdateEvent(Collection<T> after, Collection<T> before) {
 	    Objects.requireNonNull(after);
 	    Objects.requireNonNull(before);
-	    return new ScheduleEvent<T>(after, before, ScheduleEvent.UPDATE);
+	    return new ScheduleEventImpl<T>(after, before, ScheduleEvent.UPDATE);
 	}
 	
 	private ScheduleEventFactory() {}

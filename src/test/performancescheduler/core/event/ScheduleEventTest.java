@@ -10,7 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import performancescheduler.core.event.ScheduleEvent;
+import performancescheduler.core.event.ScheduleEventImpl;
 
 public class ScheduleEventTest {
     List<String> abcList = Arrays.asList("a", "b", "c");
@@ -21,7 +21,7 @@ public class ScheduleEventTest {
 
     @Test
     public void testAddEvent() {
-        ScheduleEvent<String> event = new ScheduleEvent<>(abcList, null, ScheduleEvent.ADD);
+        ScheduleEvent<String> event = new ScheduleEventImpl<>(abcList, null, ScheduleEvent.ADD);
         assertTrue(event.getAdded().containsAll(abcList));
         assertTrue(abcList.containsAll(event.getAdded()));
         assertTrue(event.getRemoved().isEmpty());
@@ -30,7 +30,7 @@ public class ScheduleEventTest {
     
     @Test
     public void testRemoveEvent() {
-        ScheduleEvent<String> event = new ScheduleEvent<>(null, abcList, ScheduleEvent.REMOVE);
+        ScheduleEvent<String> event = new ScheduleEventImpl<>(null, abcList, ScheduleEvent.REMOVE);
         assertTrue(event.getRemoved().containsAll(abcList));
         assertTrue(abcList.containsAll(event.getRemoved()));
         assertTrue(event.getAdded().isEmpty());
@@ -39,7 +39,7 @@ public class ScheduleEventTest {
 
     @Test
     public void testUpdateEvent() {
-        ScheduleEvent<String> event = new ScheduleEvent<>(abcList, xyzList, ScheduleEvent.UPDATE);
+        ScheduleEvent<String> event = new ScheduleEventImpl<>(abcList, xyzList, ScheduleEvent.UPDATE);
         assertTrue(event.getRemoved().containsAll(xyzList));
         assertTrue(xyzList.containsAll(event.getRemoved()));
         assertTrue(event.getAdded().containsAll(abcList));
@@ -51,13 +51,13 @@ public class ScheduleEventTest {
     public void shouldThrowIllegalArgumentExceptionForInvalidAction() {
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("Action");
-        new ScheduleEvent<String>(null, null, -50);
+        new ScheduleEventImpl<String>(null, null, -50);
     }
     
     @Test
     public void shouldThrowIllegalArgumentExceptionForMismatchedCollections() {
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("same size");
-        new ScheduleEvent<String>(abcList, Arrays.asList("foo", "bar"), ScheduleEvent.UPDATE);
+        new ScheduleEventImpl<String>(abcList, Arrays.asList("foo", "bar"), ScheduleEvent.UPDATE);
     }
 }

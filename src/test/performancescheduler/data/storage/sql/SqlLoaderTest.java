@@ -36,7 +36,7 @@ public class SqlLoaderTest {
     public void test() throws ClassNotFoundException, SQLException, IOException {
         Collection<MetaFeature> ftrs = new ArrayList<>();
         Collection<MetaPerformance> pfms = new ArrayList<>();
-        new SqlLoader(dbcs).load(ftrs, pfms, TestData.ldtCreate.toLocalDate(), LocalDate.now());
+        new SqlLoader(dbcs).load(ftrs, pfms, TestData.ldtTrinity.toLocalDate(), LocalDate.now());
         assertEquals(2, ftrs.size());
         assertEquals(2, pfms.size());
     }
@@ -45,7 +45,7 @@ public class SqlLoaderTest {
     public void testOutOfOrderDateParams() throws ClassNotFoundException, SQLException, IOException {
         Collection<MetaFeature> ftrs = new ArrayList<>();
         Collection<MetaPerformance> pfms = new ArrayList<>();
-        new SqlLoader(dbcs).load(ftrs, pfms, LocalDate.now(), TestData.ldtCreate.toLocalDate());
+        new SqlLoader(dbcs).load(ftrs, pfms, LocalDate.now(), TestData.ldtTrinity.toLocalDate());
         assertEquals(2, ftrs.size());
         assertEquals(2, pfms.size());
     }
@@ -53,7 +53,7 @@ public class SqlLoaderTest {
     @Test
     public void testLoadOnlyFeatures() throws IOException, SQLException {
         Collection<MetaFeature> ftrs = new ArrayList<>();
-        new SqlLoader(dbcs).load(ftrs, null, TestData.ldtCreate.toLocalDate(), LocalDate.now());
+        new SqlLoader(dbcs).load(ftrs, null, TestData.ldtTrinity.toLocalDate(), LocalDate.now());
         assertEquals(2, ftrs.size());
     }
 }

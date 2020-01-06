@@ -40,7 +40,7 @@ public class SqlStorageTest {
 	public void loadTestData() throws IOException, SQLException {
 		Collection<MetaFeature> features = new ArrayList<>();
 		Collection<MetaPerformance> performances = new ArrayList<>();
-		store.restore(features, performances, TestData.ldtCreate.toLocalDate(), LocalDate.now());
+		store.restore(features, performances, TestData.ldtTrinity.toLocalDate(), LocalDate.now());
 		assertEquals(2, features.size());
 		assertEquals(2, performances.size());
 	}
