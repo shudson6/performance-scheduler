@@ -72,6 +72,18 @@ public class PerformanceGraph extends JComponent {
         return model;
     }
     
+    public Performance getPerformanceAt(Point pt) {
+        Performance result = null;
+        // checks all performances instead of stopping when it finds one so that the topmost one will be returned
+        for (Performance perf : model) {
+            if (perf.getAuditorium() == convertCoordinateYtoAudNum(pt.y)
+                    && renderer.getCellRendererComponent(this, perf, false, false).getBounds().contains(pt)) {
+                result = perf;
+            }
+        }
+        return result;
+    }
+    
     public int getPixelsPerMinute() {
         return 1;
     }
