@@ -35,7 +35,7 @@ public class AppFrame extends javax.swing.JFrame {
 		
 		pGraph = new PerformanceGraph(app);
 		pGraph.setModel(new PerformanceGraphModel(null, null));
-		app.getPerformanceManager().addScheduleDataListener(pGraph.getModel());
+		app.getPerformanceManager().getModel().addScheduleDataListener(pGraph.getModel());
 		
 		mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		mainSplitPane.setDividerLocation(0.2d);

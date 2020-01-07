@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 import performancescheduler.core.FeatureDataModel;
 import performancescheduler.core.FeatureManager;
 import performancescheduler.core.PerformanceDataModel;
+import performancescheduler.core.PerformanceManager;
 import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 
@@ -37,7 +38,8 @@ public class App {
 	private AppFrame appFrame;
 	private FeatureDataModel featureModel;
 	private FeatureManager featureManager;
-	private PerformanceDataModel pfmMgr;
+	private PerformanceDataModel performModel;
+	private PerformanceManager performManager;
 	
 	public AppFrame getAppFrame() {
 		return appFrame;
@@ -47,14 +49,15 @@ public class App {
 		return featureManager;
 	}
 	
-	public PerformanceDataModel getPerformanceManager() {
-	    return pfmMgr;
+	public PerformanceManager getPerformanceManager() {
+	    return performManager;
 	}
 	
 	protected void start() {
 		featureModel = new FeatureDataModel();
 		featureManager = new FeatureManager(featureModel);
-		pfmMgr = new PerformanceDataModel();
+		performModel = new PerformanceDataModel();
+		performManager = new PerformanceManager(performModel);
 		
 		appFrame = new AppFrame(this);
 		appFrame.setVisible(true);

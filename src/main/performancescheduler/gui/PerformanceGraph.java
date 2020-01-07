@@ -77,7 +77,7 @@ public class PerformanceGraph extends JScrollPane {
         public boolean importData(TransferSupport ts) {
             if (canImport(ts)) {
                 try {
-                    app.getPerformanceManager().add(app.getPerformanceManager().getPerformanceFactory()
+                    app.getPerformanceManager().getModel().add(app.getPerformanceManager().getPerformanceFactory()
                             .createPerformance((Feature) ts.getTransferable().getTransferData(App.featureFlavor),
                                     convertCoordinateXtoTime(ts.getDropLocation().getDropPoint().x),
                                     convertCoordinateYtoAudNum(ts.getDropLocation().getDropPoint().y)));

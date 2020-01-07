@@ -21,7 +21,7 @@ public class ExportXmlAction extends PerformanceSchedulerAction {
         if (jfc.showSaveDialog(app.getAppFrame()) == JFileChooser.APPROVE_OPTION) {
             try {
                 XmlStorage.getInstance(jfc.getSelectedFile()).store(app.getFeatureManager().getModel().getData(), 
-                        app.getPerformanceManager().getData());
+                        app.getPerformanceManager().getModel().getData());
                 JOptionPane.showMessageDialog(app.getAppFrame(), "Export complete.");
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(app.getAppFrame(), "Failed to export data.");
