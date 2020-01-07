@@ -10,14 +10,14 @@ import performancescheduler.core.event.ScheduleDataListener;
 import performancescheduler.core.event.ScheduleEvent;
 import performancescheduler.data.Feature;
 
-public abstract class ScheduleDataManager<T> {
+public abstract class ScheduleDataModel<T> {
     private List<ScheduleDataListener<T>> listenerList = new ArrayList<>();
     private boolean eventsEnabled = true;
     protected final ScheduleEventFactory eventFactory = ScheduleEventFactory.newFactory();
     
     protected Collection<T> data;
     
-    protected ScheduleDataManager() {
+    protected ScheduleDataModel() {
         data = initData();
     }
     

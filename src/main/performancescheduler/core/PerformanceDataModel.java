@@ -6,7 +6,7 @@ import java.util.Collection;
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 
-public class PerformanceManager extends ScheduleDataManager<Performance> {
+public class PerformanceDataModel extends ScheduleDataModel<Performance> {
     public final PerformanceFactory performanceFactory = PerformanceFactory.newFactory();
 
     @Override

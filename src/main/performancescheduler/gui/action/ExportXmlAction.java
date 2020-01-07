@@ -20,7 +20,7 @@ public class ExportXmlAction extends PerformanceSchedulerAction {
         JFileChooser jfc = new JFileChooser(System.getProperty("user.dir"));
         if (jfc.showSaveDialog(app.getAppFrame()) == JFileChooser.APPROVE_OPTION) {
             try {
-                XmlStorage.getInstance(jfc.getSelectedFile()).store(app.getFeatureManager().getData(), 
+                XmlStorage.getInstance(jfc.getSelectedFile()).store(app.getFeatureManager().getModel().getData(), 
                         app.getPerformanceManager().getData());
                 JOptionPane.showMessageDialog(app.getAppFrame(), "Export complete.");
             } catch (IOException ex) {

@@ -13,7 +13,7 @@ import performancescheduler.data.Performance;
 import performancescheduler.data.Rating;
 
 public class PerformanceManagerTest {
-    private PerformanceManager mgr = new PerformanceManager();
+    private PerformanceDataModel mgr = new PerformanceDataModel();
     private Feature ftr = FeatureFactory.newFactory().createFeature("Foo", Rating.PG, 90, false, false, false, false);
     private Performance p = mgr.getPerformanceFactory().createPerformance(ftr, LocalDateTime.now(), 1);
     

@@ -4,8 +4,9 @@ import java.awt.datatransfer.DataFlavor;
 
 import javax.swing.SwingUtilities;
 
+import performancescheduler.core.FeatureDataModel;
 import performancescheduler.core.FeatureManager;
-import performancescheduler.core.PerformanceManager;
+import performancescheduler.core.PerformanceDataModel;
 import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Rating;
 
@@ -34,24 +35,26 @@ public class App {
 	}
 	
 	private AppFrame appFrame;
-	private FeatureManager ftrMgr;
-	private PerformanceManager pfmMgr;
+	private FeatureDataModel featureModel;
+	private FeatureManager featureManager;
+	private PerformanceDataModel pfmMgr;
 	
 	public AppFrame getAppFrame() {
 		return appFrame;
 	}
 	
 	public FeatureManager getFeatureManager() {
-		return ftrMgr;
+		return featureManager;
 	}
 	
-	public PerformanceManager getPerformanceManager() {
+	public PerformanceDataModel getPerformanceManager() {
 	    return pfmMgr;
 	}
 	
 	protected void start() {
-		ftrMgr = new FeatureManager();
-		pfmMgr = new PerformanceManager();
+		featureModel = new FeatureDataModel();
+		featureManager = new FeatureManager(featureModel);
+		pfmMgr = new PerformanceDataModel();
 		
 		appFrame = new AppFrame(this);
 		appFrame.setVisible(true);

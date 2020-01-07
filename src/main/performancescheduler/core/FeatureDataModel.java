@@ -8,16 +8,10 @@ import java.util.TreeSet;
 import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;
 
-public class FeatureManager extends ScheduleDataManager<Feature> {
-    private final FeatureFactory featureFactory = FeatureFactory.newFactory();
-    
+public class FeatureDataModel extends ScheduleDataModel<Feature> {
     @Override
     public List<Feature> getData() {
         return new ArrayList<>(data);
-    }
-    
-    public FeatureFactory getFeatureFactory() {
-        return featureFactory;
     }
     
     @Override

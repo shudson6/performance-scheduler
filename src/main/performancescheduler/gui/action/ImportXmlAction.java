@@ -27,7 +27,7 @@ public class ImportXmlAction extends PerformanceSchedulerAction {
 				Collection<Feature> ftrs = new ArrayList<>(); 
 				Collection<Performance> pfms = new ArrayList<>();
 				XmlStorage.getInstance(jfc.getSelectedFile()).restore(ftrs, pfms);
-				app.getFeatureManager().setData(ftrs);
+				app.getFeatureManager().getModel().setData(ftrs);
 				app.getPerformanceManager().setData(pfms);
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(app.getAppFrame(), "Failed to import data.");

@@ -9,14 +9,15 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import performancescheduler.TestData;
 import performancescheduler.core.event.ScheduleEvent;
 import performancescheduler.data.Feature;
 import performancescheduler.data.Rating;
 
 public class FeatureManagerTest {
-    private FeatureManager mgr = new FeatureManager();
-    private Feature ftr1 = mgr.getFeatureFactory().createFeature("Foo", Rating.PG, 90, false, false, false, false);
-    private Feature ftr2 = mgr.getFeatureFactory().createFeature("Bar", Rating.R, 100, false, true, false, false);
+    private FeatureDataModel mgr = new FeatureDataModel();
+    private Feature ftr1 = TestData.featureFactory.createFeature("Foo", Rating.PG, 90, false, false, false, false);
+    private Feature ftr2 = TestData.featureFactory.createFeature("Bar", Rating.R, 100, false, true, false, false);
     
     private boolean fired = false;
     

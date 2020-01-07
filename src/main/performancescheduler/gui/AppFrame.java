@@ -27,7 +27,7 @@ public class AppFrame extends javax.swing.JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setJMenuBar(new AppFrameMenuBar(app));
 		
-		featureList = new JList<>(new FeatureListModel(app.getFeatureManager()));
+		featureList = new JList<>(new FeatureListModel(app.getFeatureManager().getModel()));
 		featureList.setCellRenderer(new FeaturePanelCellRenderer());
 		featureList.setTransferHandler(new FeatureTransferHandler());
 		featureList.setDragEnabled(true);
