@@ -1,8 +1,5 @@
 package performancescheduler.gui;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTargetDragEvent;
@@ -28,8 +25,6 @@ import performancescheduler.gui.event.GraphDataListener;
 
 @SuppressWarnings("serial")
 public class PerformanceGraph extends JComponent {
-    // TODO replace this with a context variable
-    private static final Color gridLineColor = Color.DARK_GRAY;
     
     private PerformanceGraphModel model;
     private PerformanceManager manager;
@@ -46,6 +41,8 @@ public class PerformanceGraph extends JComponent {
         renderer = new PerformanceGraphCellRenderer();
         setTransferHandler(new TransferHandler());
         selectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        selectionModel.addListSelectionListener(e -> repaint());
+        setUI(new PerformanceGraphUI());
     }
     
     public int convertAudNumToCoordinateY(int audNum) {
@@ -66,6 +63,10 @@ public class PerformanceGraph extends JComponent {
     
     public int getAuditoriumHeight() {
         return 43;
+    }
+    
+    public PerformanceGraphCellRenderer getPerformanceRenderer() {
+    	return renderer;
     }
     
     public PerformanceGraphModel getModel() {
@@ -93,26 +94,12 @@ public class PerformanceGraph extends JComponent {
     }
     
     @Override
-    public void paintComponent(Graphics g) {
-        paintGrid(g);
-        paintPerformances(g);
+    public String getUIClassID() {
+    	return "performaneGraphUI";
     }
     
-    protected void paintGrid(Graphics g) {
-        g.setColor(gridLineColor);
-        for (int x = 0; x < getWidth(); x += 60 * getPixelsPerMinute()) {
-            g.drawLine(x, 0, x, getHeight());
-        }
-        for (int y = 0; y < getHeight(); y += getAuditoriumHeight()) {
-            g.drawLine(0, y, getWidth(), y);
-        }
-    }
-    
-    protected void paintPerformances(Graphics g) {
-        model.forEach(p -> {
-            Component c = renderer.getCellRendererComponent(this, p, false, false);
-            c.paint(g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight()));
-        });
+    public int pointToIndex(Point p) {
+    	return model.indexOf(getPerformanceAt(p));
     }
 
     public final void setModel(PerformanceGraphModel model) {

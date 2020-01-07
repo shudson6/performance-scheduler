@@ -20,7 +20,7 @@ import performancescheduler.gui.event.GraphDataListener;
 public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDataListener<Performance> {
     private List<GraphDataListener> listenerList = new ArrayList<>();
     private boolean eventsEnabled = true;
-    private Collection<Performance> data;
+    private List<Performance> data;
     
     private final LocalDateTime rangeStart;
     private final LocalDateTime rangeEnd;
@@ -79,6 +79,10 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
         }
     }
     
+    public Performance getElementAt(int index) {
+    	return data.get(index);
+    }
+    
     public LocalDateTime getRangeEnd() {
         return rangeEnd;
     }
@@ -87,7 +91,11 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
         return rangeStart;
     }
     
-    protected Collection<Performance> initData() {
+    public int indexOf(Performance p) {
+    	return data.indexOf(p);
+    }
+    
+    protected List<Performance> initData() {
         return new TreeList<>();
     }
 
