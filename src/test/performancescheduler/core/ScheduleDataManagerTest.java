@@ -16,7 +16,7 @@ import performancescheduler.core.event.ScheduleDataListener;
 import performancescheduler.core.event.ScheduleEvent;
 import performancescheduler.data.Performance;
 
-public class ScheduleDataManagerTest extends ScheduleDataManager<String> {
+public class ScheduleDataManagerTest extends ScheduleDataModel<String> {
     boolean fired;
     
     @Before
@@ -76,12 +76,7 @@ public class ScheduleDataManagerTest extends ScheduleDataManager<String> {
     
     @Test
     public void dontAddSameListenerTwice() {
-        ScheduleDataListener<String> listener = new ScheduleDataListener<>() {
-            @Override
-            public void scheduleDataChanged(ScheduleEvent<String> event) {
-                fail("No event expected.");
-            }
-        };
+        ScheduleDataListener<String> listener = e -> fail("No event expected.");
         addScheduleDataListener(listener);
         addScheduleDataListener(listener);
         removeScheduleDataListener(listener);
