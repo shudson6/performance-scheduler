@@ -14,7 +14,9 @@ public class AppFrame extends javax.swing.JFrame {
 	private JSplitPane mainSplitPane;
 	private JList<Feature> featureList;
 	private JScrollPane ftrListPane;
-	private PerformanceGraph pGraph;
+	
+	private PerformanceGraph graphView;
+	private PerformanceGraphPane pGraph;
 
 	public AppFrame(final App app) {
 		super("Woot");
@@ -33,13 +35,14 @@ public class AppFrame extends javax.swing.JFrame {
 		featureList.setDragEnabled(true);
 		ftrListPane = new JScrollPane(featureList);
 		
-		pGraph = new PerformanceGraph(app);
-		pGraph.setModel(new PerformanceGraphModel(null, null));
-		app.getPerformanceManager().getModel().addScheduleDataListener(pGraph.getModel());
+		PerformanceGraphModel graphModel = new PerformanceGraphModel(null, null);
+		app.getPerformanceManager().getModel().addScheduleDataListener(graphModel);
+		graphView = new PerformanceGraph(app.getPerformanceManager(), graphModel);
+		pGraph = new PerformanceGraphPane(graphView);
 		
 		mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		mainSplitPane.setDividerLocation(0.2d);
-		mainSplitPane.setLeftComponent(featureList);
+		mainSplitPane.setLeftComponent(ftrListPane);
 		mainSplitPane.setRightComponent(pGraph);
 		
 		setContentPane(mainSplitPane);

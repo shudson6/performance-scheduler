@@ -1,5 +1,7 @@
 package performancescheduler.core;
 
+import java.util.Collection;
+
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 
@@ -17,5 +19,9 @@ public class PerformanceManager extends DataManager<Performance> {
 	@Override
 	public PerformanceDataModel getModel() {
 		return (PerformanceDataModel) super.getModel();
+	}
+	
+	public void movePerformances(Iterable<Performance> p, int minutes, int auditoriums) {
+	    
 	}
 }

@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections4.list.TreeList;
+
 import performancescheduler.core.event.ScheduleDataListener;
 import performancescheduler.core.event.ScheduleEvent;
 import performancescheduler.data.Performance;
@@ -66,7 +68,7 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
     }
     
     public void fireEvent(GraphDataEvent event) {
-        if (eventsEnabled) {
+        if (eventsEnabled && event != null) {
             listenerList.forEach(l -> l.graphDataChanged(event));
         }
     }
@@ -86,7 +88,7 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
     }
     
     protected Collection<Performance> initData() {
-        return new ArrayList<>();
+        return new TreeList<>();
     }
 
     @Override
@@ -108,19 +110,24 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
 
     @Override
     public void scheduleDataChanged(ScheduleEvent<Performance> event) {
+        GraphDataEvent gde = null;
+        boolean before = eventsEnabled;
+        setEventsEnabled(false);
         switch (event.getAction()) {
             case ScheduleEvent.ADD:
-                scheduleDataAdded(event.getAdded());
+                gde = scheduleDataAdded(event.getAdded());
                 break;
             case ScheduleEvent.REMOVE:
-                scheduleDataRemoved(event.getRemoved());
+                gde = scheduleDataRemoved(event.getRemoved());
                 break;
             case ScheduleEvent.UPDATE:
-                scheduleDataReplaced(event.getRemoved(), event.getAdded());
+                gde = scheduleDataReplaced(event.getRemoved(), event.getAdded());
                 break;
             default:
                 // this should really never happen, but just silently do nothing
         }
+        setEventsEnabled(before);
+        fireEvent(gde);
     }
     
     public void setEventsEnabled(boolean enabled) {
@@ -131,39 +138,27 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
         return data.size();
     }
 
-    private void scheduleDataAdded(Collection<Performance> add) {
-        boolean before = areEventsEnabled();
-        setEventsEnabled(false);
+    private GraphDataEvent scheduleDataAdded(Collection<Performance> add) {
         Collection<Performance> c = new ArrayList<>();
         for (Performance p : add) {
             if (add(p)) {
                 c.add(p);
             }
         }
-        setEventsEnabled(before);
-        if (!c.isEmpty()) {
-            fireEvent(GraphDataEvent.newAddEvent(c));
-        }
+        return c.isEmpty() ? null : GraphDataEvent.newAddEvent(c);
     }
     
-    private void scheduleDataRemoved(Collection<Performance> rem) {
-        boolean before = areEventsEnabled();
-        setEventsEnabled(false);
+    private GraphDataEvent scheduleDataRemoved(Collection<Performance> rem) {
         Collection<Performance> c = new ArrayList<>();
         for (Performance p : rem) {
             if (remove(p)) {
                 c.add(p);
             }
         }
-        setEventsEnabled(before);
-        if (!c.isEmpty()) {
-            fireEvent(GraphDataEvent.newRemoveEvent(c));
-        }
+        return c.isEmpty() ? null : GraphDataEvent.newRemoveEvent(c);
     }
     
-    private void scheduleDataReplaced(Collection<Performance> rem, Collection<Performance> add) {
-        boolean before = areEventsEnabled();
-        setEventsEnabled(false);
+    private GraphDataEvent scheduleDataReplaced(Collection<Performance> rem, Collection<Performance> add) {
         Collection<Performance> crem = new ArrayList<>();
         Collection<Performance> cadd = new ArrayList<>();
         for (Performance p : rem) {
@@ -176,14 +171,14 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
                 cadd.add(p);
             }
         }
-        setEventsEnabled(before);
         if (!crem.isEmpty() && !cadd.isEmpty()) {
-            fireEvent(GraphDataEvent.newReplaceEvent(crem, cadd));
+            return GraphDataEvent.newReplaceEvent(crem, cadd);
         } else if (!crem.isEmpty()) {
-            fireEvent(GraphDataEvent.newRemoveEvent(crem));
+            return GraphDataEvent.newRemoveEvent(crem);
         } else if (!cadd.isEmpty()) {
-            fireEvent(GraphDataEvent.newAddEvent(cadd));
+            return GraphDataEvent.newAddEvent(cadd);
+        } else {
+            return null;
         }
-        // if both are empty, there's nothing to fire
     }
 }
