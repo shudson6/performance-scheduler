@@ -43,8 +43,10 @@ public final class TestData {
     public static final MetaFeature mfFoo = metaFactory.newMetaFeature(ftrFoo, uuid0, ldtTrinity, null);
     public static final MetaFeature mfBar = metaFactory.newMetaFeature(ftrBar, uuid1, ldtTrinity, null);
     
-    public static final Performance pfmFoo1 = performanceFactory.createPerformance(mfFoo, ldtJulin, aud1.getNumber());
-    public static final Performance pfmBar2 = performanceFactory.createPerformance(mfBar, ldtJulin, aud2.getNumber());
+    public static final Performance pfmFoo1 = performanceFactory
+            .createPerformance(mfFoo, ldtJulin, aud1.getNumber(), 0, 0, 0);
+    public static final Performance pfmBar2 = performanceFactory
+            .createPerformance(mfBar, ldtJulin, aud2.getNumber(), 0, 0, 0);
     public static final MetaPerformance mpFoo1 = metaFactory.newMetaPerformance(pfmFoo1, uuid2, ldtTrinity, null);
     public static final MetaPerformance mpBar2 = metaFactory.newMetaPerformance(pfmBar2, uuid3, ldtTrinity, null);
     
