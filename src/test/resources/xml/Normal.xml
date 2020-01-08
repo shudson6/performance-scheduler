@@ -23,17 +23,26 @@
 		<aud>1</aud>
 		<date>2020-02-13</date>
 		<time>13:37</time>
+		<seating>23</seating>
+		<cleanup>7</cleanup>
+		<trailer>17</trailer>
 	</performance>
 	<performance>
 		<featureId>1nbtdxk</featureId>
 		<aud>1</aud>
 		<date>2020-02-13</date>
 		<time>17:54</time>
+		<seating>23</seating>
+		<cleanup>7</cleanup>
+		<trailer>17</trailer>
 	</performance>
 	<performance>
 		<featureId>1l7j6ku</featureId>
 		<aud>2</aud>
 		<date>2020-02-13</date>
 		<time>15:45</time>
+		<seating>23</seating>
+		<cleanup>7</cleanup>
+		<trailer>17</trailer>
 	</performance>
 </performanceSchedule>

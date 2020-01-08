@@ -19,11 +19,17 @@
 		<aud>5</aud>
 		<date>2019-12-12</date>
 		<time>08:30</time>
+		<seating>23</seating>
+		<cleanup>7</cleanup>
+		<trailer>19</trailer>
 	</performance>
 	<performance>
 		<featureId>9999</featureId>
 		<aud>5</aud>
 		<date>2019-12-13</date>
 		<time>09:00</time>
+		<seating>23</seating>
+		<cleanup>7</cleanup>
+		<trailer>19</trailer>
 	</performance>
 </performanceSchedule>

@@ -50,7 +50,7 @@ public class XmlPerformanceParserTest {
                 XmlPerformanceParserTest.class.getResourceAsStream("/xml/CorrectPerformance.xml"));
         assertTrue(parser.parse(xmler));
         assertEquals(Integer.parseInt("1234", XML.RADIX), parser.getFeatureId());
-        assertEquals(pFactory.createPerformance(null, LocalDateTime.of(2019, 12, 30, 17, 45), 5),
+        assertEquals(pFactory.createPerformance(null, LocalDateTime.of(2019, 12, 30, 17, 45), 5, 25, 10, 18),
                 parser.getPerformance());
     }
 

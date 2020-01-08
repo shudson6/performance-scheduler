@@ -18,7 +18,7 @@ class XML {
     public static final String AUDITORIUM = "aud";
     public static final String DATE = "date";
     public static final String TIME = "time";
-    public static final String TRAILERS = "trailers";
+    public static final String TRAILERS = "trailer";
     public static final String CLEANUP = "cleanup";
     public static final String SEATING = "seating";
     

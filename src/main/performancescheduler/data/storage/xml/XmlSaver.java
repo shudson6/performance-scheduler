@@ -76,6 +76,9 @@ class XmlSaver {
         writeSimpleElement(XML.AUDITORIUM, Integer.toString(p.getAuditorium()));
         writeSimpleElement(XML.DATE, p.getDate().toString());
         writeSimpleElement(XML.TIME, p.getTime().toString());
+        writeSimpleElement(XML.TRAILERS, Integer.toString(p.getTrailers()));
+        writeSimpleElement(XML.CLEANUP, Integer.toString(p.getCleanup()));
+        writeSimpleElement(XML.SEATING, Integer.toString(p.getSeating()));
         xmlw.writeEndElement();
     }
 

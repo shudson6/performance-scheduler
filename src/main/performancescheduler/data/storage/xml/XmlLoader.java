@@ -63,7 +63,8 @@ class XmlLoader {
         performanceMap.entrySet().stream().forEach(e -> {
             if (featureMap.containsKey(e.getValue())) {
                 performances.add(pFactory.createPerformance(featureMap.get(e.getValue()), e.getKey().getDateTime(), 
-                        e.getKey().getAuditorium()));
+                        e.getKey().getAuditorium(), e.getKey().getSeating(), e.getKey().getCleanup(),
+                        e.getKey().getTrailers()));
             } else {
                 System.err.println("XmlLoader found no match for featureId=" + e.getValue() 
                         + " ; adding empty performance.");

@@ -43,8 +43,9 @@ public class XmlLoaderTest {
 				.load(features, performances);
 		assertTrue(features.contains(ftr1234));
 		assertTrue(performances.contains(prfFactory.createPerformance(ftr1234, 
-				LocalDateTime.of(2019, 12, 12, 8, 30), 5)));
-		assertTrue(performances.contains(prfFactory.createPerformance(null, LocalDateTime.of(2019, 12, 13, 9, 0), 5)));
+				LocalDateTime.of(2019, 12, 12, 8, 30), 5, 23, 7, 19)));
+		assertTrue(performances.contains(prfFactory.createPerformance(null, 
+		        LocalDateTime.of(2019, 12, 13, 9, 0), 5, 23, 7, 19)));
 	}
 	
 	@Rule

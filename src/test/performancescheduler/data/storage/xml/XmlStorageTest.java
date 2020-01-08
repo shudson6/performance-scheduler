@@ -122,9 +122,9 @@ public class XmlStorageTest {
     
     private List<Performance> buildPerformanceList() {
         List<Performance> p = new ArrayList<>();
-        p.add(pFac.createPerformance(features.get(0), LocalDateTime.of(2020, 2, 13, 13, 37), aud1.getNumber()));
-        p.add(pFac.createPerformance(features.get(0), LocalDateTime.of(2020, 2, 13, 17, 54), aud1.getNumber()));
-        p.add(pFac.createPerformance(features.get(1), LocalDateTime.of(2020, 2, 13, 15, 45), aud2.getNumber()));
+        p.add(pFac.createPerformance(features.get(0), LocalDateTime.of(2020, 2, 13, 13, 37), 1, 23, 7, 17));
+        p.add(pFac.createPerformance(features.get(0), LocalDateTime.of(2020, 2, 13, 17, 54), 1, 23, 7, 17));
+        p.add(pFac.createPerformance(features.get(1), LocalDateTime.of(2020, 2, 13, 15, 45), 2, 23, 7, 17));
         return p;
     }
 }

@@ -122,7 +122,7 @@ class XmlPerformanceParser {
     
     private boolean createPerformance() {
         if (date != null && time != null) {
-            perf = pFactory.createPerformance(null, LocalDateTime.of(date, time), aud);
+            perf = pFactory.createPerformance(null, LocalDateTime.of(date, time), aud, seating, cleanup, trailer);
             return true;
         }
         return false;
