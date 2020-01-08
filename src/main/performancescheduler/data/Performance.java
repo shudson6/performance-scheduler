@@ -30,4 +30,16 @@ public interface Performance extends Comparable<Performance> {
      * @return the feature being presented
      */
     public Feature getFeature();
+    /**
+     * @return guaranteed time, in minutes, the auditorium must be empty before this performance.
+     */
+    public int getSeating();
+    /**
+     * @return guaranteed time, in minutes, required after this performance before another may begin.
+     */
+    public int getCleanup();
+    /**
+     * @return length, in minutes, of the trailer pack
+     */
+    public int getTrailers();
 }

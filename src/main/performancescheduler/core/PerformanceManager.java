@@ -1,7 +1,5 @@
 package performancescheduler.core;
 
-import java.util.Collection;
-
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 
