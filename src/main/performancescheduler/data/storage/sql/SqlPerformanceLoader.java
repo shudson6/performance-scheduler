@@ -16,7 +16,6 @@ import performancescheduler.data.PerformanceFactory;
 import performancescheduler.data.storage.MetaDataFactory;
 import performancescheduler.data.storage.MetaFeature;
 import performancescheduler.data.storage.MetaPerformance;
-import performancescheduler.util.Context;
 
 /**
  * Class used by {@link SqlLoader} to load performance data.
@@ -71,7 +70,8 @@ public class SqlPerformanceLoader {
     private Performance createPerformance(ResultSet rs, Map<UUID, MetaFeature> ftrs) throws SQLException {
         return perfFactory.createPerformance(ftrs.get(UUID.fromString(rs.getString(SQL.COL_FEATUREID))),
                 LocalDateTime.parse(rs.getString(SQL.COL_DATETIME), SQL.DATETIME_FMT),
-                rs.getInt(SQL.COL_AUDITORIUM));
+                rs.getInt(SQL.COL_AUDITORIUM), rs.getInt(SQL.COL_SEATING), rs.getInt(SQL.COL_CLEANUP),
+                rs.getInt(SQL.COL_TRAILER));
     }
     
     private String dataCmd(LocalDate start, LocalDate end) {

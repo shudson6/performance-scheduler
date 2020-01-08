@@ -67,8 +67,8 @@ public class SqlSaverTest {
         ftrFoobar2 = ftrFactory.createFeature("Foobar", Rating.R, 101, false, true, true, true);
         mfFoobar = new TestMetaFeature(ftrFoobar, uuidGen.generateUUID(), testCreated, null);
         mfFoobar2 = new TestMetaFeature(ftrFoobar2, mfFoobar.getUuid(), testCreated, testChanged);
-        pfmFoobar = pfmFactory.createPerformance(mfFoobar, testGoTime, aud1.getNumber());
-        pfmFoobar2 = pfmFactory.createPerformance(mfFoobar2, testGoTime, aud1.getNumber());
+        pfmFoobar = pfmFactory.createPerformance(mfFoobar, testGoTime, aud1.getNumber(), 0, 0, 0);
+        pfmFoobar2 = pfmFactory.createPerformance(mfFoobar2, testGoTime, aud1.getNumber(), 0, 0, 0);
         mpFoobar = new TestMetaPerformance(pfmFoobar, uuidGen.generateUUID(), testCreated, null);
         mpFoobar2 = new TestMetaPerformance(pfmFoobar2, mpFoobar.getUuid(), testCreated, null);
     }

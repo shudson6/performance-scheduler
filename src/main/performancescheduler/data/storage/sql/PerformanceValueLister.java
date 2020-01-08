@@ -26,6 +26,12 @@ public class PerformanceValueLister extends ValueLister<MetaPerformance> {
                 return Integer.toString(subject.getAuditorium());
             case SQL.COL_FEATUREID:
                 return featureId(subject);
+            case SQL.COL_SEATING:
+                return Integer.toString(subject.getSeating());
+            case SQL.COL_CLEANUP:
+                return Integer.toString(subject.getCleanup());
+            case SQL.COL_TRAILER:
+                return Integer.toString(subject.getTrailers());
             default:
                 return super.colValue(col, subject);
         }
@@ -41,6 +47,6 @@ public class PerformanceValueLister extends ValueLister<MetaPerformance> {
 
     private final String[] COL_ORDER = new String[] {
             SQL.COL_UUID, SQL.COL_DATETIME, SQL.COL_AUDITORIUM, SQL.COL_FEATUREID,
-            SQL.COL_CREATED, SQL.COL_CHANGED, SQL.COL_ACTIVE
+            SQL.COL_CREATED, SQL.COL_CHANGED, SQL.COL_ACTIVE, SQL.COL_SEATING, SQL.COL_CLEANUP, SQL.COL_TRAILER
     };
 }

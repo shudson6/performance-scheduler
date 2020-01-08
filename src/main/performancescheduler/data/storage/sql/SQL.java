@@ -27,6 +27,9 @@ public class SQL {
 	public static final String COL_FEATUREID = "feature";
 	public static final String COL_DATETIME = "datetime";
 	public static final String COL_AUDITORIUM = "auditorium";
+	public static final String COL_SEATING = "seating";
+	public static final String COL_CLEANUP = "cleanup";
+	public static final String COL_TRAILER = "trailer";
 	
 	public static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	public static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd");

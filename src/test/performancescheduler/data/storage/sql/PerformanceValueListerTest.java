@@ -1,14 +1,11 @@
 package performancescheduler.data.storage.sql;
 
-import static org.junit.Assert.*;
-
 import java.time.LocalDateTime;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import performancescheduler.data.Auditorium;
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 import performancescheduler.data.storage.MetaPerformance;
@@ -22,7 +19,7 @@ public class PerformanceValueListerTest {
     
     @Test
     public void test() {
-        Performance p = PerformanceFactory.newFactory().createPerformance(null, LocalDateTime.now(), 1);
+        Performance p = PerformanceFactory.newFactory().createPerformance(null, LocalDateTime.now(), 1, 0, 0, 0);
         MetaPerformance mp = new TestMetaPerformance(p, new UUIDGenerator().generateUUID(), LocalDateTime.now(), null);
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("MetaPerformance");

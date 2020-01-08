@@ -33,7 +33,7 @@ public class PsqlInsertPerformanceBuilderTest {
     
     @Test
     public void dontAcceptPerformanceWithNonMetaFeature() {
-        Performance pfm = pfmFac.createPerformance(ftr, ldt, aud.getNumber());
+        Performance pfm = pfmFac.createPerformance(ftr, ldt, aud.getNumber(), 0, 0, 0);
         MetaPerformance mp = new TestMetaPerformance(pfm, uuid, ldt, ldt);
         pInsert.clear();
         assertFalse(pInsert.add(mp));
@@ -52,7 +52,7 @@ public class PsqlInsertPerformanceBuilderTest {
     @Test
     public void insertSinglePerformance() {
         MetaFeature mf = new TestMetaFeature(ftr, uuid, ldt, null);
-        Performance pfm = pfmFac.createPerformance(mf, ldt, aud.getNumber());
+        Performance pfm = pfmFac.createPerformance(mf, ldt, aud.getNumber(), 0, 0, 0);
         MetaPerformance mp = new TestMetaPerformance(pfm, uuid, ldt, ldt);
         pInsert.clear();
         assertTrue(pInsert.add(mp));
@@ -92,6 +92,15 @@ public class PsqlInsertPerformanceBuilderTest {
                             break;
                         case SQL.COL_ACTIVE:
                             sb.append(true);
+                            break;
+                        case SQL.COL_SEATING:
+                            sb.append(mp.getSeating());
+                            break;
+                        case SQL.COL_CLEANUP:
+                            sb.append(mp.getCleanup());
+                            break;
+                        case SQL.COL_TRAILER:
+                            sb.append(mp.getTrailers());
                     }
                     sb.append(",");
                 }
