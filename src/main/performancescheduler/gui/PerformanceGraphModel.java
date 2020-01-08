@@ -40,8 +40,9 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
     }
     
     public boolean add(Performance p) {
-        boolean result = accept(p) && data.add(p);
+        boolean result = accept(p);
         if (result) {
+            data.add(insertionIndex(p), p);
             fireAddEvent(p);
         }
         return result;
@@ -144,6 +145,31 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
     
     public int size() {
         return data.size();
+    }
+    
+    private int insertionIndex(Performance p) {
+        return insertionIndex(p, 0, data.size());
+    }
+    
+    private int insertionIndex(Performance p, int min, int max) {
+        if (min == max) {
+            return max;
+        } else {
+            int idx = (min + max) / 2;
+            if (compare(data.get(idx), p) <= 0) {
+                return insertionIndex(p, idx + 1, max);
+            } else {
+                return insertionIndex(p, min, idx);
+            }
+        }
+    }
+    
+    private int compare(Performance a, Performance b) {
+        if (a.getAuditorium() == b.getAuditorium()) {
+            return a.getDateTime().compareTo(b.getDateTime());
+        } else {
+            return (a.getAuditorium() > b.getAuditorium()) ? 1 : -1;
+        }
     }
 
     private GraphDataEvent scheduleDataAdded(Collection<Performance> add) {
