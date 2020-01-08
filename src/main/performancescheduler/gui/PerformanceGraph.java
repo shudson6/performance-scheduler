@@ -1,6 +1,8 @@
 package performancescheduler.gui;
 
 import java.awt.Point;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
@@ -89,6 +91,16 @@ public class PerformanceGraph extends JComponent {
         return 1;
     }
     
+    public Collection<Performance> getSelectedPerformances() {
+        Collection<Performance> c = new ArrayList<>();
+        for (Performance p : model) {
+            if (selectionModel.isSelectedIndex(model.indexOf(p))) {
+                c.add(p);
+            }
+        }
+        return c;
+    }
+    
     public ListSelectionModel getSelectionModel() {
         return selectionModel;
     }
@@ -112,11 +124,34 @@ public class PerformanceGraph extends JComponent {
         repaint();
     }
     
+    @Override
+    public TransferHandler getTransferHandler() {
+        return (TransferHandler) super.getTransferHandler();
+    }
+    
     public class TransferHandler extends javax.swing.TransferHandler implements DropTargetListener {
+        private Point xferStartPoint;
+        
+        public void setXferStartPoint(Point p) {
+            xferStartPoint = p;
+        }
+        
+        @Override
+        public int getSourceActions(JComponent c) {
+            return COPY_OR_MOVE;
+        }
+        
+        @Override
+        public Transferable createTransferable(JComponent c) {
+            return new PerformanceTransfer(getSelectedPerformances(), xferStartPoint);
+        }
+        
+        @Override
         public boolean canImport(TransferSupport ts) {
             return ts.isDataFlavorSupported(App.featureFlavor) || ts.isDataFlavorSupported(App.performanceFlavor);
         }
         
+        @Override
         public boolean importData(TransferSupport ts) {
             try {
                 if (ts.isDataFlavorSupported(App.featureFlavor)) {
@@ -124,9 +159,11 @@ public class PerformanceGraph extends JComponent {
                 } else if (ts.isDataFlavorSupported(App.performanceFlavor)) {
                     return importPerformances(ts);
                 } else {
+                    System.out.println("Not supported");
                     return false;
                 }
             } catch (IOException | UnsupportedFlavorException ex) {
+                ex.printStackTrace();
                 return false;
             }
         }
@@ -140,8 +177,26 @@ public class PerformanceGraph extends JComponent {
         }
         
         private boolean importPerformances(TransferSupport ts) {
-            // TODO need a selection model before this can be useful
-            return false;
+            try {
+                manager.movePerformances((Collection<Performance>) ts.getTransferable()
+                        .getTransferData(App.performanceFlavor),
+                        timeChangeMinutes(ts.getDropLocation().getDropPoint(), xferStartPoint),
+                        auditoriumChange(ts.getDropLocation().getDropPoint(), xferStartPoint));
+                return true;
+            } catch (UnsupportedFlavorException | IOException ex) {
+                return false;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return false;
+            }
+        }
+        
+        private int auditoriumChange(Point a, Point b) {
+            return convertCoordinateYtoAudNum(b.y) - convertCoordinateYtoAudNum(a.y);
+        }
+        
+        private int timeChangeMinutes(Point a, Point b) {
+            return (int) Duration.between(convertCoordinateXtoTime(b.x), convertCoordinateXtoTime(a.x)).toMinutes();
         }
 
         @Override
@@ -159,7 +214,7 @@ public class PerformanceGraph extends JComponent {
         @Override
         public void drop(DropTargetDropEvent dtde) {}
         
-        class PerformanceTransfer implements Iterable<Performance> {
+        class PerformanceTransfer implements Transferable {
             private final Collection<Performance> c;
             private final Point dragStart;
             
@@ -170,17 +225,28 @@ public class PerformanceGraph extends JComponent {
                 dragStart = new Point(start);
             }
             
-            public int getStartX() {
-                return dragStart.x;
+            public final Point getStartPoint() {
+                return dragStart;
             }
-            
-            public int getStartY() {
-                return dragStart.y;
-            }
-            
+
             @Override
-            public Iterator<Performance> iterator() {
-                return c.iterator();
+            public DataFlavor[] getTransferDataFlavors() {
+                return new DataFlavor[] {App.performanceFlavor};
+            }
+
+            @Override
+            public boolean isDataFlavorSupported(DataFlavor flavor) {
+                return flavor.equals(App.performanceFlavor);
+            }
+
+            @Override
+            public Collection<Performance> getTransferData(DataFlavor flavor) 
+                    throws UnsupportedFlavorException, IOException {
+                if (isDataFlavorSupported(flavor)) {
+                    return c;
+                } else {
+                    throw new UnsupportedFlavorException(flavor);
+                }
             }
         }
     }

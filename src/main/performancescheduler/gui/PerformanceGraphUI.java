@@ -9,9 +9,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.time.Duration;
 
 import javax.swing.JComponent;
+import javax.swing.TransferHandler;
 import javax.swing.plaf.ComponentUI;
 
 public class PerformanceGraphUI extends ComponentUI {
@@ -28,6 +30,8 @@ public class PerformanceGraphUI extends ComponentUI {
 			graph.setOpaque(true);
 			graph.setBackground(Color.LIGHT_GRAY);
 			graph.addMouseListener(handler);
+			graph.addMouseMotionListener(handler);
+			graph.addKeyListener(handler);
 		} else {
 			throw new IllegalArgumentException("PerformanceGraphUI may only be installed on a PerformanceGraph.");
 		}
@@ -74,25 +78,19 @@ public class PerformanceGraphUI extends ComponentUI {
 		c.paint(g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight()));
     }
     
-    private class Handler implements MouseListener, KeyListener {
+    private class Handler implements MouseListener, MouseMotionListener, KeyListener {
         private Point lastLeftPress;
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -152,5 +150,17 @@ public class PerformanceGraphUI extends ComponentUI {
 		        }
 		    }
 		}
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (!graph.getSelectionModel().isSelectionEmpty()) {
+                graph.getTransferHandler().setXferStartPoint(lastLeftPress);
+                graph.getTransferHandler().exportAsDrag(graph, e, TransferHandler.COPY);
+            }
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+        }
     }
 }
