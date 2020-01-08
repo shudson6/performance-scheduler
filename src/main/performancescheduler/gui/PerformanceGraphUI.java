@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -63,18 +64,18 @@ public class PerformanceGraphUI extends ComponentUI {
     
     protected void paintPerformances(Graphics g) {
     	for (int i = 0; i < graph.getModel().size(); i++) {
-    		Component c = graph.getPerformanceRenderer().getCellRendererComponent(
-    				graph, graph.getModel().getElementAt(i),
-    				graph.getSelectionModel().isSelectedIndex(i), false);
-    		c.paint(g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight()));
+    		paintPerformanceComponent(g, 
+    		        graph.getPerformanceRenderer().getCellRendererComponent(graph, graph.getModel().getElementAt(i),
+    		                graph.getSelectionModel().isSelectedIndex(i), false));
     	}
-//        graph.getModel().forEach(p -> {
-//            Component c = graph.getPerformanceRenderer().getCellRendererComponent(graph, p, false, false);
-//            c.paint(g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight()));
-//        });
+    }
+    
+    private void paintPerformanceComponent(Graphics g, Component c) {
+		c.paint(g.create(c.getX(), c.getY(), c.getWidth(), c.getHeight()));
     }
     
     private class Handler implements MouseListener, KeyListener {
+        private Point lastLeftPress;
 
 		@Override
 		public void keyTyped(KeyEvent e) {
@@ -100,8 +101,11 @@ public class PerformanceGraphUI extends ComponentUI {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			int index = graph.pointToIndex(e.getPoint());
-			graph.getSelectionModel().setSelectionInterval(index, index);
+		    // save the location of a left-press; we will want it if a drag starts
+		    if (e.getButton() == MouseEvent.BUTTON1) {
+		        lastLeftPress = e.getPoint();
+		    }
+		    maybeUpdateSelection(e);
 		}
 
 		@Override
@@ -112,14 +116,41 @@ public class PerformanceGraphUI extends ComponentUI {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+		    // ask for focus so we can receive key events
+			if (e.getSource() instanceof JComponent) {
+			    ((JComponent) e.getSource()).requestFocusInWindow();
+			}
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+		}
+		
+		private void maybeUpdateSelection(MouseEvent e) {
+		    int index = graph.pointToIndex(e.getPoint());
+		    if (index < 0) {
+		        // clear selection when click is in space
+		        graph.getSelectionModel().clearSelection();
+		    } else {
+		        // update selection according to modifier keys
+		        if (e.isControlDown()) {
+		            // control-click: invert selection status of the index
+		            if (graph.getSelectionModel().isSelectedIndex(index)) {
+		                graph.getSelectionModel().removeSelectionInterval(index, index);
+		            } else {
+		                graph.getSelectionModel().addSelectionInterval(index, index);
+		            }
+		        } else if (e.isShiftDown()) {
+		            // shift-click: add everything between the last two clicks
+		            graph.getSelectionModel().addSelectionInterval(graph.getSelectionModel().getLeadSelectionIndex(),
+		                    index);
+		        } else {
+		            // no modifier: single-select; do nothing if already selected, so not to disturb the selection
+		            if (!graph.getSelectionModel().isSelectedIndex(index)) {
+		                graph.getSelectionModel().setSelectionInterval(index, index);
+		            }
+		        }
+		    }
 		}
     }
 }
