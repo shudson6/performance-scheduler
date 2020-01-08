@@ -173,20 +173,19 @@ public class PerformanceGraph extends JComponent {
             return manager.getModel().add(manager.getPerformanceFactory()
                     .createPerformance((Feature) ts.getTransferable().getTransferData(App.featureFlavor),
                             convertCoordinateXtoTime(ts.getDropLocation().getDropPoint().x),
-                            convertCoordinateYtoAudNum(ts.getDropLocation().getDropPoint().y)));
+                            convertCoordinateYtoAudNum(ts.getDropLocation().getDropPoint().y),
+                            0, 25, 18));
         }
         
+        @SuppressWarnings("unchecked")
         private boolean importPerformances(TransferSupport ts) {
             try {
-                manager.movePerformances((Collection<Performance>) ts.getTransferable()
-                        .getTransferData(App.performanceFlavor),
+                manager.movePerformances(
+                        (Collection<Performance>) ts.getTransferable().getTransferData(App.performanceFlavor),
                         timeChangeMinutes(ts.getDropLocation().getDropPoint(), xferStartPoint),
                         auditoriumChange(ts.getDropLocation().getDropPoint(), xferStartPoint));
                 return true;
-            } catch (UnsupportedFlavorException | IOException ex) {
-                return false;
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (UnsupportedFlavorException | IOException | ClassCastException ex) {
                 return false;
             }
         }
