@@ -25,6 +25,7 @@ public class PerformanceManager extends DataManager<Performance> {
 	
 	private Performance movePerformance(Performance p, int m, int a) {
 	    System.out.format("Changes: minutes %d, auds %d%n", m, a);
-	    return factory.createPerformance(p.getFeature(), p.getDateTime().plusMinutes(m), p.getAuditorium() - a);
+	    return factory.createPerformance(p.getFeature(), p.getDateTime().plusMinutes(m), p.getAuditorium() - a,
+	            p.getSeating(), p.getCleanup(), p.getTrailers());
 	}
 }

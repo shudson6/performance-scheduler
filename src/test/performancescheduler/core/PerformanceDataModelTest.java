@@ -13,10 +13,10 @@ import performancescheduler.data.FeatureFactory;
 import performancescheduler.data.Performance;
 import performancescheduler.data.Rating;
 
-public class PerformanceManagerTest {
+public class PerformanceDataModelTest {
     private PerformanceDataModel mgr = new PerformanceDataModel();
     private Feature ftr = TestData.featureFactory.createFeature("Foo", Rating.PG, 90, false, false, false, false);
-    private Performance p = TestData.performanceFactory.createPerformance(ftr, LocalDateTime.now(), 1);
+    private Performance p = TestData.performanceFactory.createPerformance(ftr, LocalDateTime.now(), 1, 0, 0, 0);
     
     @Test
     public void testGetData() {
