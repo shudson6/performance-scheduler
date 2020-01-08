@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import performancescheduler.TestData;
 import performancescheduler.data.Auditorium;
 import performancescheduler.data.Feature;
 import performancescheduler.data.FeatureFactory;
@@ -36,8 +37,8 @@ public class MetaPerformanceTest {
         ftr2 = ftrFactory.createFeature("Bar", Rating.R, 90, false, false, false, false);
         dateTime = LocalDateTime.now();
         aud = Auditorium.getInstance(1, null, false, 100);
-        p1 = perfFactory.createPerformance(ftr1, dateTime, aud.getNumber());
-        p2 = perfFactory.createPerformance(ftr2, dateTime, aud.getNumber());
+        p1 = perfFactory.createPerformance(ftr1, dateTime, aud.getNumber(), 0, 0, 0);
+        p2 = perfFactory.createPerformance(ftr2, dateTime, aud.getNumber(), 0, 0, 0);
     }
     
     @Rule
@@ -61,6 +62,9 @@ public class MetaPerformanceTest {
     public void verifyGetters() {
         assertEquals(dateTime.toLocalDate(), metaFactory.newMetaPerformance(p1).getDate());
         assertEquals(dateTime.toLocalTime(), metaFactory.newMetaPerformance(p2).getTime());
+        assertEquals(0, TestData.mpFoo1.getSeating());
+        assertEquals(0, TestData.mpFoo1.getCleanup());
+        assertEquals(0, TestData.mpFoo1.getTrailers());
     }
     
     @Test
@@ -70,6 +74,9 @@ public class MetaPerformanceTest {
     	assertEquals(null, metaFactory.newMetaPerformance(null).getDateTime());
     	assertEquals(null, metaFactory.newMetaPerformance(null).getFeature());
     	assertEquals(-1, metaFactory.newMetaPerformance(null).getAuditorium());
+    	assertEquals(0, metaFactory.newMetaPerformance(null).getSeating());
+    	assertEquals(0, metaFactory.newMetaPerformance(null).getCleanup());
+    	assertEquals(0, metaFactory.newMetaPerformance(null).getTrailers());
     }
     
     @Test

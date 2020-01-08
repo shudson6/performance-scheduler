@@ -52,4 +52,19 @@ public class MetaPerformance extends MetaWrapper<Performance> implements Perform
     public Feature getFeature() {
         return (wrapped != null) ? wrapped.getFeature() : null;
     }
+
+    @Override
+    public int getSeating() {
+        return (wrapped != null) ? wrapped.getSeating() : 0;
+    }
+
+    @Override
+    public int getCleanup() {
+        return (wrapped != null) ? wrapped.getCleanup() : 0;
+    }
+
+    @Override
+    public int getTrailers() {
+        return (wrapped != null) ? wrapped.getTrailers() : 0;
+    }
 }

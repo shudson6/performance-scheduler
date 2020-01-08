@@ -33,4 +33,10 @@ public class MetaWrapperTest {
 	public void nullToStringGivesNullInString() {
 		assertEquals(MetaWrapper.NULLSTR, new MetaWrapper<Object>(null, uuid, time, null).toString());
 	}
+	
+	@Test
+	public void testGetWrapped() {
+	    assertEquals("Foo", new MetaWrapper<String>("Foo", uuid, time, null).getWrapped());
+	    assertNotEquals("Foo", new MetaWrapper<String>("Bar", uuid, time, null).getWrapped());
+	}
 }
