@@ -56,6 +56,9 @@ public class FeatureDialog extends JDialog {
     private JButton confirmButton;
     private JButton cancelButton;
     
+    // for testability, any dialog spawned by this one needs to be reachable for automatic close
+    private JDialog childDialog;
+    
     public FeatureDialog(Frame parent, FeatureFactory ftrFact) {
         super(parent, true);
         Objects.requireNonNull(ftrFact);
@@ -67,6 +70,7 @@ public class FeatureDialog extends JDialog {
     public boolean showNewFeatureDialog() {
     	confirmButton.setText("Create");
     	setLocationRelativeTo(getParent());
+    	pack();
     	setVisible(true);
     	return confirmed;
     }
@@ -188,7 +192,6 @@ public class FeatureDialog extends JDialog {
         pane.add(cancelButton, cancelConst);
         
         setContentPane(pane);
-        pack();
     }
     
     private JPanel initAmenititesPanel() {
@@ -245,19 +248,56 @@ public class FeatureDialog extends JDialog {
     }
     
     private void confirmButtonClicked() {
+        if (!validateInputs()) {
+            childDialog = new JOptionPane("Please give the feature a title.", JOptionPane.ERROR_MESSAGE)
+                    .createDialog(this, "No title");
+            childDialog.setVisible(true);
+            return;
+        }
     	confirmed = true;
-    	setVisible(false);
+    	dispose();
     }
     
     private void cancelButtonClicked() {
     	confirmed = false;
-    	setVisible(false);
+    	dispose();
     }
     
-    public static void main(String[] args) {
-    	SwingUtilities.invokeLater(() -> {
-    		new FeatureDialog(null, FeatureFactory.newFactory()).setVisible(true);
-    		System.exit(0);
-    	});
+    //
+    // package methods for testability
+    //
+    
+    JTextField getTitleField() {
+        return titleField;
+    }
+    
+    void clickConfirm() {
+        confirmButton.doClick();
+    }
+    
+    void clickCancel() {
+        cancelButton.doClick();
+    }
+    
+    void setCC(boolean cc) {
+        ccCheckBox.setSelected(cc);
+    }
+    
+    void setOC(boolean oc) {
+        ocCheckBox.setSelected(oc);
+    }
+    
+    void setDA(boolean da) {
+        daCheckBox.setSelected(da);
+    }
+    
+    void set3D(boolean is3d) {
+        is3dCheckBox.setSelected(is3d);
+    }
+    
+    void closeChild() {
+        if (childDialog != null) {
+            childDialog.setVisible(false);
+        }
     }
 }
