@@ -134,12 +134,15 @@ public class PerformanceGraph extends JComponent {
         public void setXferStartPoint(Point p) {
             xferStartPoint = p;
         }
+//
+//	Commented out until Drag Image is a current task
+//
         
-        @Override
-        public void exportAsDrag(JComponent comp, InputEvent e, int action) {
-            super.exportAsDrag(comp, e, action);
-            setDragImage(new DragImage(getSelectedPerformances().iterator().next()));
-        }
+//        @Override
+//        public void exportAsDrag(JComponent comp, InputEvent e, int action) {
+//            setDragImage(new DragImage(getSelectedPerformances().iterator().next()));
+//            super.exportAsDrag(comp, e, action);
+//        }
         
         @Override
         public int getSourceActions(JComponent c) {
@@ -253,21 +256,24 @@ public class PerformanceGraph extends JComponent {
                 }
             }
         }
+//
+//	Commented out until Drag Image is a current task
+//
         
-        class DragImage extends BufferedImage {
-            public DragImage(Performance p) {
-                super(getPerformanceCellRenderer().getCellRendererComponent(PerformanceGraph.this, p, false, false)
-                        .getWidth(),
-                        getPerformanceCellRenderer().getCellRendererComponent(PerformanceGraph.this, p, false, false)
-                        .getHeight(),
-                        BufferedImage.TYPE_INT_ARGB);
-                drawImage(p);
-            }
-            
-            private void drawImage(Performance p) {
-                getPerformanceCellRenderer().getCellRendererComponent(PerformanceGraph.this, p, false, false)
-                        .paint(this.createGraphics());
-            }
-        }
+//        class DragImage extends BufferedImage {
+//            public DragImage(Performance p) {
+//                super(getPerformanceCellRenderer().getCellRendererComponent(PerformanceGraph.this, p, false, false)
+//                        .getWidth(),
+//                        getPerformanceCellRenderer().getCellRendererComponent(PerformanceGraph.this, p, false, false)
+//                        .getHeight(),
+//                        BufferedImage.TYPE_INT_ARGB);
+//                drawImage(p);
+//            }
+//            
+//            private void drawImage(Performance p) {
+//                getPerformanceCellRenderer().getCellRendererComponent(PerformanceGraph.this, p, false, false)
+//                        .paint(this.createGraphics());
+//            }
+//        }
     }
 }
