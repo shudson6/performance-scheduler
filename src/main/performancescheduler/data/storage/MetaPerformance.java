@@ -67,4 +67,9 @@ public class MetaPerformance extends MetaWrapper<Performance> implements Perform
     public int getTrailers() {
         return (wrapped != null) ? wrapped.getTrailers() : 0;
     }
+
+    @Override
+    public int length() {
+        return (wrapped != null) ? wrapped.length() : 0;
+    }
 }

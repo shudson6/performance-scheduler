@@ -11,6 +11,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collection;
+
+import javax.swing.TransferHandler;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -20,6 +23,7 @@ import org.junit.rules.ExpectedException;
 import performancescheduler.TestData;
 import performancescheduler.core.PerformanceDataModel;
 import performancescheduler.core.PerformanceManager;
+import performancescheduler.data.Performance;
 
 public class PerformanceGraphTest {
 	static PerformanceGraph graph;
@@ -33,7 +37,7 @@ public class PerformanceGraphTest {
 	@BeforeClass
 	public static void setUpBefore() {
 		manager = new PerformanceManager(new PerformanceDataModel());
-		start = LocalDateTime.of(LocalDate.now(), LocalTime.of(6, 0));
+		start = LocalDateTime.of(TestData.ldtJulin.toLocalDate(), LocalTime.of(0, 0));
 		model = new PerformanceGraphModel(start, null);
 		graph = new PerformanceGraph(manager, model);
 	}
@@ -97,5 +101,30 @@ public class PerformanceGraphTest {
 	public void shouldGetUnsupportedFlavorException() throws UnsupportedFlavorException, IOException {
 	    exception.expect(UnsupportedFlavorException.class);
 	    graph.getTransferHandler().createTransferable(graph).getTransferData(App.featureFlavor);
+	}
+	
+	@SuppressWarnings("unchecked")
+    @Test
+	public void testPerformanceTransferData() throws UnsupportedFlavorException, IOException {
+	    assertTrue(graph.getModel().add(TestData.pfmFoo1));
+	    graph.getSelectionModel().setSelectionInterval(0, 0);
+	    graph.getTransferHandler().setXferStartPoint(new Point(0, 0));
+	    Collection<Performance> cp = (Collection<Performance>) graph.getTransferHandler().createTransferable(null)
+	            .getTransferData(App.performanceFlavor);
+	    assertEquals(1, cp.size());
+	    assertTrue(cp.contains(TestData.pfmFoo1));
+	    graph.getModel().remove(TestData.pfmFoo1);
+	    assertEquals(0, graph.getModel().size());
+	}
+	
+	@Test
+	public void verifySourceActions() {
+	    assertEquals(TransferHandler.COPY_OR_MOVE, graph.getTransferHandler().getSourceActions(graph));
+	}
+	
+	@Test
+	public void verifyUIClassID() {
+	    assertEquals("performanceGraphUI", graph.getUIClassID());
+	    assertTrue(graph.getUI() instanceof PerformanceGraphUI);
 	}
 }

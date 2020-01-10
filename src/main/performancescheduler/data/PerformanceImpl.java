@@ -143,4 +143,9 @@ class PerformanceImpl implements Performance {
         rslt = 23 * rslt + trailers;
         return rslt;
     }
+
+    @Override
+    public int length() {
+        return cleanup + seating + trailers + (feature != null ? feature.getRuntime() : 0);
+    }
 }

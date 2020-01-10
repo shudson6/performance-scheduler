@@ -8,6 +8,8 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
+import java.awt.event.InputEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -92,10 +94,8 @@ public class PerformanceGraph extends JComponent {
     
     public Collection<Performance> getSelectedPerformances() {
         Collection<Performance> c = new ArrayList<>();
-        for (Performance p : model) {
-            if (selectionModel.isSelectedIndex(model.indexOf(p))) {
-                c.add(p);
-            }
+        for (int i : selectionModel.getSelectedIndices()) {
+            c.add(model.getElementAt(i));
         }
         return c;
     }
@@ -106,7 +106,7 @@ public class PerformanceGraph extends JComponent {
     
     @Override
     public String getUIClassID() {
-    	return "performaneGraphUI";
+    	return "performanceGraphUI";
     }
     
     public int pointToIndex(Point p) {
@@ -133,6 +133,12 @@ public class PerformanceGraph extends JComponent {
         
         public void setXferStartPoint(Point p) {
             xferStartPoint = p;
+        }
+        
+        @Override
+        public void exportAsDrag(JComponent comp, InputEvent e, int action) {
+            super.exportAsDrag(comp, e, action);
+            setDragImage(new DragImage(getSelectedPerformances().iterator().next()));
         }
         
         @Override
@@ -245,6 +251,22 @@ public class PerformanceGraph extends JComponent {
                 } else {
                     throw new UnsupportedFlavorException(flavor);
                 }
+            }
+        }
+        
+        class DragImage extends BufferedImage {
+            public DragImage(Performance p) {
+                super(getPerformanceCellRenderer().getCellRendererComponent(PerformanceGraph.this, p, false, false)
+                        .getWidth(),
+                        getPerformanceCellRenderer().getCellRendererComponent(PerformanceGraph.this, p, false, false)
+                        .getHeight(),
+                        BufferedImage.TYPE_INT_ARGB);
+                drawImage(p);
+            }
+            
+            private void drawImage(Performance p) {
+                getPerformanceCellRenderer().getCellRendererComponent(PerformanceGraph.this, p, false, false)
+                        .paint(this.createGraphics());
             }
         }
     }
