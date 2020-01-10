@@ -69,7 +69,7 @@ public class PerformanceGraphUI extends ComponentUI {
     protected void paintPerformances(Graphics g) {
     	for (int i = 0; i < graph.getModel().size(); i++) {
     		paintPerformanceComponent(g, 
-    		        graph.getPerformanceRenderer().getCellRendererComponent(graph, graph.getModel().getElementAt(i),
+    		        graph.getPerformanceCellRenderer().getCellRendererComponent(graph, graph.getModel().getElementAt(i),
     		                graph.getSelectionModel().isSelectedIndex(i), false));
     	}
     }

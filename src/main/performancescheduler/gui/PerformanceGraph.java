@@ -13,7 +13,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 
 import javax.swing.DefaultListSelectionModel;
@@ -67,7 +66,7 @@ public class PerformanceGraph extends JComponent {
         return 43;
     }
     
-    public PerformanceGraphCellRenderer getPerformanceRenderer() {
+    public PerformanceGraphCellRenderer getPerformanceCellRenderer() {
     	return renderer;
     }
     
