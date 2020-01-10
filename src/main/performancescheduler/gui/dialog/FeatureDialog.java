@@ -262,42 +262,4 @@ public class FeatureDialog extends JDialog {
     	confirmed = false;
     	dispose();
     }
-    
-    //
-    // package methods for testability
-    //
-    
-    JTextField getTitleField() {
-        return titleField;
-    }
-    
-    void clickConfirm() {
-        confirmButton.doClick();
-    }
-    
-    void clickCancel() {
-        cancelButton.doClick();
-    }
-    
-    void setCC(boolean cc) {
-        ccCheckBox.setSelected(cc);
-    }
-    
-    void setOC(boolean oc) {
-        ocCheckBox.setSelected(oc);
-    }
-    
-    void setDA(boolean da) {
-        daCheckBox.setSelected(da);
-    }
-    
-    void set3D(boolean is3d) {
-        is3dCheckBox.setSelected(is3d);
-    }
-    
-    void closeChild() {
-        if (childDialog != null) {
-            childDialog.setVisible(false);
-        }
-    }
 }

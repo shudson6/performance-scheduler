@@ -3,13 +3,19 @@ package performancescheduler.gui;
 import static org.junit.Assert.*;
 
 import java.awt.Point;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import performancescheduler.TestData;
 import performancescheduler.core.PerformanceDataModel;
@@ -20,6 +26,9 @@ public class PerformanceGraphTest {
 	static PerformanceManager manager;
 	static PerformanceGraphModel model;
 	static LocalDateTime start;
+	
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 	
 	@BeforeClass
 	public static void setUpBefore() {
@@ -68,14 +77,25 @@ public class PerformanceGraphTest {
 	}
 	
 	@Test
-	public void getPerformanceAtPoint() {
-		Point p = new Point(graph.convertTimeToCoordinateX(TestData.pfmFoo1.getDateTime()),
-				graph.convertAudNumToCoordinateY(TestData.pfmFoo1.getAuditorium()));
-		model.add(TestData.pfmFoo1);
-		// should get null b/c the cell is smaller to fit w/in the gridlines
-		assertEquals(null, graph.getPerformanceAt(p));
-		p.x += 5;
-		p.y += graph.getAuditoriumHeight() / 2;
-		assertEquals(TestData.pfmFoo1, graph.getPerformanceAt(p));
+	public void testTransferStartPoint() {
+	    graph.getTransferHandler().setXferStartPoint(new Point(37, 43));
+	    assertEquals(new Point(37, 43), 
+	            ((PerformanceGraph.TransferHandler.PerformanceTransfer)
+	                    graph.getTransferHandler().createTransferable(null))
+	            .getStartPoint());
+	}
+	
+	@Test
+	public void verifyDataFlavors() {
+	    Transferable t = graph.getTransferHandler().createTransferable(graph);
+	    assertArrayEquals(new DataFlavor[] {App.performanceFlavor}, t.getTransferDataFlavors());
+	    assertTrue(t.isDataFlavorSupported(App.performanceFlavor));
+	    assertFalse(t.isDataFlavorSupported(App.featureFlavor));
+	}
+	
+	@Test
+	public void shouldGetUnsupportedFlavorException() throws UnsupportedFlavorException, IOException {
+	    exception.expect(UnsupportedFlavorException.class);
+	    graph.getTransferHandler().createTransferable(graph).getTransferData(App.featureFlavor);
 	}
 }
