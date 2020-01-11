@@ -163,28 +163,28 @@ public class PerformanceGraph extends JComponent {
         
         @Override
         public boolean importData(TransferSupport ts) {
-            try {
-                if (ts.isDataFlavorSupported(App.featureFlavor)) {
-                    return importFeature(ts);
-                } else if (ts.isDataFlavorSupported(App.performanceFlavor)) {
-                    return importPerformances(ts);
-                } else {
-                    System.out.println("Not supported");
-                    return false;
-                }
-            } catch (IOException | UnsupportedFlavorException ex) {
-                ex.printStackTrace();
+            if (ts.isDataFlavorSupported(App.featureFlavor)) {
+                return importFeature(ts);
+            } else if (ts.isDataFlavorSupported(App.performanceFlavor)) {
+                return importPerformances(ts);
+            } else {
+                System.out.println("Not supported");
                 return false;
             }
         }
         
-        private boolean importFeature(TransferSupport ts) throws UnsupportedFlavorException, IOException {
+        private boolean importFeature(TransferSupport ts) {
             // TODO check drop action and implement different options (insta-create single, open dialog, etc)
-            return manager.getModel().add(manager.getPerformanceFactory()
-                    .createPerformance((Feature) ts.getTransferable().getTransferData(App.featureFlavor),
-                            convertCoordinateXtoTime(ts.getDropLocation().getDropPoint().x),
-                            convertCoordinateYtoAudNum(ts.getDropLocation().getDropPoint().y),
-                            0, 25, 18));
+            try {
+                manager.addPerformance(manager.getPerformanceFactory()
+                        .createPerformance((Feature) ts.getTransferable().getTransferData(App.featureFlavor),
+                                convertCoordinateXtoTime(ts.getDropLocation().getDropPoint().x),
+                                convertCoordinateYtoAudNum(ts.getDropLocation().getDropPoint().y),
+                                0, 25, 18));
+                return true;
+            } catch (IOException | UnsupportedFlavorException ex) {
+                return false;
+            }
         }
         
         @SuppressWarnings("unchecked")
