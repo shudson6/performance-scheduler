@@ -8,6 +8,8 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.junit.Before;
@@ -45,6 +47,7 @@ public class ScheduleDataModelTest extends ScheduleDataModel<String> {
     		fired = true;
     	});
     	add(Arrays.asList("Foo", "Bar", "Foo"));
+    	assertTrue(fired);
     	assertTrue(added.containsAll(Arrays.asList("Foo", "Bar")));
     	assertTrue(data.containsAll(added));
     	assertEquals(2, added.size());
@@ -70,6 +73,27 @@ public class ScheduleDataModelTest extends ScheduleDataModel<String> {
     }
     
     @Test
+    public void testEventFiredOnMultiRemove() {
+    	Collection<String> rm = new ArrayList<>();
+    	data.add("Foo");
+    	data.add("Bar");
+    	addScheduleDataListener(e -> {
+    		rm.addAll(e.getRemoved());
+    		fired = true;
+    	});
+    	remove(Arrays.asList("Foo", "foo", "Bar"));
+    	assertTrue(fired);
+    	assertTrue(rm.containsAll(Arrays.asList("Foo", "Bar")));
+    	assertTrue(data.isEmpty());
+    	assertEquals(2, rm.size());
+    }
+    
+    @Test
+    public void verifyEmptyMultiRemove() {
+    	assertFalse(remove(Arrays.asList()));
+    }
+    
+    @Test
     public void testEventFiresOnUpdate() {
         add("Foo");
         addScheduleDataListener(e -> {
@@ -81,6 +105,31 @@ public class ScheduleDataModelTest extends ScheduleDataModel<String> {
         if (!fired) {
             fail("Update event didn't fire!");
         }
+    }
+    
+    @Test
+    public void testEventFiredOnMultiUpdate() {
+    	data.add("Foo");
+    	data.add("Bar");
+    	addScheduleDataListener(e -> {
+    		assertTrue(e.getAdded().containsAll(Arrays.asList("Bar", "Pi")));
+    		assertTrue(e.getRemoved().containsAll(Arrays.asList("Foo", "Bar")));
+    		fired = true;
+    	});
+    	Map<String, String> updates = new HashMap<>();
+    	updates.put("Foo", "Bar");
+    	updates.put("Bar", "Pi");
+    	update(updates);
+    	assertTrue(fired);
+    	assertFalse(data.contains("Foo"));
+    }
+    
+    @Test
+    public void verifyNoUpdateWhenNoSuchElement() {
+    	Map<String, String> map = new HashMap<>();
+    	map.put("Foo", "Bar");
+    	addScheduleDataListener(e -> fail("No event expected."));
+    	assertFalse(update(map));
     }
     
     @Test
@@ -137,6 +186,50 @@ public class ScheduleDataModelTest extends ScheduleDataModel<String> {
             fail("Event did not fire.");
         }
     }
+    
+    @Test
+    public void setDataNullWithEvents() {
+    	data.add("foo");
+    	addScheduleDataListener(e -> {
+    		assertEquals(ScheduleEvent.REMOVE, e.getAction());
+    		fired = true;
+    	});
+    	setData(null);
+    	assertTrue(fired);
+    	assertTrue(data.isEmpty());
+    }
+    
+    @Test
+    public void setDataEmptyOnEmptyWithEvents() {
+    	addScheduleDataListener(e -> fail("No event expected."));
+    	setData(new ArrayList<>());
+    	assertTrue(data.isEmpty());
+    }
+    
+    @Test
+    public void setDataNonmtOnNonmtWithEvents() {
+    	data.add("foo");
+    	addScheduleDataListener(e -> {
+    		if (!fired) {
+    			assertEquals(ScheduleEvent.REMOVE, e.getAction());
+    			fired = true;
+    		} else {
+    			assertEquals(ScheduleEvent.ADD, e.getAction());
+    			data.add("did it!");
+    		}
+    	});
+    	setData(Arrays.asList("bar"));
+    	assertTrue(fired);
+    	assertTrue(data.containsAll(Arrays.asList("bar", "did it!")));
+    }
+    
+    @Test
+    public void setDataNoEvents() {
+    	setEventsEnabled(false);
+    	addScheduleDataListener(e -> fail("No event expected."));
+    	setData(Arrays.asList("foobar"));
+    	assertTrue(data.contains("foobar"));
+    }
 
     @Override
     public Collection<String> getData() {
@@ -147,10 +240,5 @@ public class ScheduleDataModelTest extends ScheduleDataModel<String> {
     protected Collection<String> initData() {
     	// testing with TreeSet makes it easy to get add() == false
         return new TreeSet<>();
-    }
-
-    @Override
-    public void setData(Collection<String> newData) {
-        // not in this test
     }
 }
