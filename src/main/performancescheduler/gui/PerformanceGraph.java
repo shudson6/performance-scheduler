@@ -88,6 +88,10 @@ public class PerformanceGraph extends JComponent {
         return result;
     }
     
+    public PerformanceManager getPerformanceManager() {
+        return manager;
+    }
+    
     public int getPixelsPerMinute() {
         return 1;
     }
@@ -193,7 +197,7 @@ public class PerformanceGraph extends JComponent {
                 manager.movePerformances(
                         (Collection<Performance>) ts.getTransferable().getTransferData(App.performanceFlavor),
                         timeChangeMinutes(ts.getDropLocation().getDropPoint(), xferStartPoint),
-                        auditoriumChange(ts.getDropLocation().getDropPoint(), xferStartPoint));
+                        auditoriumChange(xferStartPoint, ts.getDropLocation().getDropPoint()));
                 return true;
             } catch (UnsupportedFlavorException | IOException | ClassCastException ex) {
                 return false;

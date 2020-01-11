@@ -87,6 +87,23 @@ public class PerformanceGraphUI extends ComponentUI {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
+		    switch (e.getKeyCode()) {
+		        case KeyEvent.VK_RIGHT:
+		            graph.getPerformanceManager().movePerformances(graph.getSelectedPerformances(), 5, 0);
+		            break;
+		        case KeyEvent.VK_LEFT:
+		            graph.getPerformanceManager().movePerformances(graph.getSelectedPerformances(), -5, 0);
+		            break;
+		        case KeyEvent.VK_UP:
+		            graph.getPerformanceManager().movePerformances(graph.getSelectedPerformances(), 0, -1);
+		            break;
+		        case KeyEvent.VK_DOWN:
+		            graph.getPerformanceManager().movePerformances(graph.getSelectedPerformances(), 0, 1);
+		            break;
+		        default:
+		            return;
+		    }
+		    e.consume();
 		}
 
 		@Override

@@ -42,6 +42,9 @@ public class PerformanceManager extends DataManager<Performance> {
 	}
 	
 	public void movePerformances(Collection<Performance> ip, int minutes, int auditoriums) {
+	    if (ip == null || ip.isEmpty()) {
+	        return;
+	    }
 	    Map<Performance, Performance> updateMap = new HashMap<>(model.size() * 2);
 	    try {
 		    for (Performance p : ip) {
@@ -61,7 +64,7 @@ public class PerformanceManager extends DataManager<Performance> {
 	
 	private Performance adjustPerformance(Performance p, int m, int a) {
 	    return factory.createPerformance(p.getFeature(), roundTo5min(p.getDateTime().plusMinutes(m)),
-	    		p.getAuditorium() - a, p.getSeating(), p.getCleanup(), p.getTrailers());
+	    		p.getAuditorium() + a, p.getSeating(), p.getCleanup(), p.getTrailers());
 	}
 	
 	public final LocalDateTime roundTo5min(LocalDateTime t) {
