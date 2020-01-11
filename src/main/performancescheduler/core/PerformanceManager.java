@@ -11,6 +11,7 @@ import performancescheduler.data.PerformanceFactory;
 
 public class PerformanceManager extends DataManager<Performance> {
 	private final PerformanceFactory factory = PerformanceFactory.newFactory();
+	private final int auditoriumCount = 14;
 
 	public PerformanceManager(PerformanceDataModel model) {
 		super(model);
@@ -25,6 +26,10 @@ public class PerformanceManager extends DataManager<Performance> {
 		return (PerformanceDataModel) super.getModel();
 	}
 	
+	public int getAuditoriumCount() {
+	    return auditoriumCount;
+	}
+	
 	public void addPerformance(Performance p) {
 		model.add(roundTo5min(p));
 	}
@@ -32,7 +37,7 @@ public class PerformanceManager extends DataManager<Performance> {
 	public void addPerformances(Collection<Performance> cp) {
 		Collection<Performance> toAdd = new ArrayList<>(cp.size());
 		for (Performance p : cp) {
-			if (p.getAuditorium() <= 14 && p.getAuditorium() >= 1) {
+			if (p.getAuditorium() <= auditoriumCount && p.getAuditorium() >= 1) {
 				toAdd.add(roundTo5min(p));
 			} else {
 				// abandon the operation if an auditorium is out of range
@@ -50,7 +55,7 @@ public class PerformanceManager extends DataManager<Performance> {
 		    for (Performance p : ip) {
 		    	updateMap.put(p, adjustPerformance(p, minutes, auditoriums));
 		    	// if this adjustment causes an out of range auditorium value, abandon the move
-		    	if (updateMap.get(p).getAuditorium() > 14 || updateMap.get(p).getAuditorium() < 1) {
+		    	if (updateMap.get(p).getAuditorium() > auditoriumCount || updateMap.get(p).getAuditorium() < 1) {
 		    		return;
 		    	}
 		    }
