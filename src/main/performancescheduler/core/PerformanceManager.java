@@ -1,6 +1,8 @@
 package performancescheduler.core;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,23 @@ public class PerformanceManager extends DataManager<Performance> {
 		return (PerformanceDataModel) super.getModel();
 	}
 	
-	public void movePerformances(Iterable<Performance> ip, int minutes, int auditoriums) {
+	public void addPerformance(Performance p) {
+		model.add(roundTo5min(p));
+	}
+	
+	public void addPerformances(Collection<Performance> cp) {
+		Collection<Performance> toAdd = new ArrayList<>(cp.size());
+		for (Performance p : cp) {
+			if (p.getAuditorium() <= 14 && p.getAuditorium() >= 1) {
+				toAdd.add(roundTo5min(p));
+			} else {
+				// abandon the operation if an auditorium is out of range
+				return;
+			}
+		}
+	}
+	
+	public void movePerformances(Collection<Performance> ip, int minutes, int auditoriums) {
 	    Map<Performance, Performance> updateMap = new HashMap<>(model.size() * 2);
 	    try {
 		    for (Performance p : ip) {
@@ -52,6 +70,15 @@ public class PerformanceManager extends DataManager<Performance> {
 			return t.plusMinutes(5 - d);
 		} else {
 			return t.minusMinutes(d);
+		}
+	}
+	
+	public final Performance roundTo5min(Performance p) {
+		if (p.getDateTime().getMinute() % 5 == 0) {
+			return p;
+		} else {
+			return factory.createPerformance(p.getFeature(), roundTo5min(p.getDateTime()), p.getAuditorium(),
+					p.getSeating(), p.getCleanup(), p.getTrailers());
 		}
 	}
 }
