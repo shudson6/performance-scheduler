@@ -81,7 +81,11 @@ public class PerformanceGraphModel implements Iterable<Performance>, ScheduleDat
     }
     
     public Performance getElementAt(int index) {
-    	return data.get(index);
+        if (index >= 0 && index < data.size()) {
+            return data.get(index);
+        } else {
+            return null;
+        }
     }
     
     public LocalDateTime getRangeEnd() {

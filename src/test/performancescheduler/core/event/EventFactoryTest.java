@@ -65,8 +65,8 @@ public class EventFactoryTest {
         ScheduleEvent<Feature> ev = eventFactory.newUpdateEvent(Arrays.asList(ftr1), Arrays.asList(ftr2));
         assertEquals(1, ev.getRemoved().size());
         assertEquals(1, ev.getAdded().size());
-        assertTrue(ev.getRemoved().contains(ftr2));
-        assertTrue(ev.getAdded().contains(ftr1));
+        assertTrue(ev.getRemoved().contains(ftr1));
+        assertTrue(ev.getAdded().contains(ftr2));
         assertEquals(ScheduleEvent.UPDATE, ev.getAction());
     }
     
@@ -74,9 +74,9 @@ public class EventFactoryTest {
     public void testNewUpdatePerformanceEvent() {
         ScheduleEvent<Performance> ev = eventFactory.newUpdateEvent(Arrays.asList(pfm2), Arrays.asList(pfm1));
         assertEquals(1, ev.getAdded().size());
-        assertTrue(ev.getAdded().contains(pfm2));
+        assertTrue(ev.getAdded().contains(pfm1));
         assertEquals(1, ev.getRemoved().size());
-        assertTrue(ev.getRemoved().contains(pfm1));
+        assertTrue(ev.getRemoved().contains(pfm2));
         assertEquals(ScheduleEvent.UPDATE, ev.getAction());
     }
 }
