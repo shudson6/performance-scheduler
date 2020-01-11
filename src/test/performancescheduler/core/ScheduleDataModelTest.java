@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.TreeSet;
@@ -16,7 +17,7 @@ import performancescheduler.core.event.ScheduleDataListener;
 import performancescheduler.core.event.ScheduleEvent;
 import performancescheduler.data.Performance;
 
-public class ScheduleDataManagerTest extends ScheduleDataModel<String> {
+public class ScheduleDataModelTest extends ScheduleDataModel<String> {
     boolean fired;
     
     @Before
@@ -34,6 +35,25 @@ public class ScheduleDataManagerTest extends ScheduleDataModel<String> {
         if (!fired) {
             fail("Add event didn't fire!");
         }
+    }
+    
+    @Test
+    public void testEventFiredOnMultiAdd() {
+    	Collection<String> added = new ArrayList<>();
+    	addScheduleDataListener(event -> {
+    		added.addAll(event.getAdded());
+    		fired = true;
+    	});
+    	add(Arrays.asList("Foo", "Bar", "Foo"));
+    	assertTrue(added.containsAll(Arrays.asList("Foo", "Bar")));
+    	assertTrue(data.containsAll(added));
+    	assertEquals(2, added.size());
+    	assertEquals(2, data.size());
+    }
+    
+    @Test
+    public void verifyEmptyMultiAdd() {
+    	assertFalse(add(Arrays.asList()));
     }
     
     @Test
@@ -125,6 +145,7 @@ public class ScheduleDataManagerTest extends ScheduleDataModel<String> {
     
     @Override
     protected Collection<String> initData() {
+    	// testing with TreeSet makes it easy to get add() == false
         return new TreeSet<>();
     }
 

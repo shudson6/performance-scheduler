@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import performancescheduler.core.event.ScheduleEventFactory;
 import performancescheduler.core.event.ScheduleDataListener;
@@ -29,6 +30,19 @@ public abstract class ScheduleDataModel<T> {
         return result;
     }
     
+    public boolean add(Collection<T> toAdd) {
+    	Collection<T> added = new ArrayList(toAdd.size());
+    	for (T t : toAdd) {
+    		if (data.add(t)) {
+    			added.add(t);
+    		}
+    	}
+    	if (!added.isEmpty()) {
+    		fireAddEvent(added);
+    	}
+    	return !added.isEmpty();
+    }
+    
     public void addScheduleDataListener(ScheduleDataListener<T> listener) {
         if (!listenerList.contains(listener)) {
             listenerList.add(listener);
@@ -44,9 +58,13 @@ public abstract class ScheduleDataModel<T> {
     }
     
     public void fireAddEvent(T added) {
-        if (eventsEnabled) {
-            fireEvent(eventFactory.newAddEvent(Arrays.asList(added)));
-        }
+        fireAddEvent(Arrays.asList(added));
+    }
+    
+    public void fireAddEvent(Collection<T> added) {
+    	if (eventsEnabled) {
+    		fireEvent(eventFactory.newAddEvent(added));
+    	}
     }
     
     public void fireEvent(ScheduleEvent<T> event) {
@@ -56,15 +74,23 @@ public abstract class ScheduleDataModel<T> {
     }
     
     public void fireRemoveEvent(T removed) {
-        if (eventsEnabled) {
-            fireEvent(eventFactory.newRemoveEvent(Arrays.asList(removed)));
-        }
+        fireRemoveEvent(Arrays.asList(removed));
     }
     
-    public void fireUpdateEvent(T after, T before) {
-        if (eventsEnabled) {
-            fireEvent(eventFactory.newUpdateEvent(Arrays.asList(after), Arrays.asList(before)));
-        }
+    public void fireRemoveEvent(Collection<T> removed) {
+    	if (eventsEnabled) {
+    		fireEvent(eventFactory.newRemoveEvent(removed));
+    	}
+    }
+    
+    public void fireUpdateEvent(T before, T after) {
+            fireUpdateEvent(Arrays.asList(before), Arrays.asList(after));
+    }
+    
+    public void fireUpdateEvent(Collection<T> before, Collection<T> after) {
+    	if (eventsEnabled) {
+    		fireEvent(eventFactory.newUpdateEvent(before, after));
+    	}
     }
     
     public abstract Collection<T> getData();
@@ -77,6 +103,19 @@ public abstract class ScheduleDataModel<T> {
             fireRemoveEvent(toRm);
         }
         return result;
+    }
+    
+    public boolean remove(Collection<T> toRm) {
+    	Collection<T> removed = new ArrayList<>(toRm.size());
+    	for (T t : toRm) {
+    		if (data.remove(t)) {
+    			removed.add(t);
+    		}
+    	}
+    	if (!removed.isEmpty()) {
+    		fireRemoveEvent(removed);
+    	}
+    	return !removed.isEmpty();
     }
     
     public void removeScheduleDataListener(ScheduleDataListener<T> listener) {
@@ -123,12 +162,41 @@ public abstract class ScheduleDataModel<T> {
     public boolean update(T before, T after) {
         if (data.remove(before)) {
             if (data.add(after)) {
-                fireUpdateEvent(after, before);
+                fireUpdateEvent(before, after);
             } else {
                 fireRemoveEvent(before);
             }
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Updates the model by replacing the parameter's keys with their correspoding values. The input is assumed to be
+     * a mapping of previous forms (keys) to their new forms (values). If any key does not exist in the model, the
+     * value is not added (there is nothing to update). As with the other model-modifying methods, this method returns
+     * {@code true} if the model is changed by the operation and notifies all listeners of any change.
+     * 
+     * @param map mapping of (oldForm, newForm) pairs
+     * @return {@code true} if the model is changed by the operation
+     */
+    public boolean update(Map<T, T> map) {
+    	Collection<T> before = new ArrayList<>(map.size());
+    	Collection<T> after = new ArrayList<>(map.size());
+    	map.forEach((b, a) -> {
+    		if (data.remove(b)) {
+    			before.add(b);
+    			after.add(a);
+    		}
+    	});
+    	// wait until the remove operations finish before adding anything, to avoid collisions where an added value
+    	// could end up being removed
+    	data.addAll(after);
+    	if (before.size() > 0) {
+    		fireUpdateEvent(before, after);
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
 }

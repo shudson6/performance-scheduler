@@ -21,7 +21,7 @@ public class ScheduleEventFactory {
 	    return new ScheduleEventImpl<T>(null, t, ScheduleEvent.REMOVE);
 	}
 	
-	public <T> ScheduleEvent<T> newUpdateEvent(Collection<T> after, Collection<T> before) {
+	public <T> ScheduleEvent<T> newUpdateEvent(Collection<T> before, Collection<T> after) {
 	    Objects.requireNonNull(after);
 	    Objects.requireNonNull(before);
 	    return new ScheduleEventImpl<T>(after, before, ScheduleEvent.UPDATE);
