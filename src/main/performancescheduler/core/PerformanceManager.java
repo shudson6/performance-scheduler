@@ -2,9 +2,12 @@ package performancescheduler.core;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.undo.UndoManager;
 
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
@@ -12,6 +15,7 @@ import performancescheduler.data.PerformanceFactory;
 public class PerformanceManager extends DataManager<Performance> {
 	private final PerformanceFactory factory = PerformanceFactory.newFactory();
 	private final int auditoriumCount = 14;
+	private UndoManager undoManager = null;
 
 	public PerformanceManager(PerformanceDataModel model) {
 		super(model);
@@ -31,7 +35,7 @@ public class PerformanceManager extends DataManager<Performance> {
 	}
 	
 	public void addPerformance(Performance p) {
-		model.add(roundTo5min(p));
+		addPerformances(Arrays.asList(p));
 	}
 	
 	public void addPerformances(Collection<Performance> cp) {
@@ -44,6 +48,10 @@ public class PerformanceManager extends DataManager<Performance> {
 				return;
 			}
 		}
+		model.add(toAdd);
+		if (undoManager != null) {
+		    undoManager.addEdit(new UndoableAddPerformances(getModel(), toAdd));
+		}
 	}
 	
 	public void movePerformances(Collection<Performance> ip, int minutes, int auditoriums) {
@@ -51,20 +59,25 @@ public class PerformanceManager extends DataManager<Performance> {
 	        return;
 	    }
 	    Map<Performance, Performance> updateMap = new HashMap<>(model.size() * 2);
-	    try {
-		    for (Performance p : ip) {
-		    	updateMap.put(p, adjustPerformance(p, minutes, auditoriums));
-		    	// if this adjustment causes an out of range auditorium value, abandon the move
-		    	if (updateMap.get(p).getAuditorium() > auditoriumCount || updateMap.get(p).getAuditorium() < 1) {
-		    		return;
-		    	}
-		    }
-		    model.update(updateMap);
-	    } catch (Exception ex) {
-	    	// we could get IllegalArgumentException if the adjustment makes an auditorium negative; this or
-	    	// any other exception will cause us to simply abandon the move operation
-	    	return;
+	    for (Performance p : ip) {
+	    	// if this adjustment causes an out of range auditorium value, abandon the move
+	        if (p.getAuditorium() + auditoriums < 1 || p.getAuditorium() + auditoriums > auditoriumCount) {
+	            return;
+	        }
+	    	updateMap.put(p, adjustPerformance(p, minutes, auditoriums));
+	    	if (updateMap.get(p).getAuditorium() > auditoriumCount || updateMap.get(p).getAuditorium() < 1) {
+	    		return;
+	    	}
 	    }
+	    model.update(updateMap);
+	}
+	
+	public UndoManager getUndoManager() {
+	    return undoManager;
+	}
+	
+	public void setUndoManager(UndoManager mgr) {
+	    undoManager = mgr;
 	}
 	
 	private Performance adjustPerformance(Performance p, int m, int a) {

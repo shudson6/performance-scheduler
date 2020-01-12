@@ -45,6 +45,8 @@ public final class TestData {
     
     public static final Performance pfmFoo1 = performanceFactory
             .createPerformance(mfFoo, ldtJulin, aud1.getNumber(), 0, 0, 0);
+    public static final Performance pfmFooBravo = performanceFactory
+            .createPerformance(ftrFoo, ldtBravo, 1, 0, 0, 0);
     public static final Performance pfmBar2 = performanceFactory
             .createPerformance(mfBar, ldtJulin, aud2.getNumber(), 0, 0, 0);
     public static final MetaPerformance mpFoo1 = metaFactory.newMetaPerformance(pfmFoo1, uuid2, ldtTrinity, null);
