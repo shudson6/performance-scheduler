@@ -8,8 +8,6 @@ import performancescheduler.core.FeatureDataModel;
 import performancescheduler.core.FeatureManager;
 import performancescheduler.core.PerformanceDataModel;
 import performancescheduler.core.PerformanceManager;
-import performancescheduler.data.FeatureFactory;
-import performancescheduler.data.Rating;
 
 public class App {
     public static final DataFlavor featureFlavor = createFlavor("performancescheduler.data.Feature");
@@ -40,6 +38,7 @@ public class App {
 	private FeatureManager featureManager;
 	private PerformanceDataModel performModel;
 	private PerformanceManager performManager;
+	private UndoManager undoManager;
 	
 	public AppFrame getAppFrame() {
 		return appFrame;
@@ -53,11 +52,18 @@ public class App {
 	    return performManager;
 	}
 	
+	public UndoManager getUndoManager() {
+	    return undoManager;
+	}
+	
 	protected void start() {
+	    undoManager = new UndoManager();
 		featureModel = new FeatureDataModel();
 		featureManager = new FeatureManager(featureModel);
+		featureManager.addUndoableEditListener(undoManager);
 		performModel = new PerformanceDataModel();
 		performManager = new PerformanceManager(performModel);
+		performManager.addUndoableEditListener(undoManager);
 		
 		appFrame = new AppFrame(this);
 		appFrame.setVisible(true);

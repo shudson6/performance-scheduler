@@ -100,6 +100,9 @@ public class PerformanceGraphUI extends ComponentUI {
 		        case KeyEvent.VK_DOWN:
 		            graph.getPerformanceManager().movePerformances(graph.getSelectedPerformances(), 0, 1);
 		            break;
+		        case KeyEvent.VK_DELETE:
+		            graph.getPerformanceManager().removePerformances(graph.getSelectedPerformances());
+		            break;
 		        default:
 		            return;
 		    }

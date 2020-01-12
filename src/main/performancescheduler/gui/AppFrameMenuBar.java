@@ -18,6 +18,8 @@ public class AppFrameMenuBar extends javax.swing.JMenuBar {
 	private JMenuItem fileExport;
 	
 	private JMenu editMenu;
+	private JMenuItem editUndo;
+	private JMenuItem editRedo;
 	private JMenuItem editNewFeature;
 	
 	public AppFrameMenuBar(App a) {
@@ -43,6 +45,11 @@ public class AppFrameMenuBar extends javax.swing.JMenuBar {
 	
 	private JMenu createEditMenu() {
 		editMenu = new JMenu("Edit");
+		editUndo = new JMenuItem(app.getUndoManager().getUndoAction());
+		editMenu.add(editUndo);
+		editRedo = new JMenuItem(app.getUndoManager().getRedoAction());
+		editMenu.add(editRedo);
+		editMenu.addSeparator();
 		editNewFeature = new JMenuItem(new NewFeatureAction("New Feature", app));
 		editMenu.add(editNewFeature);
 		return editMenu;

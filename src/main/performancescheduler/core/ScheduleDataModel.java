@@ -31,7 +31,7 @@ public abstract class ScheduleDataModel<T> {
     }
     
     public boolean add(Collection<T> toAdd) {
-    	Collection<T> added = new ArrayList(toAdd.size());
+    	Collection<T> added = new ArrayList<>(toAdd.size());
     	for (T t : toAdd) {
     		if (data.add(t)) {
     			added.add(t);

@@ -9,24 +9,24 @@ import javax.swing.undo.CannotUndoException;
 import performancescheduler.data.Performance;
 
 @SuppressWarnings("serial")
-public class UndoableAddPerformances extends UndoablePerformanceEdit {
+public class UndoableRemovePerformance extends UndoablePerformanceEdit {
     private Collection<Performance> data;
     
-    public UndoableAddPerformances(PerformanceDataModel model, Collection<Performance> added) {
-        super(model, (added != null && added.size() > 1) ? "Add Performances" : "Add Performance");
-        Objects.requireNonNull(added);
-        data = added;
+    public UndoableRemovePerformance(PerformanceDataModel model, Collection<Performance> toRm) {
+        super(model, (toRm != null && toRm.size() > 1) ? "Remove Performances" : "Remove Performance");
+        Objects.requireNonNull(toRm);
+        data = toRm;
     }
     
     @Override
     public void undo() throws CannotUndoException {
         super.undo();
-        model.remove(data);
+        model.add(data);
     }
     
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
-        model.add(data);
+        model.remove(data);
     }
 }

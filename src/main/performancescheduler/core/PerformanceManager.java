@@ -7,15 +7,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.undo.UndoManager;
-
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 
 public class PerformanceManager extends DataManager<Performance> {
 	private final PerformanceFactory factory = PerformanceFactory.newFactory();
 	private final int auditoriumCount = 14;
-	private UndoManager undoManager = null;
 
 	public PerformanceManager(PerformanceDataModel model) {
 		super(model);
@@ -49,9 +46,13 @@ public class PerformanceManager extends DataManager<Performance> {
 			}
 		}
 		model.add(toAdd);
-		if (undoManager != null) {
-		    undoManager.addEdit(new UndoableAddPerformances(getModel(), toAdd));
-		}
+		fireUndoableEdit(new UndoableAddPerformances(getModel(), toAdd));
+	}
+	
+	public void removePerformances(Collection<Performance> cp) {
+	    Collection<Performance> removed = new ArrayList<>(cp);
+	    model.remove(removed);
+	    fireUndoableEdit(new UndoableRemovePerformance(getModel(), removed));
 	}
 	
 	public void movePerformances(Collection<Performance> ip, int minutes, int auditoriums) {
@@ -70,14 +71,7 @@ public class PerformanceManager extends DataManager<Performance> {
 	    	}
 	    }
 	    model.update(updateMap);
-	}
-	
-	public UndoManager getUndoManager() {
-	    return undoManager;
-	}
-	
-	public void setUndoManager(UndoManager mgr) {
-	    undoManager = mgr;
+	    fireUndoableEdit(new UndoableMovePerformances(getModel(), updateMap));
 	}
 	
 	private Performance adjustPerformance(Performance p, int m, int a) {

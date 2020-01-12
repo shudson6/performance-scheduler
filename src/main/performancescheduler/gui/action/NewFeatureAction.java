@@ -17,7 +17,7 @@ public class NewFeatureAction extends PerformanceSchedulerAction {
 	public void actionPerformed(ActionEvent e) {
 		FeatureDialog dialog = new FeatureDialog(app.getAppFrame(), app.getFeatureManager().getFeatureFactory());
 		if (dialog.showNewFeatureDialog()) {
-			if (!app.getFeatureManager().getModel().add(dialog.getCreatedFeature())) {
+			if (!app.getFeatureManager().addFeature(dialog.getCreatedFeature())) {
 				JOptionPane.showMessageDialog(app.getAppFrame(), "Could not add feature to the document.");
 			}
 		}

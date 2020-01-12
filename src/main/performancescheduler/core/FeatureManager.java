@@ -18,4 +18,12 @@ public class FeatureManager extends DataManager<Feature> {
 	public FeatureDataModel getModel() {
 		return (FeatureDataModel) super.getModel();
 	}
+	
+	public boolean addFeature(Feature f) {
+	    boolean result = model.add(f);
+	    if (result) {
+	        fireUndoableEdit(new UndoableAddFeature(getModel(), f));
+	    }
+	    return result;
+	}
 }
