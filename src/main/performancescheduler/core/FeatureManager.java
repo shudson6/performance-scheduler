@@ -26,4 +26,12 @@ public class FeatureManager extends DataManager<Feature> {
 	    }
 	    return result;
 	}
+	
+	public boolean removeFeature(Feature f) {
+	    boolean result = model.remove(f);
+	    if (result) {
+	        fireUndoableEdit(new UndoableRemoveFeature(getModel(), f));
+	    }
+	    return result;
+	}
 }

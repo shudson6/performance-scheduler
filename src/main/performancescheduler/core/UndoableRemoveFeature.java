@@ -6,23 +6,23 @@ import javax.swing.undo.CannotUndoException;
 import performancescheduler.data.Feature;
 
 @SuppressWarnings("serial")
-public class UndoableAddFeature extends UndoableFeatureEdit {
-    private Feature added;
+public class UndoableRemoveFeature extends UndoableFeatureEdit {
+    private final Feature removed;
     
-    public UndoableAddFeature(FeatureDataModel model, Feature f) {
-        super(model, "Add Feature: " + f.getTitle());
-        added = f;
+    public UndoableRemoveFeature(FeatureDataModel model, Feature f) {
+        super(model, "Remove Feature: " + f.getTitle());
+        removed = f;
     }
     
     @Override
     public void undo() throws CannotUndoException {
         super.undo();
-        model.remove(added);
+        model.add(removed);
     }
     
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
-        model.add(added);
+        model.remove(removed);
     }
 }

@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 import performancescheduler.gui.action.ExportXmlAction;
 import performancescheduler.gui.action.ImportXmlAction;
 import performancescheduler.gui.action.NewFeatureAction;
+import performancescheduler.gui.action.RemoveFeatureAction;
 
 @SuppressWarnings("serial")
 public class AppFrameMenuBar extends javax.swing.JMenuBar {
@@ -21,6 +22,7 @@ public class AppFrameMenuBar extends javax.swing.JMenuBar {
 	private JMenuItem editUndo;
 	private JMenuItem editRedo;
 	private JMenuItem editNewFeature;
+	private JMenuItem editRemoveFeature;
 	
 	public AppFrameMenuBar(App a) {
 		super();
@@ -52,6 +54,8 @@ public class AppFrameMenuBar extends javax.swing.JMenuBar {
 		editMenu.addSeparator();
 		editNewFeature = new JMenuItem(new NewFeatureAction("New Feature", app));
 		editMenu.add(editNewFeature);
+		editRemoveFeature = new JMenuItem(new RemoveFeatureAction(app));
+		editMenu.add(editRemoveFeature);
 		return editMenu;
 	}
 }

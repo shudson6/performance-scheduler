@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import performancescheduler.data.Feature;
 import performancescheduler.data.Performance;
 import performancescheduler.data.PerformanceFactory;
 
@@ -33,6 +34,12 @@ public class PerformanceManager extends DataManager<Performance> {
 	
 	public void addPerformance(Performance p) {
 		addPerformances(Arrays.asList(p));
+	}
+	
+	public Collection<Performance> getPerformancesOf(Feature f) {
+	    Collection<Performance> c = new ArrayList<>();
+	    model.getData().stream().filter(p -> p.getFeature().equals(f)).forEach(c::add);
+	    return c;
 	}
 	
 	public void addPerformances(Collection<Performance> cp) {

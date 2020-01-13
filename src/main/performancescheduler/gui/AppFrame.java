@@ -1,4 +1,4 @@
-package performancescheduler.gui;
+ package performancescheduler.gui;
 
 import java.util.Objects;
 
@@ -12,7 +12,7 @@ import performancescheduler.data.Feature;
 public class AppFrame extends javax.swing.JFrame {
 	private final App app;
 	private JSplitPane mainSplitPane;
-	private JList<Feature> featureList;
+	private FeatureList featureList;
 	private JScrollPane ftrListPane;
 	
 	private PerformanceGraph graphView;
@@ -25,14 +25,15 @@ public class AppFrame extends javax.swing.JFrame {
 		init();
 	}
 	
+	public JList<Feature> getFeatureList() {
+	    return featureList;
+	}
+	
 	private void init() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setJMenuBar(new AppFrameMenuBar(app));
 		
-		featureList = new JList<>(new FeatureListModel(app.getFeatureManager().getModel()));
-		featureList.setCellRenderer(new FeaturePanelCellRenderer());
-		featureList.setTransferHandler(new FeatureTransferHandler());
-		featureList.setDragEnabled(true);
+		featureList = new FeatureList(new FeatureListModel(app.getFeatureManager().getModel()));
 		ftrListPane = new JScrollPane(featureList);
 		
 		PerformanceGraphModel graphModel = new PerformanceGraphModel(null, null);
