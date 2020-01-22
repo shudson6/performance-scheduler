@@ -42,5 +42,6 @@ public class SqlPerformanceLoaderTest {
         assertEquals(2, perf.size());
         assertTrue(perf.contains(TestData.mpFoo1));
         assertTrue(perf.contains(TestData.mpBar2));
+        dbcs.close();
     }
 }

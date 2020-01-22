@@ -32,6 +32,7 @@ public class SqlFeatureLoaderTest {
         assertEquals(2, ftrMap.size());
         assertTrue(ftrMap.containsValue(TestData.mfBar));
         assertTrue(ftrMap.containsValue(TestData.mfFoo));
+        dbcs.close();
     }
     
     @AfterClass
