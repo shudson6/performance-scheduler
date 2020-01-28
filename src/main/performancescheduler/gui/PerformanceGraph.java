@@ -96,10 +96,10 @@ public class PerformanceGraph extends JComponent {
     
     public Collection<Performance> getSelectedPerformances() {
         Collection<Performance> c = new ArrayList<>();
-        for (int i : selectionModel.getSelectedIndices()) {
-            if (model.getElementAt(i) != null) {
-                c.add(model.getElementAt(i));
-            }
+        for (Performance p : model) {
+        	if (selectionModel.isSelectedIndex(model.indexOf(p))) {
+        		c.add(p);
+        	}
         }
         return c;
     }

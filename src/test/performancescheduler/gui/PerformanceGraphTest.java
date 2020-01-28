@@ -123,6 +123,5 @@ public class PerformanceGraphTest {
 	@Test
 	public void verifyUIClassID() {
 	    assertEquals("performanceGraphUI", graph.getUIClassID());
-	    assertTrue(graph.getUI() instanceof PerformanceGraphUI);
 	}
 }

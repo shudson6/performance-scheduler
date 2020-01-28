@@ -1,5 +1,6 @@
 # used by Eclipse
 bin/
+.settings/
 .project
 .classpath
 

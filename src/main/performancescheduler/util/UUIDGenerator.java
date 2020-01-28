@@ -64,7 +64,7 @@ public class UUIDGenerator {
         try {
             Enumeration<NetworkInterface> netInts = NetworkInterface.getNetworkInterfaces();
             if (netInts != null) {
-                node = netInts.asIterator().next().getHardwareAddress();
+                node = netInts.nextElement().getHardwareAddress();
             }
         } catch (SocketException ex) {
             System.err.print("UUIDGenerator: caught SocketException when generating node address. ");
