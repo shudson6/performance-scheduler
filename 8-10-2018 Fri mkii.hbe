@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<booking xmlns="hudy:scheduler:1.0:releaseVersion">
+  <movieList>
+    <movie>
+      <title>Ant-Man and the Wasp</title>
+      <rating>PG13</rating>
+      <runtime>118</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>BlacKkKlansman</title>
+      <rating>R</rating>
+      <runtime>135</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Crazy Rich Asians</title>
+      <rating>PG13</rating>
+      <runtime>121</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Darkest Minds</title>
+      <rating>PG13</rating>
+      <runtime>103</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Disney Christopher Robin</title>
+      <rating>PG</rating>
+      <runtime>104</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Dog Days</title>
+      <rating>PG</rating>
+      <runtime>113</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Equalizer 2</title>
+      <rating>R</rating>
+      <runtime>121</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Hotel Transy 3</title>
+      <rating>PG</rating>
+      <runtime>97</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Jurassic World 2</title>
+      <rating>PG13</rating>
+      <runtime>128</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>M:I Fallout</title>
+      <rating>PG13</rating>
+      <runtime>147</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Mamma Mia! Again</title>
+      <rating>PG13</rating>
+      <runtime>114</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Meg</title>
+      <rating>PG13</rating>
+      <runtime>113</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Meg 3D</title>
+      <rating>PG13</rating>
+      <runtime>113</runtime>
+      <aspect>?</aspect>
+      <threeD>true</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Slender Man</title>
+      <rating>PG13</rating>
+      <runtime>93</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Spy Who Dumped Me</title>
+      <rating>R</rating>
+      <runtime>117</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+    <movie>
+      <title>Teen Titans Go!</title>
+      <rating>PG</rating>
+      <runtime>88</runtime>
+      <aspect>?</aspect>
+      <threeD>false</threeD>
+      <sound/>
+      <ccap>false</ccap>
+      <hi>false</hi>
+      <vi>false</vi>
+      <startDate>2018-08-07</startDate>
+      <print>0</print>
+    </movie>
+  </movieList>
+  <showtimeList date="2018-08-10">
+    <showtime>
+      <feature print="0">Meg</feature>
+      <house>1</house>
+      <startTime>19:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Meg 3D</feature>
+      <house>8</house>
+      <startTime>19:40</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Meg</feature>
+      <house>1</house>
+      <startTime>16:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Meg</feature>
+      <house>1</house>
+      <startTime>13:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Meg</feature>
+      <house>1</house>
+      <startTime>22:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Meg</feature>
+      <house>11</house>
+      <startTime>21:15</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">M:I Fallout</feature>
+      <house>5</house>
+      <startTime>18:45</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Equalizer 2</feature>
+      <house>9</house>
+      <startTime>19:15</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Disney Christopher Robin</feature>
+      <house>6</house>
+      <startTime>19:10</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">BlacKkKlansman</feature>
+      <house>2</house>
+      <startTime>19:15</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Ant-Man and the Wasp</feature>
+      <house>13</house>
+      <startTime>19:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Teen Titans Go!</feature>
+      <house>4</house>
+      <startTime>19:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Hotel Transy 3</feature>
+      <house>5</house>
+      <startTime>16:05</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Jurassic World 2</feature>
+      <house>7</house>
+      <startTime>13:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Mamma Mia! Again</feature>
+      <house>10</house>
+      <startTime>19:20</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Slender Man</feature>
+      <house>3</house>
+      <startTime>19:30</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Spy Who Dumped Me</feature>
+      <house>14</house>
+      <startTime>16:20</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Dog Days</feature>
+      <house>12</house>
+      <startTime>18:50</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">BlacKkKlansman</feature>
+      <house>12</house>
+      <startTime>21:45</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">M:I Fallout</feature>
+      <house>4</house>
+      <startTime>21:30</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Ant-Man and the Wasp</feature>
+      <house>8</house>
+      <startTime>22:30</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Disney Christopher Robin</feature>
+      <house>13</house>
+      <startTime>22:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Jurassic World 2</feature>
+      <house>6</house>
+      <startTime>21:50</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Equalizer 2</feature>
+      <house>7</house>
+      <startTime>22:10</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Spy Who Dumped Me</feature>
+      <house>10</house>
+      <startTime>22:20</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Dog Days</feature>
+      <house>14</house>
+      <startTime>22:15</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Slender Man</feature>
+      <house>3</house>
+      <startTime>22:10</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Hotel Transy 3</feature>
+      <house>5</house>
+      <startTime>22:15</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Darkest Minds</feature>
+      <house>2</house>
+      <startTime>22:30</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Mamma Mia! Again</feature>
+      <house>9</house>
+      <startTime>22:15</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Meg</feature>
+      <house>8</house>
+      <startTime>16:45</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Meg 3D</feature>
+      <house>9</house>
+      <startTime>13:40</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">M:I Fallout</feature>
+      <house>4</house>
+      <startTime>15:35</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">BlacKkKlansman</feature>
+      <house>3</house>
+      <startTime>16:15</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Disney Christopher Robin</feature>
+      <house>7</house>
+      <startTime>16:10</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Jurassic World 2</feature>
+      <house>6</house>
+      <startTime>16:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Teen Titans Go!</feature>
+      <house>4</house>
+      <startTime>13:10</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Hotel Transy 3</feature>
+      <house>11</house>
+      <startTime>18:40</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Equalizer 2</feature>
+      <house>12</house>
+      <startTime>13:05</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Dog Days</feature>
+      <house>12</house>
+      <startTime>16:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Mamma Mia! Again</feature>
+      <house>10</house>
+      <startTime>16:20</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Slender Man</feature>
+      <house>2</house>
+      <startTime>16:40</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">BlacKkKlansman</feature>
+      <house>2</house>
+      <startTime>13:20</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Spy Who Dumped Me</feature>
+      <house>14</house>
+      <startTime>13:20</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Ant-Man and the Wasp</feature>
+      <house>11</house>
+      <startTime>15:45</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Darkest Minds</feature>
+      <house>9</house>
+      <startTime>16:30</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">M:I Fallout</feature>
+      <house>8</house>
+      <startTime>13:15</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Jurassic World 2</feature>
+      <house>7</house>
+      <startTime>18:55</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Dog Days</feature>
+      <house>10</house>
+      <startTime>13:30</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Hotel Transy 3</feature>
+      <house>11</house>
+      <startTime>13:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Spy Who Dumped Me</feature>
+      <house>14</house>
+      <startTime>19:15</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Disney Christopher Robin</feature>
+      <house>6</house>
+      <startTime>13:20</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Equalizer 2</feature>
+      <house>13</house>
+      <startTime>16:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Ant-Man and the Wasp</feature>
+      <house>13</house>
+      <startTime>13:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Mamma Mia! Again</feature>
+      <house>5</house>
+      <startTime>13:00</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+    <showtime>
+      <feature print="0">Slender Man</feature>
+      <house>3</house>
+      <startTime>13:30</startTime>
+      <trailers>25</trailers>
+      <cleanup>26</cleanup>
+      <seating>0</seating>
+    </showtime>
+  </showtimeList>
+</booking>
